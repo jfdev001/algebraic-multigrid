@@ -22,5 +22,5 @@ find_package(nanobind CONFIG REQUIRED)
 # expose multigrid to nanobind
 nanobind_add_module(
     cpp 
-    cpp/include/multigrid.hpp
+    cpp/amg/multigrid.hpp
 )
