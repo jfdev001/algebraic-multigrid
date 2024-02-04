@@ -1,4 +1,5 @@
 # algebraic-multigrid
+
 Algebraic multigrid implementation using C++ and Eigen
 
 # Classes
@@ -42,8 +43,13 @@ public:
 ```
 
 # References
+
 [1] : Intro Modern CMake. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
 
-[2] : Pawar S, San O. 6.3: Multigrid Framework in "CFD Julia: A Learning Module 
-Structuring an Introductory Course on Computational Fluid Dynamics". Fluids. 
+[2] : Pawar S, San O. 6.3: Multigrid Framework in "CFD Julia: A Learning Module
+Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 2019; 4(3):159. https://doi.org/10.3390/fluids4030159
+
+[3] : DOLFINX: Python Binding Example for C++. url: https://github.com/FEniCS/dolfinx
+
+[4] : Nanobind docs. url: https://nanobind.readthedocs.io/en/latest/installing.html
