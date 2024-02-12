@@ -1,6 +1,9 @@
 # algebraic-multigrid
 
-Algebraic multigrid implementation using C++ and Eigen
+Algebraic multigrid implementation using C++ and Eigen. 
+
+NOTE: Could just pull FENiCS/DOLFINX CPP/Python and do renaming based on that
+project structure to achieve the desired functionality.
 
 # Classes
 
