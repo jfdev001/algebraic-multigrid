@@ -56,3 +56,5 @@ Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 [3] : DOLFINX: Python Binding Example for C++. url: https://github.com/FEniCS/dolfinx
 
 [4] : Nanobind docs. url: https://nanobind.readthedocs.io/en/latest/installing.html
+
+[5] : Modern CMake: Simple Example and Links to Extended Examples. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/example.html
