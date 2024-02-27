@@ -1,5 +1,3 @@
-#include <Eigen/Dense>
-
 class Solver
 {
 private:
@@ -8,11 +6,3 @@ public:
     Solver(/* args */);
     ~Solver();
 };
-
-Solver::Solver(/* args */)
-{
-}
-
-Solver::~Solver()
-{
-}
