@@ -4,7 +4,8 @@ set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 
 doxygen_add_docs(
     docs 
-    amg
+    include/amg
+    src
     "${CMAKE_CURRENT_SOURCE_DIR}/mainpage.md"
     WORKING_DIRECTORY 
-    "${PROJECT_SOURCE_DIR}/include")
+    "${PROJECT_SOURCE_DIR}")
