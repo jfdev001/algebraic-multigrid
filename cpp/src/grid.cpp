@@ -1,5 +1,5 @@
 #include <amg/grid.hpp>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 Grid::Grid() {
 

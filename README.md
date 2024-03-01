@@ -1,9 +1,34 @@
 # algebraic-multigrid
 
-Algebraic multigrid implementation using C++ and Eigen. 
+Algebraic multigrid implementation using C++ and Eigen.
 
-NOTE: Could just pull FENiCS/DOLFINX CPP/Python and do renaming based on that
-project structure to achieve the desired functionality.
+## Configuration in `cpp/`
+
+To configure:
+
+```bash
+cmake -S . -B build
+```
+
+Add `-GNinja` if you have Ninja.
+
+To build:
+
+```bash
+cmake --build build
+```
+
+To test (`--target` can be written as `-t` in CMake 3.15+):
+
+```bash
+cmake --build build --target test
+```
+
+To build docs (requires Doxygen, output in `build/docs/html`):
+
+```bash
+cmake --build build --target docs
+```
 
 # Classes
 
