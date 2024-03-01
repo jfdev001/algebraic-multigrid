@@ -83,3 +83,7 @@ Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 [4] : Nanobind docs. url: https://nanobind.readthedocs.io/en/latest/installing.html
 
 [5] : Modern CMake: Simple Example and Links to Extended Examples. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/example.html
+
+[6] : amgcl: Good Inspiration for AMG design. url: https://amgcl.readthedocs.io/en/latest/amg_overview.html
+
+[7] : AMG = iterative solver if V-cycle until n-iterations or convergence, but more often a single V-cycle used for preconditioner to get (?) $M^{-1} v$ (see BDDC for example, or Preconditioners/diagonal.jl). url: https://github.com/ddemidov/amgcl/issues/230
