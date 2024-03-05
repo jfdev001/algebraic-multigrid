@@ -56,3 +56,15 @@ Eigen::SparseMatrix<double> laplacian(size_t n) {
 
     return A;
 }
+
+/**
+ * @brief 
+ * 
+ * right hand side (see julia pde for iterating over the appropriate grid) 
+ * 
+ * @param ndofs 
+ * @return Eigen::VectorXd 
+ */
+Eigen::VectorXd rhs(size_t ndofs) {
+    return;
+}
