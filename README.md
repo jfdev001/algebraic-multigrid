@@ -2,6 +2,22 @@
 
 Algebraic multigrid implementation using C++ and Eigen.
 
+## Setting up Eigen3
+
+TODO: Beter fetch content setup for Eigen 3.4.
+
+Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page)
+and download the latest stable release of Eigen 3.4.0. Alternatively click
+[here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz) 
+to do so. Then extract and rename as below:
+
+```shell
+mv ~/Downloads/eigen-* /usr/local/include
+cd /usr/local/include 
+tar -xvf eigen-<TAB AUTOCOMPLETE>
+mv eigen-<TAB AUTOCOMPLETE> eigen3
+```
+
 ## Configuration in `cpp/`
 
 To configure:
