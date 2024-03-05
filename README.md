@@ -87,3 +87,8 @@ Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 [6] : amgcl: Good Inspiration for AMG design. url: https://amgcl.readthedocs.io/en/latest/amg_overview.html
 
 [7] : AMG = iterative solver if V-cycle until n-iterations or convergence, but more often a single V-cycle used for preconditioner to get (?) $M^{-1} v$ (see BDDC for example, or Preconditioners/diagonal.jl). url: https://github.com/ddemidov/amgcl/issues/230
+
+[8] : Long, Chen. Programming of Multigrid Methods. url: https://www.math.uci.edu/~chenlong/226/MGcode.pdf
+
+[9] : Kostler, Harald. Multigrid HowTo: A simple Multigrid solver in C++ in less
+than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRep_2008-03.pdf
