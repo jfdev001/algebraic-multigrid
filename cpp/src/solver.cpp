@@ -1,5 +1,5 @@
 #include <amg/solver.hpp>
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 /**
  * @brief Construct a new Solver:: Solver object

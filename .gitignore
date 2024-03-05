@@ -2,3 +2,4 @@ cpp/build*
 *.so
 *.o
 .vscode/*
+*.swp

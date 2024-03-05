@@ -1,7 +1,7 @@
 // Example problem
-#include <eigen3/Eigen/Core>
-#include <eigen3/Eigen/Sparse>
-#include <eigen3/unsupported/Eigen/KroneckerProduct>
+#include <Eigen/Core>
+#include <Eigen/Sparse>
+#include <unsupported/Eigen/KroneckerProduct>
 
 /**
  * @brief Return second order central difference as linear operator on 1D function.

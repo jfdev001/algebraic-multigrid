@@ -1,5 +1,5 @@
 #include <amg/multigrid.hpp>
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 Multigrid::Multigrid() {
 
