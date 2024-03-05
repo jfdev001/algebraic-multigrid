@@ -29,7 +29,7 @@ endif()
 # FetchContent_MakeAvailable was added in CMake 3.14; simpler usage
 include(FetchContent)
 
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 
 add_subdirectory(src)
 

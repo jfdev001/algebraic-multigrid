@@ -1,6 +1,9 @@
-// Example problem
+// Example problem: poisson equation w/ dirichlet boundary conditions
+#include <cmath>
+
 #include <Eigen/Core>
 #include <Eigen/Sparse>
+
 #include <unsupported/Eigen/KroneckerProduct>
 
 /**
@@ -58,13 +61,33 @@ Eigen::SparseMatrix<double> laplacian(size_t n) {
 }
 
 /**
- * @brief 
+ * @brief Return right hand side vector by evaluating `f` on grid created from `domain_1D`.
  * 
- * right hand side (see julia pde for iterating over the appropriate grid) 
- * 
- * @param ndofs 
+ * @param domain_1D The interior points of the domain.
+ * @param f Function to be evaluated at each grid point constructed from `domain_1D`.
  * @return Eigen::VectorXd 
  */
-Eigen::VectorXd rhs(size_t ndofs) {
-    return;
+Eigen::VectorXd rhs(
+    Eigen::VectorXd domain_1D, 
+    std::function<double(double, double)> f = [](double x, double y) { 
+        return 5*exp(-10*(x*x + y*y)); 
+    }) {
+    // Initialize the rhs vector using the size of the 1D domain 
+    auto n = domain_1D.size();
+    size_t ndofs = n*n;
+    Eigen::VectorXd b(ndofs);
+
+    // Evaluate the function at each grid point, traversing grid as col major
+    size_t dof = 0;
+    for (size_t j = 0; j < n; j++) {
+        auto xj = domain_1D[j];
+        for (size_t i = 0; i < n; i++) {
+            auto xi = domain_1D[i];
+            auto feval = f(xj, xi);
+            b[dof] = feval;
+            dof++; 
+        }
+    }
+
+    return b;
 }
