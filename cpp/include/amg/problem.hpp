@@ -38,7 +38,9 @@ Eigen::SparseMatrix<double> second_order_central_difference(size_t n) {
 /**
  * @brief Return laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs.
  * 
- * From [MIT Intro Linear PDEs](https://github.com/mitmath/18303/blob/master/supp_material/poissonFD.ipynb)
+ * References:
+ *
+ * [1] : [MIT Intro Linear PDEs](https://github.com/mitmath/18303/blob/master/supp_material/poissonFD.ipynb)
  * 
  * @param n Number of grid points in the x or y direction.
  * @return Eigen::SparseMatrix<double> 
