@@ -3,10 +3,8 @@
 
 #include <iostream>
 
-#include <Eigen/Core>
 #include <Eigen/SparseLU>
 
-#include <amg/grid.hpp>
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
 #include <amg/problem.hpp>
@@ -49,6 +47,8 @@ TEST_CASE("All Tests", "[main]") {
     }
 
     // CHECK gauss smoother
+    AMG::Smoother smoother = AMG::Smoother();
 
     // CHECK multigrid solver matches a builtin solver 
+    AMG::Multigrid mg = AMG::Multigrid();
 }

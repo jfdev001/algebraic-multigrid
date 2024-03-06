@@ -1,13 +1,23 @@
-/**
- * @brief Base class for linear Smoothers of the form Ax = b
- * 
- * This may not be necessary to define because Eigen already defines other Smoothers...
- * could also inherit from IterativeSmoothersBase?
- */
+#include <Eigen/Core>
+#include <Eigen/Sparse>
+
+namespace AMG {
+
+// todo: make base class requiring overloads of inherited jacobi, gauss-seidel, sor methods
 class Smoother
 {
 private:
 public:
     Smoother();
     ~Smoother();
+
+    template<class T>
+    Eigen::Matrix<T, -1, 1> smooth (
+        const Eigen::SparseMatrix<T>& A, 
+        const Eigen::Matrix<T, -1, 1>& b,
+        const size_t niters
+        //variable args here??
+    );
 };
+
+} // end namespace AMG

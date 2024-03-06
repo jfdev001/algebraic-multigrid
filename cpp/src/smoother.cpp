@@ -1,14 +1,14 @@
 #include <amg/smoother.hpp>
-#include <Eigen/Dense>
 
-/**
- * @brief Construct a new Smoother:: Smoother object
- * 
- */
-Smoother::Smoother() {
+AMG::Smoother::Smoother() { /*todo*/ }
 
-}
+AMG::Smoother::~Smoother() {/*todo*/}
 
-Smoother::~Smoother() {
-    
+template<class T>
+Eigen::Matrix<T, -1, 1> smooth (
+    const Eigen::SparseMatrix<T>& A, 
+    const Eigen::Matrix<T, -1, 1>& b,
+    const size_t niters
+) {
+    // todo
 }

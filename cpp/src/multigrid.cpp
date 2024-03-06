@@ -1,10 +1,12 @@
 #include <amg/multigrid.hpp>
-#include <Eigen/Dense>
 
-Multigrid::Multigrid() {
+AMG::Multigrid::Multigrid() {/*todo*/}
 
-}
+AMG::Multigrid::~Multigrid() {/*todo*/}
 
-Multigrid::~Multigrid() {
-    
+template<class T>
+Eigen::Matrix<T, -1, 1> solve (
+    const Eigen::SparseMatrix<T>& A, const Eigen::Matrix<T, -1, 1>& b
+) {
+    //todo
 }
