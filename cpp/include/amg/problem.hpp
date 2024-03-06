@@ -79,9 +79,9 @@ Eigen::VectorXd rhs(
 
     // Evaluate the function at each grid point, traversing grid as col major
     size_t dof = 0;
-    for (size_t j = 0; j < n; j++) {
+    for (size_t j = 0; j < n; ++j) {
         auto xj = domain_1D[j];
-        for (size_t i = 0; i < n; i++) {
+        for (size_t i = 0; i < n; ++i) {
             auto xi = domain_1D[i];
             auto feval = f(xj, xi);
             b[dof] = feval;
