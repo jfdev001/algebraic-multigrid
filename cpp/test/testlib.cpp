@@ -46,8 +46,8 @@ TEST_CASE("All Tests", "[main]") {
         std::cout << b << std::endl;
     }
 
-    // CHECK gauss smoother
-    AMG::Smoother smoother = AMG::Smoother();
+    // CHECK SOR smoother
+    AMG::SuccessiveOverRelaxation<double> sor;
 
     // CHECK multigrid solver matches a builtin solver 
     AMG::Multigrid mg = AMG::Multigrid();

@@ -3,20 +3,31 @@
 
 namespace AMG {
 
-// todo: make base class requiring overloads of inherited jacobi, gauss-seidel, sor methods
-class Smoother
+class SmootherBase
+{
+public:
+    /**
+     * @brief Derived types must implement a `smooth` function that smoothes `Au = b`.
+     * 
+     */
+    virtual Eigen::Matrix<double, -1, 1> smooth (
+        const Eigen::SparseMatrix<double>& A, 
+        const Eigen::Matrix<double, -1, 1>& u0,
+        const Eigen::Matrix<double, -1, 1>& b,
+        const size_t niters
+    ) = 0;
+};
+
+class SuccessiveOverRelaxation : public SmootherBase
 {
 private:
 public:
-    Smoother();
-    ~Smoother();
-
-    template<class T>
-    Eigen::Matrix<T, -1, 1> smooth (
-        const Eigen::SparseMatrix<T>& A, 
-        const Eigen::Matrix<T, -1, 1>& b,
-        const size_t niters
-        //variable args here??
+    Eigen::Matrix<double, -1, 1> smooth (
+        const Eigen::SparseMatrix<double>& A, 
+        const Eigen::Matrix<double, -1, 1>& u0,
+        const Eigen::Matrix<double, -1, 1>& b,
+        const size_t niters,
+        const float omega
     );
 };
 
