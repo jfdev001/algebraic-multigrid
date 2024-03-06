@@ -21,6 +21,7 @@ public:
 class SuccessiveOverRelaxation : public SmootherBase
 {
 private:
+    // smoother configuration arguments made in constructor!
 public:
     Eigen::Matrix<double, -1, 1> smooth (
         const Eigen::SparseMatrix<double>& A, 
