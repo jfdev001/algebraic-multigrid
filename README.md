@@ -6,7 +6,7 @@ Algebraic multigrid implementation using C++ and Eigen.
 
 Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page)
 and download the latest stable release of Eigen 3.4.0. Alternatively click
-[here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz) 
+[here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz)
 to do so. Then extract it into the `/usr/local/include` directory. Perhaps use
 `FetchContent` in the future (see [here](https://stackoverflow.com/questions/65860094/how-to-add-eigen-library-to-a-cmake-c-project-via-fetchcontent)).
 
@@ -100,3 +100,5 @@ Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 
 [9] : Kostler, Harald. Multigrid HowTo: A simple Multigrid solver in C++ in less
 than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRep_2008-03.pdf
+
+[10] : On class template and header files. url: https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
