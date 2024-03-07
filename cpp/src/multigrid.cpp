@@ -1,12 +1,21 @@
 #include <amg/multigrid.hpp>
+#include <amg/smoother.hpp>
 
-AMG::Multigrid::Multigrid() {/*todo*/}
+template <class EleType>
+AMG::Multigrid<EleType>::Multigrid() {}
 
-AMG::Multigrid::~Multigrid() {/*todo*/}
+template <class EleType>
+AMG::Multigrid<EleType>::Multigrid(
+    AMG::SmootherBase<EleType>* smoother_
+) : smoother(smoother_) {} 
 
-template<class T>
-Eigen::Matrix<T, -1, 1> solve (
-    const Eigen::SparseMatrix<T>& A, const Eigen::Matrix<T, -1, 1>& b
+template<class EleType>
+void AMG::Multigrid<EleType>::solve (
+    const Eigen::SparseMatrix<EleType>& A,
+    Eigen::Matrix<EleType, -1, 1>& u,
+    const Eigen::Matrix<EleType, -1, 1>& b,
+    const size_t niters
 ) {
     //todo
+    return;
 }

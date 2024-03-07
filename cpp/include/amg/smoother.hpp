@@ -1,35 +1,56 @@
+#ifndef SMOOTHER_HPP
+#define SMOOTHER_HPP
+
 #include <Eigen/Core>
 #include <Eigen/Sparse>
 
 namespace AMG {
 
+template<class EleType>
 class SmootherBase
 {
 public:
     /**
-     * @brief Derived types must implement a `smooth` function that smoothes `Au = b`.
+     * @brief Derived types must implement a `smooth` function that smooths `Au = b`.
      * 
+     * Pure virtual function.
      */
-    virtual Eigen::Matrix<double, -1, 1> smooth (
-        const Eigen::SparseMatrix<double>& A, 
-        const Eigen::Matrix<double, -1, 1>& u0,
-        const Eigen::Matrix<double, -1, 1>& b,
+    virtual void smooth (
+        const Eigen::SparseMatrix<EleType>& A, 
+        Eigen::Matrix<EleType, -1, 1>& u,
+        const Eigen::Matrix<EleType, -1, 1>& b,
         const size_t niters
     ) = 0;
 };
 
-class SuccessiveOverRelaxation : public SmootherBase
+template <class EleType>
+class Jacobi : public SmootherBase<EleType>
 {
-private:
-    // smoother configuration arguments made in constructor!
 public:
-    Eigen::Matrix<double, -1, 1> smooth (
-        const Eigen::SparseMatrix<double>& A, 
-        const Eigen::Matrix<double, -1, 1>& u0,
-        const Eigen::Matrix<double, -1, 1>& b,
-        const size_t niters,
-        const float omega
+    Jacobi() {};
+    void smooth (
+        const Eigen::SparseMatrix<EleType>& A,  
+        Eigen::Matrix<EleType, -1, 1>& u,
+        const Eigen::Matrix<EleType, -1, 1>& b, 
+        const size_t niters              
     );
 };
 
+template <class EleType>
+class SuccessiveOverRelaxation : public SmootherBase<EleType>
+{
+private:
+    double omega {1.0};
+public:
+    SuccessiveOverRelaxation();
+    SuccessiveOverRelaxation(double omega_);
+    void smooth (
+        const Eigen::SparseMatrix<EleType>& A, 
+        Eigen::Matrix<EleType, -1, 1>& u,
+        const Eigen::Matrix<EleType, -1, 1>& b,
+        const size_t niters
+    ) override;
+};
+
 } // end namespace AMG
+#endif

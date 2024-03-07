@@ -1,4 +1,7 @@
 // Example problem: poisson equation w/ dirichlet boundary conditions
+#ifndef PROBLEM_HPP
+#define PROBLEM_HPP
+
 #include <cmath>
 
 #include <Eigen/Core>
@@ -91,3 +94,4 @@ Eigen::VectorXd rhs(
 
     return b;
 }
+#endif

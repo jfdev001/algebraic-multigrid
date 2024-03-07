@@ -46,9 +46,22 @@ TEST_CASE("All Tests", "[main]") {
         std::cout << b << std::endl;
     }
 
-    // CHECK SOR smoother
-    AMG::SuccessiveOverRelaxation<double> sor;
+    // valid multigrid
+    AMG::Multigrid<double> mg;
 
-    // CHECK multigrid solver matches a builtin solver 
-    AMG::Multigrid mg = AMG::Multigrid();
+    // Valid SOR instantiation
+    double bad_omega_less_than_0 = -0.01;
+    double bad_omega_greater_than_2 = 2.01;
+    // using bad_sor = AMG::SuccessiveOverRelaxation<double>;
+    // CHECK_THROWS_AS(
+    //     bad_sor(bad_omega_less_than_0), 
+    //     std::invalid_argument
+    // );
+    // CHECK_THROWS_AS(
+    //     bad_sor(bad_omega_greater_than_2),
+    //     std::invalid_argument
+    // );
+
+    // // CHECK multigrid solver matches a builtin solver 
+    // AMG::Multigrid mg = AMG::Multigrid();
 }

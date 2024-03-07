@@ -23,7 +23,7 @@ target_include_directories(amg PUBLIC ../include)
 
 target_link_libraries(amg PRIVATE Eigen3::Eigen)
 
-target_compile_features(amg PUBLIC cxx_std_11)
+target_compile_features(amg PUBLIC cxx_std_17)
 
 # IDEs should put the headers in a nice place
 source_group(
