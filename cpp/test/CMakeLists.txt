@@ -9,13 +9,6 @@ FetchContent_MakeAvailable(catch)
 # Tests need to be added as executables first
 add_executable(testlib testlib.cpp)
 
-# TODO: Test for each src file then call those tests in testlib??
-# should all of those be executables??? Probably not because just treat the others
-# as object files/libraries???
-
-# I'm using C++17 in the test
-target_compile_features(testlib PRIVATE cxx_std_17)
-
 # Should be linked to the main library, as well as the Catch2 testing library
 target_link_libraries(testlib PRIVATE amg Catch2::Catch2)
 

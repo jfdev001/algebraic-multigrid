@@ -1,5 +1,4 @@
-#ifndef MULTIGRID_HPP
-#define MULTIGRID_HPP
+#pragma once
 
 #include <Eigen/Core>
 #include <Eigen/Sparse>
@@ -10,29 +9,39 @@ namespace AMG {
 
 template <class EleType>
 class Multigrid {
-    private:
-        template<class T>
-        T prolongation(); //to implement
-        
-        template<class T>
-        T restriction(); // to implement
+private:
+    void prolongation() { return; } //to implement
+    
+    void restriction() { return;} // to implement
 
-        AMG::SmootherBase<EleType>* smoother;
+    AMG::SmootherBase<EleType>* smoother;
 
-    public:
-        Multigrid();
-        Multigrid(AMG::SmootherBase<EleType>* smoother_);
+public:
+    Multigrid() = delete;
+    Multigrid(AMG::SmootherBase<EleType>* smoother_) : smoother(smoother_){}
 
-        template<class T>
-        T vcycle(); // to implement
+    /**
+     * @brief A single multigrid cycle.
+     * 
+     */
+    void vcycle() {return; } // to implement
 
-        void solve (
-            const Eigen::SparseMatrix<EleType>& A,
-            Eigen::Matrix<EleType, -1, 1>& u,
-            const Eigen::Matrix<EleType, -1, 1>& b,
-            const size_t niters
-        );
+    /**
+     * @brief Update `u` inplace but sucessively performing multigrid `vcycle`s.
+     * 
+     * @param A 
+     * @param u 
+     * @param b 
+     * @param niters 
+     */
+    void solve (
+        const Eigen::SparseMatrix<EleType>& A,
+        Eigen::Matrix<EleType, -1, 1>& u,
+        const Eigen::Matrix<EleType, -1, 1>& b,
+        const size_t niters
+    ) {
+        return;
+    }
 };
 
 } // end namespace AMG
-#endif 

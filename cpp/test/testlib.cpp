@@ -47,7 +47,8 @@ TEST_CASE("All Tests", "[main]") {
     }
 
     // valid multigrid
-    AMG::Multigrid<double> mg;
+    AMG::SuccessiveOverRelaxation<double> sor;
+    AMG::Multigrid<double> mg(&sor);
 
     // Valid SOR instantiation
     double bad_omega_less_than_0 = -0.01;

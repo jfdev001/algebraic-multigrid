@@ -102,3 +102,5 @@ Structuring an Introductory Course on Computational Fluid Dynamics". Fluids.
 than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRep_2008-03.pdf
 
 [10] : On class template and header files. url: https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
+
+[11] : Cmake: Header only library. url: https://stackoverflow.com/questions/60604249/how-to-make-a-header-only-library-with-cmake

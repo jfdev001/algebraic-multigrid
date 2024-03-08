@@ -12,6 +12,9 @@ project(
 # Let's ensure -std=c++xx instead of -std=g++xx
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# using C++17
+set(CMAKE_CXX_STANDARD 17)
+
 # Let's nicely support folders in IDEs
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -31,6 +34,9 @@ include(FetchContent)
 
 find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 
-add_subdirectory(src)
+# since the library is a template library... then src dir is not feasible
+# for virtual funcs?
+#add_subdirectory(src)
+add_subdirectory(include)
 
 add_subdirectory(test)
