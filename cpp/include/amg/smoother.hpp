@@ -1,7 +1,11 @@
 #pragma once
 
+#include <string>
+
 #include <Eigen/Core>
 #include <Eigen/Sparse>
+
+#include <amg/common.hpp>
 
 namespace AMG {
 
@@ -54,8 +58,8 @@ public:
     SuccessiveOverRelaxation() { }
     SuccessiveOverRelaxation(double omega_) : omega(omega_) { 
         if (omega > 2 || omega < 0) {
-            std::stringstream msg;
-            msg << "`omega` must be in [0, 2] but got omega=" << omega << std::endl;
+            std::string msg = "`omega` must be in [0, 2] but got omega=" + 
+                std::to_string(omega) + "\n";
             throw std::invalid_argument(msg);
         }
     }

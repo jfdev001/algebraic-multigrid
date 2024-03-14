@@ -36,6 +36,10 @@ TEST_CASE("All Tests", "[main]") {
     direct_solver.factorize(A);
     exact_u = direct_solver.solve(b);
 
+    // Compute the residual
+    double residual = AMG::residual(A, exact_u, b);
+    std::cout << "Residual: " << residual << std::endl;
+
     // Inspecting small problems
     if (ndofs <= 10) {
         std::cout << "-------\nA\n-------\n";
@@ -48,21 +52,25 @@ TEST_CASE("All Tests", "[main]") {
 
     // valid multigrid
     AMG::SuccessiveOverRelaxation<double> sor;
-    AMG::Multigrid<double> mg(&sor);
+    AMG::Multigrid<double> mg(&sor); // ref to derived class satisfies abstract arg req
 
     // Valid SOR instantiation
     double bad_omega_less_than_0 = -0.01;
     double bad_omega_greater_than_2 = 2.01;
-    // using bad_sor = AMG::SuccessiveOverRelaxation<double>;
-    // CHECK_THROWS_AS(
-    //     bad_sor(bad_omega_less_than_0), 
-    //     std::invalid_argument
-    // );
-    // CHECK_THROWS_AS(
-    //     bad_sor(bad_omega_greater_than_2),
-    //     std::invalid_argument
-    // );
+    using bad_sor = AMG::SuccessiveOverRelaxation<double>;
 
+    CHECK_THROWS_AS(
+        bad_sor(bad_omega_less_than_0), 
+        std::invalid_argument
+    );
+
+    CHECK_THROWS_AS(
+        bad_sor(bad_omega_greater_than_2),
+        std::invalid_argument
+    );
+
+    //
+    
     // // CHECK multigrid solver matches a builtin solver 
     // AMG::Multigrid mg = AMG::Multigrid();
 }
