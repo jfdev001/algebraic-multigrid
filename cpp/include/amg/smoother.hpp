@@ -14,6 +14,18 @@ class SmootherBase
 {
 public:
     /**
+     * @brief Tolerance below which a smoother is considered to have converged.
+     * 
+     */
+    double tolerance {1e-9};
+
+    /**
+     * @brief How many iterations the error should be computed during smoothing.
+     * 
+     */
+    size_t compute_error_every_n_iters {100};
+
+    /**
      * @brief Derived types must implement a `smooth` function that smooths `Au = b`.
      * 
      * Pure virtual function.
@@ -31,8 +43,13 @@ class Jacobi : public SmootherBase<EleType>
 {
 public:
     Jacobi() {};
+
     /**
      * @brief Update initial guess `u` inplace using Jacobi method.
+     * 
+     * References:
+     * 
+     * [1] : Heath, M.T. Scientific Computing. pp 468. SIAM 2018.
      * 
      * @param A 
      * @param u 
@@ -45,6 +62,25 @@ public:
         const Eigen::Matrix<EleType, -1, 1>& b, 
         const size_t niters              
     ) {
+        size_t iter = 0;
+        size_t ndofs = b.size();
+        double error = 100;
+        while (iter < niters && error > this->tolerance) {
+            for (size_t i = 0; i < ndofs; ++i) {
+                auto aii = A.coeff(i, i);
+                double sigma = 0;
+                for (size_t j = 0; j < ndofs; ++j) {
+                    if (j != i) {
+                        sigma += A.coeff(i,j)*u[j];
+                    }
+                }
+                u[i] = (b[i] - sigma)/aii;
+            }
+            iter += 1;
+            if (iter % this->compute_error_every_n_iters == 0) {
+                error = residual(A, u, b);
+            }
+        }
         return;
     }
 };

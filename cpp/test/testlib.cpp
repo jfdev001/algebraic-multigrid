@@ -3,13 +3,14 @@
 
 #include <iostream>
 
+#include <Eigen/Core>
 #include <Eigen/SparseLU>
 
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
 #include <amg/problem.hpp>
 
-
+// TODO: break up tests into smoother tests and multigrid tests
 TEST_CASE("All Tests", "[main]") {
     // Setup coefficients matrix
     size_t n_interior_points = 2;
@@ -50,10 +51,6 @@ TEST_CASE("All Tests", "[main]") {
         std::cout << b << std::endl;
     }
 
-    // valid multigrid
-    AMG::SuccessiveOverRelaxation<double> sor;
-    AMG::Multigrid<double> mg(&sor); // ref to derived class satisfies abstract arg req
-
     // Valid SOR instantiation
     double bad_omega_less_than_0 = -0.01;
     double bad_omega_greater_than_2 = 2.01;
@@ -69,8 +66,25 @@ TEST_CASE("All Tests", "[main]") {
         std::invalid_argument
     );
 
-    //
-    
+    // Check Jacobi smoother matches exact solution
+    size_t niters = 1000;
+    Eigen::VectorXd jacobi_u(ndofs); 
+    jacobi_u.setZero();
+    AMG::Jacobi<double> jacobi;
+    jacobi.smooth(A, jacobi_u, b, niters);
+    CHECK(jacobi_u.isApprox(exact_u, jacobi.tolerance));
+
+    // Check SOR smoother matches exact solution
+    Eigen::VectorXd sor_u(ndofs); 
+    sor_u.setZero();
+    AMG::SuccessiveOverRelaxation<double> sor;
+    sor.smooth(A, sor_u, b, niters);
+    CHECK(sor_u.isApprox(exact_u, sor.tolerance));
+
+    // // Valid multigrid instantiation
+    // AMG::SuccessiveOverRelaxation<double> sor;
+    // AMG::Multigrid<double> mg(&sor); // ref to derived class satisfies abstract arg req
+
     // // CHECK multigrid solver matches a builtin solver 
     // AMG::Multigrid mg = AMG::Multigrid();
 }
