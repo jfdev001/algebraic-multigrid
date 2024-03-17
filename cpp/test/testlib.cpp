@@ -69,11 +69,10 @@ TEST_CASE("All Tests", "[main]") {
     );
 
     // Check Jacobi smoother matches exact solution
-    size_t niters = 1000;
     Eigen::VectorXd jacobi_u(ndofs); 
     jacobi_u.setZero();
     AMG::Jacobi<double> jacobi;
-    jacobi.smooth(A, jacobi_u, b, niters);
+    jacobi.smooth(A, jacobi_u, b);
     CHECK(jacobi_u.isApprox(exact_u, jacobi.tolerance));
 
     if (ndofs < 10) {
@@ -86,7 +85,7 @@ TEST_CASE("All Tests", "[main]") {
     Eigen::VectorXd sor_u(ndofs); 
     sor_u.setZero();
     AMG::SuccessiveOverRelaxation<double> sor;
-    sor.smooth(A, sor_u, b, niters);
+    sor.smooth(A, sor_u, b);
     CHECK(sor_u.isApprox(exact_u, sor.tolerance));
 
     if (ndofs < 10) {
@@ -94,6 +93,14 @@ TEST_CASE("All Tests", "[main]") {
         std::cout << sor_u << std::endl;
         std::cout << "END SOR solution\n";
     }
+
+     // Instantiate sor/jacobi smoother using Base constructor
+    double tolerance = 1e-10;
+    size_t compute_error_every_n_iters = 100;
+    size_t niters = 100;
+    AMG::Jacobi<double> jacobi_base(tolerance, compute_error_every_n_iters, niters);
+    AMG::SuccessiveOverRelaxation<double> sor_base(
+        tolerance, compute_error_every_n_iters, niters);
 
     // // Valid multigrid instantiation
     // AMG::SuccessiveOverRelaxation<double> sor;
