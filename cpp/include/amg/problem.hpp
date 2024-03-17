@@ -8,6 +8,8 @@
 
 #include <unsupported/Eigen/KroneckerProduct>
 
+namespace AMG {
+
 /**
  * @brief Return second order central difference as linear operator on 1D function.
  * 
@@ -93,3 +95,5 @@ Eigen::VectorXd rhs(
 
     return b;
 }
+
+} // end namespace AMG

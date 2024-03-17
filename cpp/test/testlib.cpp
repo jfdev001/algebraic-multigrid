@@ -15,7 +15,7 @@ TEST_CASE("All Tests", "[main]") {
     // Setup coefficients matrix
     size_t n_interior_points = 2;
     size_t ndofs = n_interior_points*n_interior_points;
-    Eigen::SparseMatrix<double> A = laplacian(n_interior_points);
+    Eigen::SparseMatrix<double> A = AMG::laplacian(n_interior_points);
 
     // Setup right hand side 
     size_t n_boundary_points = 2;
@@ -27,7 +27,7 @@ TEST_CASE("All Tests", "[main]") {
         left_bound,
         right_bound
     );
-    Eigen::VectorXd b = rhs(domain_1D(Eigen::seq(1, Eigen::last-1)));
+    Eigen::VectorXd b = AMG::rhs(domain_1D(Eigen::seq(1, Eigen::last-1)));
     REQUIRE(b.size() == ndofs); 
 
     // Use built-in solver for comparison solution
