@@ -31,7 +31,7 @@ public:
      */
     size_t niters {1000};
 
-    SmootherBase() {}
+    SmootherBase() { }
 
     SmootherBase(
         double tolerance_, 
@@ -71,7 +71,9 @@ template <class EleType>
 class Jacobi : public SmootherBase<EleType>
 {
 public:
-    using SmootherBase<EleType>::SmootherBase; // C++11 inherit Base constructors
+    using SmootherBase<EleType>::SmootherBase; // C++11 https://stackoverflow.com/questions/8093882/using-c-base-class-constructors
+    Jacobi() { }
+
     /**
      * @brief Update initial guess `u` inplace using Jacobi method.
      * 
@@ -112,10 +114,28 @@ template <class EleType>
 class SuccessiveOverRelaxation : public SmootherBase<EleType>
 {
 private:
+    /**
+     * @brief Relaxation parameter in [0, 2].
+     * 
+     */
     double omega {1.0};
-public:
-    using SmootherBase<EleType>::SmootherBase; // C++11 inherit base constructors
 
+    /**
+     * @brief Force `omega` to be in [0, 2].
+     * 
+     * TODO: Is there a better way to handle this in the constructor?
+     * 
+     */
+    void validate_omega() {
+        if (omega > 2 || omega < 0) {
+            std::string msg = "`omega` must be in [0, 2] but got omega=" + 
+                std::to_string(omega) + "\n";
+            throw std::invalid_argument(msg);
+        }
+    }
+public:
+    using SmootherBase<EleType>::SmootherBase; // C++11 https://stackoverflow.com/questions/8093882/using-c-base-class-constructors
+    SuccessiveOverRelaxation() { }
     /**
      * @brief Construct a new Successive Over Relaxation object
      * 
@@ -125,17 +145,13 @@ public:
      * @param omega_ 
      */
     SuccessiveOverRelaxation(double omega_) : omega(omega_) { 
-        if (omega > 2 || omega < 0) {
-            std::string msg = "`omega` must be in [0, 2] but got omega=" + 
-                std::to_string(omega) + "\n";
-            throw std::invalid_argument(msg);
-        }
+        validate_omega();
     }
 
     /**
      * @brief Construct a new Successive Over Relaxation object.
      * 
-     * This constructor also sets the Base class's member data (TODO: sloppy).
+     * This constructor also sets the Base class's member data.
      * 
      * @param omega_ 
      * @param tolerance_ 
@@ -146,16 +162,10 @@ public:
         double omega_, 
         double tolerance_, 
         size_t compute_error_every_n_iters_, 
-        size_t niters_) {
-        omega = omega_;
-        if (omega > 2 || omega < 0) {
-            std::string msg = "`omega` must be in [0, 2] but got omega=" + 
-                std::to_string(omega) + "\n";
-            throw std::invalid_argument(msg);
-        }
-        this->set_tolerance(tolerance_);
-        this->set_compute_every_n_iters(compute_error_every_n_iters_);
-        this->set_niters(niters_);
+        size_t niters_) : 
+            SmootherBase<EleType>(tolerance_, compute_error_every_n_iters_, niters_), 
+            omega(omega_) {
+        validate_omega();
     }   
 
     /**
