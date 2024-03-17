@@ -20,7 +20,7 @@ public:
     double tolerance {1e-9};
 
     /**
-     * @brief How many iterations the error should be computed during smoothing.
+     * @brief Compute the error every `n` iterations during smoothing.
      * 
      */
     size_t compute_error_every_n_iters {100};
@@ -28,7 +28,10 @@ public:
     /**
      * @brief Derived types must implement a `smooth` function that smooths `Au = b`.
      * 
-     * Pure virtual function.
+     * @param A Coeffcients matrix for linear system of equations.
+     * @param u Solution to linear system of equations.
+     * @param b Right hand side of linear system of equations.
+     * @param niters Maximum number of iterations before smoothing termination.
      */
     virtual void smooth (
         const Eigen::SparseMatrix<EleType>& A, 
@@ -50,11 +53,6 @@ public:
      * References:
      * 
      * [1] : Heath, M.T. Scientific Computing. pp 468. SIAM 2018.
-     * 
-     * @param A 
-     * @param u 
-     * @param b 
-     * @param niters 
      */
     void smooth (
         const Eigen::SparseMatrix<EleType>& A,  
@@ -64,16 +62,17 @@ public:
     ) {
         size_t iter = 0;
         size_t ndofs = b.size();
-        double error = 100;
+        EleType error = 100;
+        EleType sigma;
         while (iter < niters && error > this->tolerance) {
             for (size_t i = 0; i < ndofs; ++i) {
-                auto aii = A.coeff(i, i);
-                double sigma = 0;
+                sigma = 0;
                 for (size_t j = 0; j < ndofs; ++j) {
                     if (j != i) {
                         sigma += A.coeff(i,j)*u[j];
                     }
                 }
+                EleType aii = A.coeff(i, i);
                 u[i] = (b[i] - sigma)/aii;
             }
             iter += 1;
@@ -105,10 +104,9 @@ public:
      * 
      * If `this.omega == 1`, then this is equivalent to a Gauss-Seidel smoother.
      * 
-     * @param A 
-     * @param u 
-     * @param b 
-     * @param niters 
+     * References:
+     * 
+     * [1] : Heath, M.T. Scientific Computing. pp 470. SIAM 2018.
      */
     void smooth (
         const Eigen::SparseMatrix<EleType>& A, 
@@ -116,6 +114,35 @@ public:
         const Eigen::Matrix<EleType, -1, 1>& b,
         const size_t niters
     ) {
+        size_t iter = 0;
+        size_t ndofs = b.size();
+        EleType error = 100;
+        EleType sigma_j_less_i;
+        EleType sigma_j_greater_i;
+        while (iter < niters && error > this->tolerance) {
+            for (size_t i = 0; i < ndofs; ++i) {
+                sigma_j_less_i = 0;
+                for (size_t j = 0; j < i; ++j) {
+                    sigma_j_less_i += A.coeff(i, j)*u[j];
+                }
+
+                sigma_j_greater_i = 0;
+                for (size_t j = i+1; j < ndofs; ++j) {
+                    sigma_j_greater_i += A.coeff(i, j)*u[j];
+                }
+
+                EleType aii = A.coeff(i, i);
+                EleType uk_plus_one_gauss_seidel = (
+                    b[i] - sigma_j_less_i - sigma_j_greater_i)/aii;
+                EleType uk = u[i];
+
+                u[i] = uk + omega*(uk_plus_one_gauss_seidel - uk);
+            }
+            iter += 1;
+            if (iter % this->compute_error_every_n_iters == 0) {
+                error = residual(A, u, b);
+            }
+        }
         return;
     }
 };
