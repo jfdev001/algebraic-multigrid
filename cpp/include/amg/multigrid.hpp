@@ -4,6 +4,7 @@
 #include <Eigen/Sparse>
 
 #include <amg/smoother.hpp>
+#include <amg/grid.hpp>
 #include <amg/common.hpp>
 
 namespace AMG {

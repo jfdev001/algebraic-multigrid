@@ -8,14 +8,14 @@
 
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
-#include <amg/problem.hpp>
+#include <amg/grid.hpp>
 
 // TODO: break up tests into smoother tests and multigrid tests
 TEST_CASE("All Tests", "[main]") {
     // Setup coefficients matrix
     size_t n_interior_points = 2;
     size_t ndofs = n_interior_points*n_interior_points;
-    Eigen::SparseMatrix<double> A = AMG::laplacian(n_interior_points);
+    Eigen::SparseMatrix<double> A = AMG::Grid<double>::laplacian(n_interior_points);
 
     // Setup right hand side 
     size_t n_boundary_points = 2;
@@ -27,7 +27,7 @@ TEST_CASE("All Tests", "[main]") {
         left_bound,
         right_bound
     );
-    Eigen::VectorXd b = AMG::rhs(domain_1D(Eigen::seq(1, Eigen::last-1)));
+    Eigen::VectorXd b = AMG::Grid<double>::rhs(domain_1D(Eigen::seq(1, Eigen::last-1)));
     REQUIRE(b.size() == ndofs); 
 
     // Use built-in solver for comparison solution
@@ -52,6 +52,11 @@ TEST_CASE("All Tests", "[main]") {
         std::cout << b << std::endl;
         std::cout << "END Exact Solution\n";
     }
+
+    // Inspecting casting and grid sizes 
+    double h_from_n = AMG::Grid<double>::grid_spacing_h(n_interior_points);
+    size_t n_from_h = AMG::Grid<double>::points_n_from_grid_spacing_h(h_from_n);
+    CHECK(n_from_h == n_interior_points);
 
     // Valid SOR instantiation
     double bad_omega_less_than_0 = -0.01;
