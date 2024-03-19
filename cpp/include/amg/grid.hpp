@@ -30,7 +30,7 @@ public:
      * @param h 
      * @return size_t 
      */
-    static size_t points_n_from_grid_spacing_h(double h = 1./50) {
+    static size_t points_n_from_grid_spacing_h(EleType h = 1./50) {
         return static_cast<size_t>((2/h) - 1);
     }
 
