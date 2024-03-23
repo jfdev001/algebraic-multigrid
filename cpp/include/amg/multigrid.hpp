@@ -1,6 +1,6 @@
 #pragma once
 
-#include <array>
+#include <vector>
 
 #include <Eigen/Core>
 #include <Eigen/Sparse>
@@ -21,7 +21,8 @@ class Multigrid {
   AMG::SmootherBase<EleType>* smoother;
   size_t n_fine_nodes;
   size_t n_levels;
-  std::array<EleType, n_levels> grid_spacings;
+  //std::vector<size_t> level_to_node;
+  //std::vector<EleType> level_to_grid_spacing;
 
  public:
   Multigrid() = delete;
@@ -38,13 +39,18 @@ class Multigrid {
      */
   Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
             size_t n_levels_)
-      : smoother(smoother_), n_fine_nodes(n_fine_nodes_), n_levels(n_levels) {
+      : smoother(smoother_), n_fine_nodes(n_fine_nodes_), n_levels(n_levels_) {
+    // TODO: gdb n_levels
     if (n_levels < 0) {
       std::string msg = "`n_levels` must be 0 or greater but got n_levels=" +
                         std::to_string(n_levels) + "\n";
       throw std::invalid_argument(msg);
     }
-    grid_spacings // figure this shit out
+
+    // std::unique_ptr<EleType[]> level_to_grid_spacing =
+    //     std::make_unique<EleType[]>(n_levels);
+
+    // Based on n_fine_nodes and desired n_levels, compute the
   }
 
   /**

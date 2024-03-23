@@ -104,3 +104,5 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [10] : On class template and header files. url: https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
 
 [11] : Cmake: Header only library. url: https://stackoverflow.com/questions/60604249/how-to-make-a-header-only-library-with-cmake
+
+[12] : Build cmake debugging. url: https://hsf-training.github.io/hsf-training-cmake-webpage/08-debugging/
