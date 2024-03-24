@@ -78,6 +78,13 @@ public:
 }
 ```
 
+# Debugging
+
+```shell
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug # only do once
+cmake --build build-debug
+```
+
 # References
 
 [1] : Intro Modern CMake. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html

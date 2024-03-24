@@ -13,6 +13,9 @@ namespace AMG {
 template <class EleType>
 class Grid {
  private:
+ // TODO: add member data that could be initialized using the static functions...
+ // makes ease of access and encapsulation a bit more intuitive
+ // construction could also specify domain range so that rhs could just be pass `n`
  public:
   /**
    * @brief Compute the gridspacing h of a domain given n points in a direction.
@@ -93,6 +96,8 @@ class Grid {
   /**
    * @brief Return right hand side vector by evaluating `f` on grid created from
    * `domain_1D`.
+   * 
+   * TODO: Make generic....
    *
    * @param domain_1D The interior points of the domain.
    * @param f Function to be evaluated at each grid point constructed from

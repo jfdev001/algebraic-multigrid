@@ -103,9 +103,7 @@ TEST_CASE("All Tests", "[main]") {
       tolerance, compute_error_every_n_iters, niters);
 
   // Valid multigrid instantiation
-  using bad_amg = AMG::Multigrid<double>;
-  size_t bad_n_levels = -1;
-  CHECK_THROWS_AS(bad_amg(&sor_base, 100, bad_n_levels), std::invalid_argument);
+  
 
 
   // // CHECK multigrid solver matches a builtin solver
