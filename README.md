@@ -4,11 +4,7 @@ Algebraic multigrid implementation using C++ and Eigen.
 
 ## Setting up Eigen3
 
-Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page)
-and download the latest stable release of Eigen 3.4.0. Alternatively click
-[here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz)
-to do so. Then extract it into the `/usr/local/include` directory. Perhaps use
-`FetchContent` in the future (see [here](https://stackoverflow.com/questions/65860094/how-to-add-eigen-library-to-a-cmake-c-project-via-fetchcontent)).
+Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page) and download the latest stable release of Eigen 3.4.0. Alternatively click [here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz) to do so. Then extract it into the `/usr/local/include` directory. Perhaps use  `FetchContent` in the future (see [here](https://stackoverflow.com/questions/65860094/how-to-add-eigen-library-to-a-cmake-c-project-via-fetchcontent)).
 
 ## Configuration in `cpp/`
 
@@ -78,11 +74,25 @@ public:
 }
 ```
 
-# Debugging
+# Debugging in `cpp/`
 
 ```shell
 cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug # only do once
 cmake --build build-debug
+```
+
+# Testing in `cpp/`
+
+From [dolfinx](https://github.com/FEniCS/dolfinx/blob/6189a7e2f42a63cc2bafd10696862efb41f0c3f9/.circleci/config.yml#L32)
+
+```shell
+# TODO: Could go in a github action
+# cmake -S test/ -B build/test/ -DCMAKE_BUILD_TYPE=Developer 
+# cmake --build build/test
+cd build/test
+# for dolfinx in the target name is `unittests`
+# ctest --output-on-failure -R testlib
+ctest -T memcheck -R testlib
 ```
 
 # References
@@ -113,3 +123,7 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [11] : Cmake: Header only library. url: https://stackoverflow.com/questions/60604249/how-to-make-a-header-only-library-with-cmake
 
 [12] : Build cmake debugging. url: https://hsf-training.github.io/hsf-training-cmake-webpage/08-debugging/
+
+[13] : For good CI/CD example, see Dolfinx workflow. url: https://github.com/FEniCS/dolfinx/blob/main/.github/workflows/ccpp.yml
+
+[14] : General DevSecOps. url: https://medium.com/@rahulsharan512/devsecops-using-github-actions-building-secure-ci-cd-pipelines-5b6d59acab32

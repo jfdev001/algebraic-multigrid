@@ -5,6 +5,10 @@ project(
     DESCRIPTION "C++ algebraic multigrid backend for use with Python interface"
     LANGUAGES CXX)
 
+# FetchContent added in CMake 3.11, downloads during the configure step
+# FetchContent_MakeAvailable was added in CMake 3.14; simpler usage
+include(FetchContent)
+
 # TODO: How does this work with pybindings???
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 # if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -18,7 +22,9 @@ set(CMAKE_CXX_STANDARD 17)
 # Let's nicely support folders in IDEs
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include(CTest)
+# allows `cmake --build build --target test` to run all desired tests in test/CMakeLists.txt
+# (note: this does not run memcheck)
+include(CTest) 
 
 # Docs only available if this is the main app
 find_package(Doxygen)
@@ -28,9 +34,6 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-# FetchContent added in CMake 3.11, downloads during the configure step
-# FetchContent_MakeAvailable was added in CMake 3.14; simpler usage
-include(FetchContent)
 
 find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 
@@ -39,4 +42,5 @@ find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 #add_subdirectory(src)
 add_subdirectory(include)
 
+# https://stackoverflow.com/questions/40325957/how-do-i-add-valgrind-tests-to-my-cmake-test-target
 add_subdirectory(test)

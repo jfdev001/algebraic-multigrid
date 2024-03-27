@@ -83,16 +83,16 @@ class Multigrid {
   Multigrid() = delete;
 
   /**
-     * @brief Construct a new Multigrid object
-     *
-     * TODO: Provide finest grid n-nodes, n-levels, and maxiters convergence...
-     * this information can be used by Grid objects to construct
-     * the desired linear systems, right?
-     *
-     * @param smoother_
-     * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
-     * @param n_levels_ Desired number of levels where level 0 is finest level.
-     */
+   * @brief Construct a new Multigrid object
+   *
+   * TODO: Provide finest grid n-nodes, n-levels, and maxiters convergence...
+   * this information can be used by Grid objects to construct
+   * the desired linear systems, right?
+   *
+   * @param smoother_
+   * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
+   * @param n_levels_ Desired number of levels where level 0 is finest level.
+   */
   Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
             size_t n_levels_)
       : smoother(smoother_), n_fine_nodes(n_fine_nodes_), n_levels(n_levels_) {
@@ -120,27 +120,27 @@ class Multigrid {
       level_to_grid_spacing[level] = cur_level_grid_spacing;
       level_to_n_nodes[level] = cur_level_n_nodes;
     }
+
+    // Fill the fine through coarse coefficient array
+
+    // Fill the fine through coarse right hand side array
+
+    // Initialize the the fine through coarse solution vector
   }
 
   /**
-     * @brief A single multigrid cycle.
-     *
-     */
+   * @brief A single multigrid cycle.
+   *
+   */
   void vcycle() { return; }  // to implement
 
   /**
-     * @brief Update `u` inplace but sucessively performing multigrid `vcycle`s.
-     *
-     * @param A
-     * @param u
-     * @param b
-     * @param niters
-     */
-  void solve(const Eigen::SparseMatrix<EleType>& A,
-             Eigen::Matrix<EleType, -1, 1>& u,
-             const Eigen::Matrix<EleType, -1, 1>& b, const size_t niters) {
-    return;
-  }
+   * @brief Solve a linear system of equations via vcycle
+   *
+   * TODO: There should be an upper limit on the number of cycles/niters and/or tolerance
+   * 
+   */
+  void solve() { return; }
 };
 
 }  // end namespace AMG

@@ -103,9 +103,9 @@ TEST_CASE("All Tests", "[main]") {
       tolerance, compute_error_every_n_iters, niters);
 
   // Valid multigrid instantiation
-  
+  size_t n_fine_nodes = 100;
+  size_t n_levels = 4;
+  AMG::Multigrid<double> amg(&sor_base, n_fine_nodes, n_levels);
 
-
-  // // CHECK multigrid solver matches a builtin solver
-  // AMG::Multigrid mg = AMG::Multigrid();
+  // multigrid solution matches an iterative solver 
 }
