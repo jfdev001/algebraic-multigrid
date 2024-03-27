@@ -199,9 +199,9 @@ class Multigrid {
     return level_to_grid_spacing[level];
   }
 
-  const size_t get_n_nodes(size_t level) { return level_to_n_nodes[level]; }
+  const size_t get_n_nodes(size_t level) const { return level_to_n_nodes[level]; }
 
-  const size_t get_n_dofs(size_t level) { return level_to_n_dofs[level]; }
+  const size_t get_n_dofs(size_t level) const { return level_to_n_dofs[level]; }
 };
 
 }  // end namespace AMG
