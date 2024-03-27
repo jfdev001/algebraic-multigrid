@@ -43,13 +43,13 @@ class Multigrid {
    * @brief Index of the finest grid.
    * 
    */
-  size_t finest_grid = 0;
+  size_t finest_grid_ix = 0;
 
   /**
    * @brief Index of the coarsest grid.
    * 
    */
-  size_t coarsest_grid;
+  size_t coarsest_grid_ix;
 
   /**
    * @brief Map multigrid level to the number of nodes in x or y direction.
@@ -58,24 +58,38 @@ class Multigrid {
   std::unique_ptr<size_t[]> level_to_n_nodes;
 
   /**
+   * @brief Map multigrid level to number of degrees of freedom for that level.
+   * 
+   * Note that `n_dofs==n_nodes*n_nodes`
+   * 
+   */
+  std::unique_ptr<size_t[]> level_to_n_dofs;
+
+  /**
    * @brief Map multigrid level to grid spacing h.
+   * 
+   * TODO: is this even used???
    * 
    */
   std::unique_ptr<EleType[]> level_to_grid_spacing;
 
   /**
-   * @brief Map multigrid level to coefficient matrix
+   * @brief Map multigrid level to coefficient matrix A
    * 
    */
-  std::unique_ptr<Eigen::SparseMatrix<EleType>[]> level_to_A;
+  std::unique_ptr<Eigen::SparseMatrix<EleType>[]> level_to_coefficient_matrix;
 
   /**
-   * @brief 
-   * 
-   * TODO:
+   * @brief Map multigrid level to right hand side (forcing) vector.
    * 
    */
-  //std::unique_ptr<generic vector[]>  level_to_rhs;
+  std::unique_ptr<Eigen::Matrix<EleType, -1, 1>[]> level_to_rhs;
+
+  /**
+   * @brief Map multigrid level to solution (u) vector.
+   * 
+   */
+  std::unique_ptr<Eigen::Matrix<EleType, -1, 1>[]> level_to_soln;
 
  public:
   ~Multigrid() {}
@@ -97,14 +111,24 @@ class Multigrid {
             size_t n_levels_)
       : smoother(smoother_), n_fine_nodes(n_fine_nodes_), n_levels(n_levels_) {
 
+    // Initialize grid info
     level_to_grid_spacing = std::make_unique<EleType[]>(n_levels);
     level_to_n_nodes = std::make_unique<size_t[]>(n_levels);
+    level_to_n_dofs = std::make_unique<size_t[]>(n_levels);
 
-    coarsest_grid = n_levels - 1;
+    // Initialize linear system info
+    level_to_coefficient_matrix =
+        std::make_unique<Eigen::SparseMatrix<EleType>[]>(n_levels);
+    level_to_soln = std::make_unique<Eigen::Matrix<EleType, -1, 1>[]>(n_levels);
+    level_to_rhs = std::make_unique<Eigen::Matrix<EleType, -1, 1>[]>(n_levels);
 
-    // initialize the finest level info
-    level_to_grid_spacing[0] = AMG::Grid<EleType>::grid_spacing_h(n_fine_nodes);
-    level_to_n_nodes[0] = n_fine_nodes;
+    // Initialize index for coarsest grid
+    coarsest_grid_ix = n_levels - 1;
+
+    // Initialize the finest level grid info in the multigrid
+    level_to_grid_spacing[finest_grid_ix] =
+        AMG::Grid<EleType>::grid_spacing_h(n_fine_nodes);
+    level_to_n_nodes[finest_grid_ix] = n_fine_nodes;
 
     // fill the remaining coarse grid info
     for (size_t level = 1; level < n_levels; ++level) {
@@ -119,13 +143,29 @@ class Multigrid {
 
       level_to_grid_spacing[level] = cur_level_grid_spacing;
       level_to_n_nodes[level] = cur_level_n_nodes;
+      level_to_n_dofs[level] = cur_level_n_nodes * cur_level_n_nodes;  // n**2
     }
 
-    // Fill the fine through coarse coefficient array
+    // Fill the linear system Au = b lists for different coarseness
+    // TODO: are copy assignments being made?? efficiency here? w.r.t u and b init
+    size_t n_nodes;
+    size_t n_dofs;
+    for (size_t level = 0; level < n_levels; ++level) {
+      n_nodes = level_to_n_nodes[level];
+      n_dofs = level_to_n_dofs[level];
 
-    // Fill the fine through coarse right hand side array
+      // Fill the fine through coarse coefficient array
+      level_to_coefficient_matrix[level] =
+          AMG::Grid<EleType>::laplacian(n_nodes);
 
-    // Initialize the the fine through coarse solution vector
+      // Initialize the fine through coarse solution vector
+      Eigen::Matrix<EleType, -1, 1> u(n_dofs);
+      u.setZero();
+      level_to_soln[level] = u;
+
+      // Fill the fine through coarse right hand side array
+      level_to_rhs[level] = AMG::Grid<EleType>::rhs(n_nodes);
+    }
   }
 
   /**

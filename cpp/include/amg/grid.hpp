@@ -13,9 +13,11 @@ namespace AMG {
 template <class EleType>
 class Grid {
  private:
- // TODO: add member data that could be initialized using the static functions...
- // makes ease of access and encapsulation a bit more intuitive
- // construction could also specify domain range so that rhs could just be pass `n`
+  // TODO: add member data that could be initialized using the static functions...
+  // makes ease of access and encapsulation a bit more intuitive
+  // construction could also specify domain range so that rhs could just be pass `n`
+  static const size_t n_boundary_points = 2;
+
  public:
   /**
    * @brief Compute the gridspacing h of a domain given n points in a direction.
@@ -94,33 +96,38 @@ class Grid {
   }
 
   /**
-   * @brief Return right hand side vector by evaluating `f` on grid created from
-   * `domain_1D`.
-   * 
-   * TODO: Make generic....
-   *
-   * @param domain_1D The interior points of the domain.
-   * @param f Function to be evaluated at each grid point constructed from
-   * `domain_1D`.
-   * @return Eigen::VectorXd
+   * @brief Return right hand side vector by evaluating `f` on a mesh grid in [-1, 1]^2.
+   *    
+   * @param n Number of interior grid points in the x or y direction.
+   * @param f Function to be evaluated at each mesh grid point.
+   * @return Eigen::Matrix<EleType, -1, 1>
    */
-  static Eigen::VectorXd rhs(
-      Eigen::VectorXd domain_1D,
+  static Eigen::Matrix<EleType, -1, 1> rhs(
+      size_t n,
       std::function<EleType(EleType, EleType)> f = [](EleType x, EleType y) {
         return 5 * exp(-10 * (x * x + y * y));
       }) {
-    // Initialize the rhs vector using the size of the 1D domain
-    auto n = domain_1D.size();
-    size_t ndofs = n * n;
-    Eigen::VectorXd b(ndofs);
 
-    // Evaluate the function at each grid point, traversing grid as col major
+    // Initialize default 1D domain on [-1, 1]
+    size_t n_points_in_direction = n + n_boundary_points;
+    EleType left_bound = -1.0;
+    EleType right_bound = 1.0;
+    Eigen::Matrix<EleType, -1, 1> domain_1D =
+        Eigen::DenseBase<Eigen::Matrix<EleType, -1, 1>>::LinSpaced(
+            n_points_in_direction, left_bound, right_bound);
+
+    // Initialize the rhs vector using the size of the 1D domain
+    size_t ndofs = n * n;
+    Eigen::Matrix<EleType, -1, 1> b(ndofs);
+
+    // Evaluate the function at each interior grid point, traversing grid as col major
     size_t dof = 0;
-    for (size_t j = 0; j < n; ++j) {
-      auto xj = domain_1D[j];
-      for (size_t i = 0; i < n; ++i) {
-        auto xi = domain_1D[i];
-        auto feval = f(xj, xi);
+    EleType xj, xi, feval;
+    for (size_t j = 1; j <= n; ++j) {
+      xj = domain_1D[j];
+      for (size_t i = 1; i <= n; ++i) {
+        xi = domain_1D[i];
+        feval = f(xj, xi);
         b[dof] = feval;
         ++dof;
       }

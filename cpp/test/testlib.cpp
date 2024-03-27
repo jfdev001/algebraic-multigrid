@@ -14,19 +14,14 @@
 TEST_CASE("All Tests", "[main]") {
   // Setup coefficients matrix
   size_t n_interior_points = 2;
-  size_t ndofs = n_interior_points * n_interior_points;
   Eigen::SparseMatrix<double> A =
       AMG::Grid<double>::laplacian(n_interior_points);
 
   // Setup right hand side
-  size_t n_boundary_points = 2;
-  size_t n_points_in_direction = n_interior_points + n_boundary_points;
-  double left_bound = -1.0;
-  double right_bound = 1.0;
-  Eigen::VectorXd domain_1D = Eigen::VectorXd::LinSpaced(
-      n_points_in_direction, left_bound, right_bound);
-  Eigen::VectorXd b =
-      AMG::Grid<double>::rhs(domain_1D(Eigen::seq(1, Eigen::last - 1)));
+  Eigen::VectorXd b = AMG::Grid<double>::rhs(n_interior_points);
+
+  // Verify dimension of rhs
+  size_t ndofs = n_interior_points * n_interior_points;
   REQUIRE(b.size() == ndofs);
 
   // Use built-in solver for comparison solution
