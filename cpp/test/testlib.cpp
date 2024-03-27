@@ -102,5 +102,37 @@ TEST_CASE("All Tests", "[main]") {
   size_t n_levels = 4;
   AMG::Multigrid<double> amg(&sor_base, n_fine_nodes, n_levels);
 
-  // multigrid solution matches an iterative solver 
+  // Check coarsening of multigrid system info
+  for (size_t level = 1; level < n_levels; ++level) {
+    size_t finer_n_nodes = amg.get_n_nodes(level - 1);
+    size_t coarser_n_nodes = amg.get_n_nodes(level);
+
+    size_t finer_n_dofs = amg.get_n_dofs(level - 1);
+    size_t coarser_n_dofs = amg.get_n_dofs(level);
+
+    auto finer_grid_spacing = amg.get_grid_spacing(level - 1);
+    auto coarser_grid_spacing = amg.get_grid_spacing(level);
+
+    CHECK(finer_n_nodes > coarser_n_nodes);
+    CHECK(finer_n_dofs > coarser_n_dofs);
+    CHECK(finer_grid_spacing < coarser_grid_spacing);
+  }
+
+  // Check coarsening of multigrid linear systems
+  for (size_t level = 1; level < n_levels; ++level) {
+    auto finer_A = amg.get_coefficient_matrix(level - 1);
+    auto coarser_A = amg.get_coefficient_matrix(level);
+
+    auto finer_u = amg.get_soln(level - 1);
+    auto coarser_u = amg.get_soln(level);
+
+    auto finer_b = amg.get_rhs(level - 1);
+    auto coarser_b = amg.get_rhs(level);
+
+    CHECK(finer_A.size() > coarser_A.size());
+    CHECK(finer_u.size() > coarser_u.size());
+    CHECK(finer_b.size() > coarser_b.size());
+  }
+
+  // multigrid solution matches an iterative solver
 }
