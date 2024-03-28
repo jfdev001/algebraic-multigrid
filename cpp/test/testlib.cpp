@@ -134,5 +134,16 @@ TEST_CASE("All Tests", "[main]") {
     CHECK(finer_b.size() > coarser_b.size());
   }
 
-  // multigrid solution matches an iterative solver
+  // multigrid solution matches direct method
+  Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>>
+      ref_direct_solver;
+  Eigen::VectorXd ref_exact_u(ndofs);
+  auto finest_A = amg.get_coefficient_matrix(0);
+  auto finest_b = amg.get_rhs(0);
+  ref_direct_solver.analyzePattern(finest_A);
+  ref_direct_solver.factorize(finest_A);
+  ref_exact_u = ref_direct_solver.solve(finest_b);
+  auto amg_u = amg.solve();
+
+  CHECK(amg_u.isApprox(ref_exact_u, amg.get_tolerance()));
 }

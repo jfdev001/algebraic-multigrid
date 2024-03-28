@@ -22,6 +22,14 @@ class Multigrid {
   AMG::SmootherBase<EleType>* smoother;
 
   /**
+   * @brief Tolerance for stopping.
+   * 
+   * TODO: Not sure??
+   * 
+   */
+  EleType tolerance;
+
+  /**
    * @brief Grid level from finest to coarsest is h, 2h, 4h, ..., H
    * 
    */
@@ -108,8 +116,11 @@ class Multigrid {
    * @param n_levels_ Desired number of levels where level 0 is finest level.
    */
   Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
-            size_t n_levels_)
-      : smoother(smoother_), n_fine_nodes(n_fine_nodes_), n_levels(n_levels_) {
+            size_t n_levels_, EleType tolerance_ = 1e-9)
+      : smoother(smoother_),
+        n_fine_nodes(n_fine_nodes_),
+        n_levels(n_levels_),
+        tolerance(tolerance_) {
 
     // Initialize grid info
     level_to_grid_spacing.resize(n_levels);
@@ -180,7 +191,9 @@ class Multigrid {
    * TODO: There should be an upper limit on the number of cycles/niters and/or tolerance
    * 
    */
-  void solve() { return; }
+  const Eigen::Matrix<EleType, -1, 1>& solve() {
+    return get_soln(finest_grid_ix);
+  }
 
   const Eigen::SparseMatrix<EleType>& get_coefficient_matrix(
       size_t level) const {
@@ -199,9 +212,13 @@ class Multigrid {
     return level_to_grid_spacing[level];
   }
 
-  const size_t get_n_nodes(size_t level) const { return level_to_n_nodes[level]; }
+  const size_t get_n_nodes(size_t level) const {
+    return level_to_n_nodes[level];
+  }
 
   const size_t get_n_dofs(size_t level) const { return level_to_n_dofs[level]; }
+
+  const EleType get_tolerance() const { return tolerance; }
 };
 
 }  // end namespace AMG
