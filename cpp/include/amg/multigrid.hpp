@@ -235,6 +235,8 @@ class Multigrid {
 
   /**
    * @brief A single multigrid cycle.
+   * 
+   * TODO: really slow
    *
    * References:
    * 
@@ -287,14 +289,11 @@ class Multigrid {
     size_t iter = 0;
     EleType error = 100;
     while (iter < n_iters && error > tolerance) {
+      std::cout << "iter: " << iter << std::endl;
       vcycle();
       iter += 1;
       if (iter % compute_error_every_n_iters == 0) {
         //error = residual(A, u, b);
-      }
-
-      if (iter % 10 == 0) {
-        std::cout << "amg iter: " << iter << std::endl;
       }
     }
     return level_to_soln[finest_grid_ix];

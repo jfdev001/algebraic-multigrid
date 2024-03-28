@@ -104,11 +104,11 @@ TEST_CASE("All Tests", "[main]") {
       tolerance, compute_error_every_n_iters, niters);
 
   // Valid multigrid instantiation
-  size_t n_fine_nodes = 50;
+  size_t n_fine_nodes = 25;
   size_t n_levels = 4;
   size_t smoothing_iterations = 2;
-  AMG::SuccessiveOverRelaxation<double> amg_sor(smoothing_iterations);
-  AMG::Multigrid<double> amg(&amg_sor, n_fine_nodes, n_levels);
+  AMG::SuccessiveOverRelaxation<double> amg_sor(smoothing_iterations);  
+  AMG::Multigrid<double> amg(&amg_sor, n_fine_nodes, n_levels, 1e-9, 100, 5);
 
   // Check coarsening of multigrid system info
   std::cout << "Multigrid System Info:" << std::endl;
