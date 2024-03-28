@@ -95,6 +95,17 @@ cd build/test
 ctest -T memcheck -R testlib
 ```
 
+# Notes
+
+To keep things generic, one can use either the matrix formulation `Au = b` or
+one can write solvers that use the physical grid points themselves. Using the physical
+grid points in the solvers leads to solvers that are defined only for that particular
+PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,
+that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requires
+iterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver which
+is `O(n)`... (find resource for actually naming convention for these types of solvesr)...
+and also consider how you could approach differently or how other places do it differently...
+
 # References
 
 [1] : Intro Modern CMake. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html

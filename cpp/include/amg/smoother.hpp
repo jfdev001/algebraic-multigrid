@@ -43,6 +43,11 @@ class SmootherBase {
   /**
      * @brief Derived types must implement a `smooth` function that smooths `Au
      * = b`.
+     * 
+     * TODO: Iterating through large, sparse matrix is not ideal compared 
+     * with the formulation of the problem in the reference in which the
+     * physical grid is used instead.... could use builtin solvers instead to 
+     * keep things generic....
      *
      * @param A Coeffcients matrix for linear system of equations.
      * @param u Solution to linear system of equations.

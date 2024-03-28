@@ -235,8 +235,6 @@ class Multigrid {
 
   /**
    * @brief A single multigrid cycle.
-   * 
-   * TODO: really slow
    *
    * References:
    * 
