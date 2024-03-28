@@ -134,3 +134,5 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [14] : General DevSecOps. url: https://medium.com/@rahulsharan512/devsecops-using-github-actions-building-secure-ci-cd-pipelines-5b6d59acab32
 
 [15] : Iterative solvers and square vs. column formulation. url: https://people.eecs.berkeley.edu/~demmel/cs267/lecture24/lecture24.html
+
+[16] Multigrid in MATLAB with a recursive algorithm. url: https://nl.mathworks.com/help/parallel-computing/solve-differential-equation-using-multigrid-preconditioner-on-distributed-discretization.html
