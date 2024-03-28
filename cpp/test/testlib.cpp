@@ -4,7 +4,8 @@
 #include <iostream>
 
 #include <Eigen/Core>
-#include <Eigen/SparseLU>
+#include <Eigen/Sparse>
+#include <Eigen/SparseCholesky>
 
 #include <amg/grid.hpp>
 #include <amg/multigrid.hpp>
@@ -25,16 +26,19 @@ TEST_CASE("All Tests", "[main]") {
   REQUIRE(b.size() == ndofs);
 
   // Use built-in solver for comparison solution
-  Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>>
-      direct_solver;
+  Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> direct_solver;
   Eigen::VectorXd exact_u(ndofs);
   direct_solver.analyzePattern(A);
   direct_solver.factorize(A);
   exact_u = direct_solver.solve(b);
 
-  // Compute the residual
-  double residual = AMG::residual(A, exact_u, b);
-  std::cout << "Residual: " << residual << std::endl;
+  // Compute the residual sum of squares
+  double rss = AMG::rss(A, exact_u, b);
+  std::cout << "RSS: " << rss << std::endl;
+
+  // compute the residual
+  Eigen::VectorXd residual(ndofs);
+  residual = b - A * exact_u;
 
   // Inspecting small problems
   if (ndofs <= 10) {
@@ -45,6 +49,8 @@ TEST_CASE("All Tests", "[main]") {
     std::cout << exact_u << std::endl;
     std::cout << "-------\nb\n-------\n";
     std::cout << b << std::endl;
+    std::cout << "-------\ne\n-------\n";
+    std::cout << residual << std::endl;
     std::cout << "END Exact Solution\n";
   }
 
@@ -103,15 +109,19 @@ TEST_CASE("All Tests", "[main]") {
   AMG::Multigrid<double> amg(&sor_base, n_fine_nodes, n_levels);
 
   // Check coarsening of multigrid system info
+  std::cout << "Multigrid System Info:" << std::endl;
   for (size_t level = 1; level < n_levels; ++level) {
     size_t finer_n_nodes = amg.get_n_nodes(level - 1);
     size_t coarser_n_nodes = amg.get_n_nodes(level);
+    std::cout << finer_n_nodes << " " << coarser_n_nodes << std::endl;
 
     size_t finer_n_dofs = amg.get_n_dofs(level - 1);
     size_t coarser_n_dofs = amg.get_n_dofs(level);
+    std::cout << finer_n_dofs << " " << coarser_n_dofs << std::endl;
 
     auto finer_grid_spacing = amg.get_grid_spacing(level - 1);
     auto coarser_grid_spacing = amg.get_grid_spacing(level);
+    std::cout << finer_grid_spacing << " " << coarser_grid_spacing << std::endl;
 
     CHECK(finer_n_nodes > coarser_n_nodes);
     CHECK(finer_n_dofs > coarser_n_dofs);
@@ -135,8 +145,7 @@ TEST_CASE("All Tests", "[main]") {
   }
 
   // multigrid solution matches direct method
-  Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>>
-      ref_direct_solver;
+  Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> ref_direct_solver;
   Eigen::VectorXd ref_exact_u(ndofs);
   auto finest_A = amg.get_coefficient_matrix(0);
   auto finest_b = amg.get_rhs(0);

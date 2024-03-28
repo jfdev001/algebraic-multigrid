@@ -15,9 +15,9 @@ namespace AMG {
  * @return EleType 
  */
 template <class EleType>
-EleType residual(const Eigen::SparseMatrix<EleType>& A,
-                 const Eigen::Matrix<EleType, -1, 1>& u,
-                 const Eigen::Matrix<EleType, -1, 1>& b) {
+EleType rss(const Eigen::SparseMatrix<EleType>& A,
+            const Eigen::Matrix<EleType, -1, 1>& u,
+            const Eigen::Matrix<EleType, -1, 1>& b) {
   auto bhat = A * u;
   EleType error = 0.0;
   for (size_t i = 0; i < b.size(); ++i) {

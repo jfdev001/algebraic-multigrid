@@ -95,7 +95,7 @@ class Jacobi : public SmootherBase<EleType> {
       }
       iter += 1;
       if (iter % this->compute_error_every_n_iters == 0) {
-        error = residual(A, u, b);
+        error = rss(A, u, b);
       }
     }
     return;
@@ -199,7 +199,7 @@ class SuccessiveOverRelaxation : public SmootherBase<EleType> {
       }
       iter += 1;
       if (iter % this->compute_error_every_n_iters == 0) {
-        error = residual(A, u, b);
+        error = rss(A, u, b);
       }
     }
     return;

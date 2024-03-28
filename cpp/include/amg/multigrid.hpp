@@ -5,6 +5,7 @@
 
 #include <Eigen/Core>
 #include <Eigen/Sparse>
+#include <Eigen/SparseCholesky>
 
 #include <amg/common.hpp>
 #include <amg/grid.hpp>
@@ -15,11 +16,33 @@ namespace AMG {
 template <class EleType>
 class Multigrid {
  private:
-  void prolongation() { return; }  // to implement
+  /**
+  * @brief Restrict the reisdual to the right hand side.
+  * 
+  * TODO: Copy?
+  * 
+  * @param e 
+  * @return Eigen::Matrix<EleType, -1, 1> 
+  */
+  Eigen::Matrix<EleType, -1, 1> restriction(
+      const Eigen::Matrix<EleType, -1, 1>& e) {
+    return e;
+  }
 
-  void restriction() { return; }  // to implement
+  /**
+   * @brief Prolongate (interpolate) the solution from coarse to finer level.
+   * 
+   * @param u 
+   * @return Eigen::Matrix<EleType, -1, 1> 
+   */
+  Eigen::Matrix<EleType, -1, 1> prolongation(
+      const Eigen::Matrix<EleType, -1, 1>& u) {
+    return u;
+  }
 
   AMG::SmootherBase<EleType>* smoother;
+
+  Eigen::SimplicialLDLT<Eigen::SparseMatrix<EleType>> coarse_direct_solver;
 
   /**
      * @brief Tolerance below which a smoother is considered to have converged.
@@ -109,6 +132,12 @@ class Multigrid {
    */
   std::vector<Eigen::Matrix<EleType, -1, 1>> level_to_soln;
 
+  /**
+   * @brief Map multigrid level to residual (e) vector.
+   * 
+   */
+  std::vector<Eigen::Matrix<EleType, -1, 1>> level_to_residual;
+
  public:
   ~Multigrid() {}
 
@@ -144,6 +173,7 @@ class Multigrid {
     level_to_coefficient_matrix.resize(n_levels);
     level_to_soln.resize(n_levels);
     level_to_rhs.resize(n_levels);
+    level_to_residual.resize(n_levels);
 
     // Initialize index for coarsest grid
     coarsest_grid_ix = n_levels - 1;
@@ -189,7 +219,18 @@ class Multigrid {
 
       // Fill the fine through coarse right hand side array
       level_to_rhs[level] = AMG::Grid<EleType>::rhs(n_nodes);
+
+      // Fill the residual
+      auto b = level_to_rhs[level];
+      auto A = level_to_coefficient_matrix[level];
+      level_to_residual[level] = b - A * u;
     }
+
+    // Initialize the coarse solver
+    coarse_direct_solver.analyzePattern(
+        level_to_coefficient_matrix[coarsest_grid_ix]);
+    coarse_direct_solver.factorize(
+        level_to_coefficient_matrix[coarsest_grid_ix]);
   }
 
   /**
@@ -201,15 +242,32 @@ class Multigrid {
    */
   void vcycle() {
     // At each level of the grid hiearchy, finest-to-coarsest:
-    //  1. Apply a couple of smoothing iterations (pre-relaxation) to the current solution ui=Si(Ai,fi,ui)
-    //  2. Find residual ei=fi−Aiui
-    //    and restrict it to the RHS on the coarser level: fi+1=Riei
+    for (size_t level = 0; level < n_levels; ++level) {
+      //  1. Apply a couple of smoothing iterations (pre-relaxation) to the current solution ui=Si(Ai,fi,ui)
+      // TODO
 
-    // Solve the corasest system directly: uL=A−1LfL
+      //  2. Find residual ei=fi−Aiui and restrict it to the coarser level
+      level_to_residual[level] =
+          level_to_rhs[level] -
+          level_to_coefficient_matrix[level] * level_to_soln[level];
+      if (level + 1 != n_levels) {
+        //level_to_rhs[level + 1] = restriction(level_to_residual[level]);
+      }
+    }
+
+    // Solve the coarsest system directly: uL=A−1LfL
+    level_to_soln[coarsest_grid_ix] =
+        coarse_direct_solver.solve(level_to_rhs[coarsest_grid_ix]);
 
     // At each level of the grid hiearchy, coarsest-to-finest:
-    //  1. Update the current solution with the interpolated solution from the coarser level: ui=ui+Piui+1
-    //  2. Apply a couple of smoothing iterations (post-relaxation) to the updated solution: ui=Si(Ai,fi,ui)
+    for (long level = coarsest_grid_ix - 1; level >= 0; --level) {
+      //  1. Update the current solution with the interpolated solution from the coarser level: ui=ui+Piui+1
+      //level_to_soln[level] =
+      //    level_to_soln[level] + prolongation(level_to_soln[level + 1])
+      //  2. Apply a couple of smoothing iterations (post-relaxation) to the updated solution: ui=Si(Ai,fi,ui)
+      // TODO
+    }
+
     return;
   }
 
@@ -229,7 +287,7 @@ class Multigrid {
         //error = residual(A, u, b);
       }
     }
-    return get_soln(finest_grid_ix);
+    return level_to_soln[finest_grid_ix];
   }
 
   const Eigen::SparseMatrix<EleType>& get_coefficient_matrix(
