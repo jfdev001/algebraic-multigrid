@@ -97,14 +97,8 @@ ctest -T memcheck -R testlib
 
 # Notes
 
-To keep things generic, one can use either the matrix formulation `Au = b` or
-one can write solvers that use the physical grid points themselves. Using the physical
-grid points in the solvers leads to solvers that are defined only for that particular
-PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,
-that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requires
-iterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver which
-is `O(n)`... (find resource for actually naming convention for these types of solvesr)...
-and also consider how you could approach differently or how other places do it differently...
+To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves. Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
+PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requiresiterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver whichis `O(n)`... (find resource for actually naming convention for these types of solvesr)...and also consider how you could approach differently or how other places do it differently. The difference in convention is known as describing the algorithm in terms of the square array `U[i,j]` or in terms of the column vector `Uhat`.
 
 # References
 
@@ -138,3 +132,5 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [13] : For good CI/CD example, see Dolfinx workflow. url: https://github.com/FEniCS/dolfinx/blob/main/.github/workflows/ccpp.yml
 
 [14] : General DevSecOps. url: https://medium.com/@rahulsharan512/devsecops-using-github-actions-building-secure-ci-cd-pipelines-5b6d59acab32
+
+[15] : Iterative solvers and square vs. column formulation. url: https://people.eecs.berkeley.edu/~demmel/cs267/lecture24/lecture24.html
