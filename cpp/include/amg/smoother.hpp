@@ -16,7 +16,7 @@ class SmootherBase {
      * @brief Tolerance below which a smoother is considered to have converged.
      *
      */
-  double tolerance{1e-9};
+  EleType tolerance{1e-9};
 
   /**
      * @brief Compute the error every `n` iterations during smoothing.
@@ -28,15 +28,15 @@ class SmootherBase {
      * @brief Maximum number of iterations before smoothing termination.
      *
      */
-  size_t niters{1000};
+  size_t n_iters{1000};
 
   SmootherBase() {}
 
   SmootherBase(double tolerance_, size_t compute_error_every_n_iters_,
-               size_t niters_)
+               size_t n_iters_)
       : tolerance(tolerance_),
         compute_error_every_n_iters(compute_error_every_n_iters_),
-        niters(niters_) {}
+        n_iters(n_iters_) {}
 
   /**
      * @brief Derived types must implement a `smooth` function that smooths `Au
@@ -50,7 +50,7 @@ class SmootherBase {
                       Eigen::Matrix<EleType, -1, 1>& u,
                       const Eigen::Matrix<EleType, -1, 1>& b) = 0;
 
-  void set_niters(size_t niters_) { niters = niters_; }
+  void set_n_iters(size_t n_iters_) { n_iters = n_iters_; }
 
   void set_tolerance(double tolerance_) { tolerance = tolerance_; }
 
@@ -82,7 +82,7 @@ class Jacobi : public SmootherBase<EleType> {
     size_t ndofs = b.size();
     EleType error = 100;
     EleType sigma;
-    while (iter < this->niters && error > this->tolerance) {
+    while (iter < this->n_iters && error > this->tolerance) {
       for (size_t i = 0; i < ndofs; ++i) {
         sigma = 0;
         for (size_t j = 0; j < ndofs; ++j) {
@@ -150,12 +150,12 @@ class SuccessiveOverRelaxation : public SmootherBase<EleType> {
      * @param omega_
      * @param tolerance_
      * @param compute_error_every_n_iters_
-     * @param niters_
+     * @param n_iters_
      */
   SuccessiveOverRelaxation(double omega_, double tolerance_,
-                           size_t compute_error_every_n_iters_, size_t niters_)
+                           size_t compute_error_every_n_iters_, size_t n_iters_)
       : SmootherBase<EleType>(tolerance_, compute_error_every_n_iters_,
-                              niters_),
+                              n_iters_),
         omega(omega_) {
     validate_omega();
   }
@@ -178,7 +178,7 @@ class SuccessiveOverRelaxation : public SmootherBase<EleType> {
     EleType error = 100;
     EleType sigma_j_less_i;
     EleType sigma_j_greater_i;
-    while (iter < this->niters && error > this->tolerance) {
+    while (iter < this->n_iters && error > this->tolerance) {
       for (size_t i = 0; i < ndofs; ++i) {
         sigma_j_less_i = 0;
         for (size_t j = 0; j < i; ++j) {

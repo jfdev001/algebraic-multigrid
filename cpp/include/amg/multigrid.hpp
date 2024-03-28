@@ -22,12 +22,22 @@ class Multigrid {
   AMG::SmootherBase<EleType>* smoother;
 
   /**
-   * @brief Tolerance for stopping.
-   * 
-   * TODO: Not sure??
-   * 
-   */
+     * @brief Tolerance below which a smoother is considered to have converged.
+     *
+     */
   EleType tolerance;
+
+  /**
+     * @brief Compute the error every `n` iterations during smoothing.
+     *
+     */
+  size_t compute_error_every_n_iters;
+
+  /**
+     * @brief Maximum number of iterations before smoothing termination.
+     *
+     */
+  size_t n_iters;
 
   /**
    * @brief Grid level from finest to coarsest is h, 2h, 4h, ..., H
@@ -116,11 +126,14 @@ class Multigrid {
    * @param n_levels_ Desired number of levels where level 0 is finest level.
    */
   Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
-            size_t n_levels_, EleType tolerance_ = 1e-9)
+            size_t n_levels_, EleType tolerance_ = 1e-9,
+            size_t compute_error_every_n_iters_ = 100, size_t n_iters_ = 1000)
       : smoother(smoother_),
         n_fine_nodes(n_fine_nodes_),
         n_levels(n_levels_),
-        tolerance(tolerance_) {
+        tolerance(tolerance_),
+        compute_error_every_n_iters(compute_error_every_n_iters_),
+        n_iters(n_iters_) {
 
     // Initialize grid info
     level_to_grid_spacing.resize(n_levels);
@@ -182,8 +195,23 @@ class Multigrid {
   /**
    * @brief A single multigrid cycle.
    *
+   * References:
+   * 
+   * [1] : [Algebraic Multigrid from amgcl](https://amgcl.readthedocs.io/en/latest/amg_overview.html)
    */
-  void vcycle() { return; }  // to implement
+  void vcycle() {
+    // At each level of the grid hiearchy, finest-to-coarsest:
+    //  1. Apply a couple of smoothing iterations (pre-relaxation) to the current solution ui=Si(Ai,fi,ui)
+    //  2. Find residual ei=fi−Aiui
+    //    and restrict it to the RHS on the coarser level: fi+1=Riei
+
+    // Solve the corasest system directly: uL=A−1LfL
+
+    // At each level of the grid hiearchy, coarsest-to-finest:
+    //  1. Update the current solution with the interpolated solution from the coarser level: ui=ui+Piui+1
+    //  2. Apply a couple of smoothing iterations (post-relaxation) to the updated solution: ui=Si(Ai,fi,ui)
+    return;
+  }
 
   /**
    * @brief Solve a linear system of equations via vcycle
@@ -192,6 +220,15 @@ class Multigrid {
    * 
    */
   const Eigen::Matrix<EleType, -1, 1>& solve() {
+    size_t iter = 0;
+    EleType error = 100;
+    while (iter < n_iters && error > tolerance) {
+      vcycle();
+      iter += 1;
+      if (iter % compute_error_every_n_iters == 0) {
+        //error = residual(A, u, b);
+      }
+    }
     return get_soln(finest_grid_ix);
   }
 
