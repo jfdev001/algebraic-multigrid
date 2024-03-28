@@ -32,6 +32,8 @@ class SmootherBase {
 
   SmootherBase() {}
 
+  SmootherBase(size_t n_iters_) : n_iters(n_iters_) {}
+
   SmootherBase(double tolerance_, size_t compute_error_every_n_iters_,
                size_t n_iters_)
       : tolerance(tolerance_),

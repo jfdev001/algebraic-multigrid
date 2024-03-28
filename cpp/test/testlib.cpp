@@ -104,9 +104,11 @@ TEST_CASE("All Tests", "[main]") {
       tolerance, compute_error_every_n_iters, niters);
 
   // Valid multigrid instantiation
-  size_t n_fine_nodes = 100;
+  size_t n_fine_nodes = 50;
   size_t n_levels = 4;
-  AMG::Multigrid<double> amg(&sor_base, n_fine_nodes, n_levels);
+  size_t smoothing_iterations = 2;
+  AMG::SuccessiveOverRelaxation<double> amg_sor(smoothing_iterations);
+  AMG::Multigrid<double> amg(&amg_sor, n_fine_nodes, n_levels);
 
   // Check coarsening of multigrid system info
   std::cout << "Multigrid System Info:" << std::endl;
@@ -153,6 +155,8 @@ TEST_CASE("All Tests", "[main]") {
   ref_direct_solver.factorize(finest_A);
   ref_exact_u = ref_direct_solver.solve(finest_b);
   auto amg_u = amg.solve();
+  //amg.vcycle();
+  // auto amg_u = amg.get_soln(0);
 
   CHECK(amg_u.isApprox(ref_exact_u, amg.get_tolerance()));
 }

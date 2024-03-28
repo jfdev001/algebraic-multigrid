@@ -156,7 +156,7 @@ class Multigrid {
    */
   Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
             size_t n_levels_, EleType tolerance_ = 1e-9,
-            size_t compute_error_every_n_iters_ = 100, size_t n_iters_ = 1000)
+            size_t compute_error_every_n_iters_ = 100, size_t n_iters_ = 100)
       : smoother(smoother_),
         n_fine_nodes(n_fine_nodes_),
         n_levels(n_levels_),
@@ -243,8 +243,10 @@ class Multigrid {
   void vcycle() {
     // At each level of the grid hiearchy, finest-to-coarsest:
     for (size_t level = 0; level < n_levels; ++level) {
-      //  1. Apply a couple of smoothing iterations (pre-relaxation) to the current solution ui=Si(Ai,fi,ui)
-      // TODO
+      //  1. Apply a couple of smoothing iterations (pre-relaxation) to the
+      // current solution ui=Si(Ai,fi,ui)
+      smoother->smooth(level_to_coefficient_matrix[level], level_to_soln[level],
+                       level_to_rhs[level]);
 
       //  2. Find residual ei=fi−Aiui and restrict it to the coarser level
       level_to_residual[level] =
@@ -261,11 +263,15 @@ class Multigrid {
 
     // At each level of the grid hiearchy, coarsest-to-finest:
     for (long level = coarsest_grid_ix - 1; level >= 0; --level) {
-      //  1. Update the current solution with the interpolated solution from the coarser level: ui=ui+Piui+1
+      //  1. Update the current solution with the interpolated solution from the
+      // coarser level: ui=ui+Piui+1
       //level_to_soln[level] =
       //    level_to_soln[level] + prolongation(level_to_soln[level + 1])
-      //  2. Apply a couple of smoothing iterations (post-relaxation) to the updated solution: ui=Si(Ai,fi,ui)
-      // TODO
+
+      //  2. Apply a couple of smoothing iterations (post-relaxation) to the
+      // updated solution: ui=Si(Ai,fi,ui)
+      smoother->smooth(level_to_coefficient_matrix[level], level_to_soln[level],
+                       level_to_rhs[level]);
     }
 
     return;
@@ -285,6 +291,10 @@ class Multigrid {
       iter += 1;
       if (iter % compute_error_every_n_iters == 0) {
         //error = residual(A, u, b);
+      }
+
+      if (iter % 10 == 0) {
+        std::cout << "amg iter: " << iter << std::endl;
       }
     }
     return level_to_soln[finest_grid_ix];
