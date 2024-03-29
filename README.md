@@ -95,10 +95,42 @@ cd build/test
 ctest -T memcheck -R testlib
 ```
 
+# Profiling
+
+For profiling the code, I use KCacheGrind and Callgrind, which can be installed as below,
+
+```shell
+sudo apt-get install valgrind kcachegrind graphviz
+```
+
+run the program with the `valgrind` program, noting that the program will take longer than normal due to the profiling overhead,
+
+```shell
+valgrind --tool=callgrind program [program_options]
+```
+
+where `program` is binary from `cmake --build build`. So as an example,
+
+```shell
+valgrind --tool=callgrind ./build/test/testlib
+```
+
+followed by 
+
+```shell
+kcachegrind callgrind<tab autcomplete>
+```
+
+will allow you to visualize the callgraph and identify performance bottlenecks.
+
 # Notes
 
 To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves. Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
 PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requiresiterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver whichis `O(n)`... (find resource for actually naming convention for these types of solvesr)...and also consider how you could approach differently or how other places do it differently. The difference in convention is known as describing the algorithm in terms of the square array `U[i,j]` or in terms of the column vector `Uhat`.
+
+Since all the time is clearly being spent in the smoother, this needs to be improved. See Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl) for better smoother approaches for sparse systems.
+
+![slow_smoother_callgraph](image/README/slow_smoother_callgraph.png)
 
 # References
 
