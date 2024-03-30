@@ -287,7 +287,6 @@ class Multigrid {
     size_t iter = 0;
     EleType error = 100;
     while (iter < n_iters && error > tolerance) {
-      std::cout << "iter: " << iter << std::endl;
       vcycle();
       iter += 1;
       if (iter % compute_error_every_n_iters == 0) {

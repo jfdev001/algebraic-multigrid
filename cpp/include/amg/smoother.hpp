@@ -28,7 +28,7 @@ class SmootherBase {
      * @brief Maximum number of iterations before smoothing termination.
      *
      */
-  size_t n_iters{1000};
+  size_t n_iters{1};
 
   SmootherBase() {}
 
@@ -41,14 +41,8 @@ class SmootherBase {
         n_iters(n_iters_) {}
 
   /**
-     * @brief Derived types must implement a `smooth` function that smooths `Au
-     * = b`.
+     * @brief Must implement function that smooths `Au = b`.
      * 
-     * TODO: Iterating through large, sparse matrix is not ideal compared 
-     * with the formulation of the problem in the reference in which the
-     * physical grid is used instead.... could use builtin solvers instead to 
-     * keep things generic....
-     *
      * @param A Coeffcients matrix for linear system of equations.
      * @param u Solution to linear system of equations.
      * @param b Right hand side of linear system of equations.
@@ -63,6 +57,109 @@ class SmootherBase {
 
   void set_compute_every_n_iters(size_t compute_error_every_n_iters_) {
     compute_error_every_n_iters = compute_error_every_n_iters_;
+  }
+};
+
+/**
+ * @brief Gauss-Seidel smoother for sparse systems.
+ * 
+ * References
+ * 
+ * [1] : [smoother.jl in AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl)
+ * 
+ * @tparam EleType 
+ */
+template <class EleType>
+class SparseGaussSeidel : public SmootherBase<EleType> {
+ private:
+  /**
+  * @brief Sparse dot product of `Au`.
+  * 
+  * The results of this operation update `rsum` and `d` inplace.
+  * 
+  * @param i 
+  * @param rsum 
+  * @param d 
+  * @param z
+  * @param A 
+  * @param u 
+  */
+  void iternnz(int i, EleType& rsum, EleType& d, const EleType& z,
+               const Eigen::SparseMatrix<EleType>& A,
+               const Eigen::Matrix<EleType, -1, 1>& u) { 
+    int row;
+    EleType val;
+    for (typename Eigen::SparseMatrix<EleType>::InnerIterator it(A, i); it;
+         ++it) {
+      row = it.row();
+      val = it.value();
+      d = (i == row) ? val : d; // why?
+      rsum += (i == row) ? z : val * u[row];
+    }
+  }
+
+  /**
+   * @brief Gauss-Seidel iteration starting from the first row.
+   *    
+   * @param A 
+   * @param b 
+   * @param u 
+   * @param nrows 
+   */
+  void forwardsweep(const Eigen::SparseMatrix<EleType>& A,
+                    const Eigen::Matrix<EleType, -1, 1>& b,
+                    Eigen::Matrix<EleType, -1, 1>& u, const int& nrows) {
+    EleType z = 0;
+    EleType rsum;
+    EleType d;
+    // iterate through rows of A in forward direction
+    for (int i = 0; i < nrows; ++i) {  
+      rsum = z;
+      d = z;
+      // iterate through the non-zeros
+      iternnz(i, rsum, d, z, A, u);
+      u[i] = d == z ? u[i] : (b[i] - rsum) / d;
+    }
+    return;
+  }
+
+  /**
+   * @brief Gauss-Seidel iteration starting from the last row.
+   * 
+   * @param A 
+   * @param b 
+   * @param u 
+   * @param nrows 
+   */
+  void backwardsweep(const Eigen::SparseMatrix<EleType>& A,
+                     const Eigen::Matrix<EleType, -1, 1>& b,
+                     Eigen::Matrix<EleType, -1, 1>& u, const int& nrows) {
+    EleType z = 0;
+    EleType rsum;
+    EleType d;
+    // iterate through rows A in the backward direction
+    for (int i = nrows - 1; i >= 0; --i) {
+      rsum = z;
+      d = z;
+      // iterate through nonzeros
+      iternnz(i, rsum, d, z, A, u);
+      u[i] = d == z ? u[i] : (b[i] - rsum) / d;
+    }
+  }
+
+ public:
+  using SmootherBase<EleType>::SmootherBase;
+  SparseGaussSeidel() {}
+
+  void smooth(const Eigen::SparseMatrix<EleType>& A,
+              Eigen::Matrix<EleType, -1, 1>& u,
+              const Eigen::Matrix<EleType, -1, 1>& b) {
+    int nrows = A.rows();
+    for (size_t i = 0; i < this->n_iters; ++i) {
+      forwardsweep(A, b, u, nrows);
+      backwardsweep(A, b, u, nrows);
+    }
+    return;
   }
 };
 

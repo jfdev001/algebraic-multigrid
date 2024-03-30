@@ -68,10 +68,13 @@ TEST_CASE("All Tests", "[main]") {
 
   CHECK_THROWS_AS(bad_sor(bad_omega_greater_than_2), std::invalid_argument);
 
+  // Smoothers niters
+  size_t niters = 100;
+
   // Check Jacobi smoother matches exact solution
   Eigen::VectorXd jacobi_u(ndofs);
   jacobi_u.setZero();
-  AMG::Jacobi<double> jacobi;
+  AMG::Jacobi<double> jacobi(niters);
   jacobi.smooth(A, jacobi_u, b);
   CHECK(jacobi_u.isApprox(exact_u, jacobi.tolerance));
 
@@ -84,7 +87,7 @@ TEST_CASE("All Tests", "[main]") {
   // Check SOR smoother matches exact solution
   Eigen::VectorXd sor_u(ndofs);
   sor_u.setZero();
-  AMG::SuccessiveOverRelaxation<double> sor;
+  AMG::SuccessiveOverRelaxation<double> sor(niters);
   sor.smooth(A, sor_u, b);
   CHECK(sor_u.isApprox(exact_u, sor.tolerance));
 
@@ -94,21 +97,28 @@ TEST_CASE("All Tests", "[main]") {
     std::cout << "END SOR solution\n";
   }
 
+  // Check gauss seidel smoother
+  AMG::SparseGaussSeidel<double> spgs(niters);
+  Eigen::VectorXd spgs_u(ndofs);
+  spgs_u.setZero();
+  spgs.smooth(A, spgs_u, b);
+  CHECK(spgs_u.isApprox(exact_u, spgs.tolerance));
+
   // Instantiate sor/jacobi smoother using Base constructor
   double tolerance = 1e-10;
   size_t compute_error_every_n_iters = 100;
-  size_t niters = 100;
   AMG::Jacobi<double> jacobi_base(tolerance, compute_error_every_n_iters,
                                   niters);
   AMG::SuccessiveOverRelaxation<double> sor_base(
       tolerance, compute_error_every_n_iters, niters);
 
   // Valid multigrid instantiation
-  size_t n_fine_nodes = 25;
+  size_t n_fine_nodes = 50;
   size_t n_levels = 4;
-  size_t smoothing_iterations = 2;
-  AMG::SuccessiveOverRelaxation<double> amg_sor(smoothing_iterations);  
-  AMG::Multigrid<double> amg(&amg_sor, n_fine_nodes, n_levels, 1e-9, 100, 5);
+  size_t smoothing_iterations = 1;
+  AMG::SparseGaussSeidel<double> amg_spgs(smoothing_iterations);
+  //AMG::SuccessiveOverRelaxation<double> amg_spgs(smoothing_iterations);
+  AMG::Multigrid<double> amg(&amg_spgs, n_fine_nodes, n_levels, 1e-9, 100, 100);
 
   // Check coarsening of multigrid system info
   std::cout << "Multigrid System Info:" << std::endl;
