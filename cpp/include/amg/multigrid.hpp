@@ -262,7 +262,7 @@ class Multigrid {
         coarse_direct_solver.solve(level_to_rhs[coarsest_grid_ix]);
 
     // At each level of the grid hiearchy, coarsest-to-finest:
-    for (long level = coarsest_grid_ix - 1; level >= 0; --level) {
+    for (int level = coarsest_grid_ix - 1; level >= 0; --level) {
       //  1. Update the current solution with the interpolated solution from the
       // coarser level: ui=ui+Piui+1
       //level_to_soln[level] =
@@ -280,8 +280,6 @@ class Multigrid {
   /**
    * @brief Solve a linear system of equations via vcycle
    *
-   * TODO: There should be an upper limit on the number of cycles/niters and/or tolerance
-   * 
    */
   const Eigen::Matrix<EleType, -1, 1>& solve() {
     size_t iter = 0;

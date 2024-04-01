@@ -132,6 +132,8 @@ Since all the time is clearly being spent in the smoother, this needs to be impr
 
 ![slow_smoother_callgraph](image/README/slow_smoother_callgraph.png)
 
+For the restriction and prolongation operation, this seems to be dependent on the selected multigrid method. While tutorial in ref [13] does not explicitly mention the prolongation/restriction technique, [classical.jl from AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/classical.jl) shows that this operation is performed using Ruge-Stuben method.
+
 # References
 
 [1] : Intro Modern CMake. url: https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html

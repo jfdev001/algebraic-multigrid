@@ -50,14 +50,6 @@ class SmootherBase {
   virtual void smooth(const Eigen::SparseMatrix<EleType>& A,
                       Eigen::Matrix<EleType, -1, 1>& u,
                       const Eigen::Matrix<EleType, -1, 1>& b) = 0;
-
-  void set_n_iters(size_t n_iters_) { n_iters = n_iters_; }
-
-  void set_tolerance(double tolerance_) { tolerance = tolerance_; }
-
-  void set_compute_every_n_iters(size_t compute_error_every_n_iters_) {
-    compute_error_every_n_iters = compute_error_every_n_iters_;
-  }
 };
 
 /**
@@ -86,14 +78,14 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   */
   void iternnz(int i, EleType& rsum, EleType& d, const EleType& z,
                const Eigen::SparseMatrix<EleType>& A,
-               const Eigen::Matrix<EleType, -1, 1>& u) { 
+               const Eigen::Matrix<EleType, -1, 1>& u) {
     int row;
     EleType val;
     for (typename Eigen::SparseMatrix<EleType>::InnerIterator it(A, i); it;
          ++it) {
       row = it.row();
       val = it.value();
-      d = (i == row) ? val : d; // why?
+      d = (i == row) ? val : d;  // why?
       rsum += (i == row) ? z : val * u[row];
     }
   }
@@ -113,7 +105,7 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
     EleType rsum;
     EleType d;
     // iterate through rows of A in forward direction
-    for (int i = 0; i < nrows; ++i) {  
+    for (int i = 0; i < nrows; ++i) {
       rsum = z;
       d = z;
       // iterate through the non-zeros
