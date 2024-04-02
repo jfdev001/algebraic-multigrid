@@ -115,7 +115,7 @@ where `program` is binary from `cmake --build build`. So as an example,
 valgrind --tool=callgrind ./build/test/testlib
 ```
 
-followed by 
+followed by
 
 ```shell
 kcachegrind callgrind<tab autcomplete>
@@ -170,3 +170,5 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [15] : Iterative solvers and square vs. column formulation. url: https://people.eecs.berkeley.edu/~demmel/cs267/lecture24/lecture24.html
 
 [16] Multigrid in MATLAB with a recursive algorithm. url: https://nl.mathworks.com/help/parallel-computing/solve-differential-equation-using-multigrid-preconditioner-on-distributed-discretization.html
+
+[17] : Ruge, J. W., & Stüben, K. (1987). Algebraic multigrid (AMG). In S. F. McCormick (Ed.), Multigrid methods (Vol. 3, pp. 73–130). SIAM. https://doi.org/10.1137/1.9781611971057
