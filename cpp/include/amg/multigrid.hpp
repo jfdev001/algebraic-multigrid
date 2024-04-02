@@ -9,6 +9,7 @@
 
 #include <amg/common.hpp>
 #include <amg/grid.hpp>
+#include <amg/interpolator.hpp>
 #include <amg/smoother.hpp>
 
 namespace AMG {
@@ -16,18 +17,7 @@ namespace AMG {
 template <class EleType>
 class Multigrid {
  private:
-  /**
-  * @brief Restrict the reisdual to the right hand side.
-  * 
-  * TODO: Copy?
-  * 
-  * @param e 
-  * @return Eigen::Matrix<EleType, -1, 1> 
-  */
-  Eigen::Matrix<EleType, -1, 1> restriction(
-      const Eigen::Matrix<EleType, -1, 1>& e) {
-    return e;
-  }
+  // TODO: level_to_interpolator?
 
   /**
    * @brief Prolongate (interpolate) the solution from coarse to finer level.
@@ -221,6 +211,7 @@ class Multigrid {
       level_to_rhs[level] = AMG::Grid<EleType>::rhs(n_nodes);
 
       // Fill the residual
+      // NOTE: Not strictly necessary, could just init undef or zeros
       auto b = level_to_rhs[level];
       auto A = level_to_coefficient_matrix[level];
       level_to_residual[level] = b - A * u;
