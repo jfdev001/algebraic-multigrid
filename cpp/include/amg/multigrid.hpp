@@ -17,18 +17,18 @@ namespace AMG {
 template <class EleType>
 class Multigrid {
  private:
-  // TODO: level_to_interpolator?
+  // LINEAR OPERATORS
+  /**
+   * @brief 
+   * 
+   */
+  std::vector<Eigen::SparseMatrix<EleType>> level_to_restriction;
 
   /**
-   * @brief Prolongate (interpolate) the solution from coarse to finer level.
+   * @brief 
    * 
-   * @param u 
-   * @return Eigen::Matrix<EleType, -1, 1> 
    */
-  Eigen::Matrix<EleType, -1, 1> prolongation(
-      const Eigen::Matrix<EleType, -1, 1>& u) {
-    return u;
-  }
+  std::vector<Eigen::SparseMatrix<EleType>> level_to_prolongation;
 
   AMG::SmootherBase<EleType>* smoother;
 

@@ -10,6 +10,7 @@
 #include <amg/grid.hpp>
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
+#include <amg/interpolator.hpp>
 
 // TODO: break up tests into smoother tests and multigrid tests
 TEST_CASE("All Tests", "[main]") {
@@ -111,6 +112,13 @@ TEST_CASE("All Tests", "[main]") {
                                   niters);
   AMG::SuccessiveOverRelaxation<double> sor_base(
       tolerance, compute_error_every_n_iters, niters);
+
+  // Check interpolator instantiation
+  double bad_theta_less_than_0 = -0.01;
+  double bad_theta_greater_than_2 = 1.01;
+  using bad_interp = AMG::Interpolator<double>;
+  CHECK_THROWS_AS(bad_interp(bad_theta_less_than_0), std::invalid_argument);
+  CHECK_THROWS_AS(bad_interp(bad_theta_greater_than_2), std::invalid_argument);
 
   // Valid multigrid instantiation
   size_t n_fine_nodes = 50;
