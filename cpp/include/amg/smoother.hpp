@@ -41,12 +41,12 @@ class SmootherBase {
         n_iters(n_iters_) {}
 
   /**
-     * @brief Must implement function that smooths `Au = b`.
-     * 
-     * @param A Coeffcients matrix for linear system of equations.
-     * @param u Solution to linear system of equations.
-     * @param b Right hand side of linear system of equations.
-     */
+   * @brief Must implement function that smooths `Au = b`.
+   * 
+   * @param A Coeffcients matrix for linear system of equations.
+   * @param u Solution to linear system of equations.
+   * @param b Right hand side of linear system of equations.
+   */
   virtual void smooth(const Eigen::SparseMatrix<EleType>& A,
                       Eigen::Matrix<EleType, -1, 1>& u,
                       const Eigen::Matrix<EleType, -1, 1>& b) = 0;
@@ -115,7 +115,7 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
     EleType z = 0;
     EleType rsum = z;
     EleType diag = z;
-    matvecprod(col, rsum, d, z, A, u);
+    matvecprod(col, rsum, diag, z, A, u);
     u[col] = diag == z ? u[col] : (b[col] - rsum) / diag;
     return;
   }
@@ -133,7 +133,7 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
                     Eigen::Matrix<EleType, -1, 1>& u, const int& ncols) {
 
     // iterate through cols of A in forward direction
-    for (int col = 0; i < ncols; ++col) {
+    for (int col = 0; col < ncols; ++col) {
       update(col, A, b, u);
     }
     return;

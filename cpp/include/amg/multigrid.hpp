@@ -244,7 +244,8 @@ class Multigrid {
           level_to_rhs[level] -
           level_to_coefficient_matrix[level] * level_to_soln[level];
       if (level + 1 != n_levels) {
-        //level_to_rhs[level + 1] = restriction(level_to_residual[level]);
+        //level_to_rhs[level + 1] = interpolator.restriction(
+          // level_to_residual[level], level);
       }
     }
 
@@ -257,7 +258,8 @@ class Multigrid {
       //  1. Update the current solution with the interpolated solution from the
       // coarser level: ui=ui+Piui+1
       //level_to_soln[level] =
-      //    level_to_soln[level] + prolongation(level_to_soln[level + 1])
+      //    level_to_soln[level] + interpolator.prolongation(
+        // level_to_soln[level + 1], level)
 
       //  2. Apply a couple of smoothing iterations (post-relaxation) to the
       // updated solution: ui=Si(Ai,fi,ui)
