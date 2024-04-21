@@ -53,11 +53,18 @@ class SmootherBase {
 };
 
 /**
- * @brief Gauss-Seidel smoother for sparse systems.
+ * @brief Symmetric Gauss-Seidel smoother for sparse systems.
+ * 
+ * The forward and backward sweep are not strictly both necessary, it seems like
+ * most numerical linear algebra books (E.g., Heath's "Scientific Computing") 
+ * only propose one sweep as the algorithm. For completeness, however, Ref [2] 
+ * does assert the justification of the so-called symmetric sweep.
  * 
  * References
  * 
  * [1] : [smoother.jl in AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl)
+ * [2] : [Strang2006 MIT 18.086 Lecture: Iterative Methods](https://math.mit.edu/classes/18.086/2006/am62.pdf)
+ * [3] : [Julia Lang: Dot product as linear combination](https://discourse.julialang.org/t/what-are-the-pros-and-cons-of-row-column-major-ordering/110045)
  * 
  * @tparam EleType 
  */
@@ -65,29 +72,52 @@ template <class EleType>
 class SparseGaussSeidel : public SmootherBase<EleType> {
  private:
   /**
-  * @brief Sparse dot product of `Au`.
+  * @brief Modified sparse matvec product of `Au` for Gauss-Seidel sweeps.
   * 
-  * The results of this operation update `rsum` and `d` inplace.
+  * The results of this operation update `rsum` and `diag` inplace.
   * 
-  * @param i 
+  * @param col
   * @param rsum 
-  * @param d 
+  * @param diag 
   * @param z
   * @param A 
   * @param u 
   */
-  void iternnz(int i, EleType& rsum, EleType& d, const EleType& z,
-               const Eigen::SparseMatrix<EleType>& A,
-               const Eigen::Matrix<EleType, -1, 1>& u) {
+  void matvecprod(int col, EleType& rsum, EleType& diag, const EleType& z,
+                  const Eigen::SparseMatrix<EleType>& A,
+                  const Eigen::Matrix<EleType, -1, 1>& u) {
     int row;
     EleType val;
-    for (typename Eigen::SparseMatrix<EleType>::InnerIterator it(A, i); it;
+    for (typename Eigen::SparseMatrix<EleType>::InnerIterator it(A, col); it;
          ++it) {
       row = it.row();
       val = it.value();
-      d = (i == row) ? val : d;  // why?
-      rsum += (i == row) ? z : val * u[row];
+      diag = (col == row)
+                 ? val
+                 : diag;  // column == row therefore val == A_ii on diag
+      rsum += (col == row)
+                  ? z
+                  : val * u[row];  // contrib to sum should be 0 for i==j by def
     }
+  }
+
+  /**
+   * @brief Updates `u` inplace with the appropriate sparse `matvecprod`.
+   * 
+   * @param col 
+   * @param A 
+   * @param b 
+   * @param u 
+   */
+  void update(int col, const Eigen::SparseMatrix<EleType>& A,
+              const Eigen::Matrix<EleType, -1, 1>& b,
+              Eigen::Matrix<EleType, -1, 1>& u) {
+    EleType z = 0;
+    EleType rsum = z;
+    EleType diag = z;
+    matvecprod(col, rsum, d, z, A, u);
+    u[col] = diag == z ? u[col] : (b[col] - rsum) / diag;
+    return;
   }
 
   /**
@@ -100,17 +130,11 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
    */
   void forwardsweep(const Eigen::SparseMatrix<EleType>& A,
                     const Eigen::Matrix<EleType, -1, 1>& b,
-                    Eigen::Matrix<EleType, -1, 1>& u, const int& nrows) {
-    EleType z = 0;
-    EleType rsum;
-    EleType d;
-    // iterate through rows of A in forward direction
-    for (int i = 0; i < nrows; ++i) {
-      rsum = z;
-      d = z;
-      // iterate through the non-zeros
-      iternnz(i, rsum, d, z, A, u);
-      u[i] = d == z ? u[i] : (b[i] - rsum) / d;
+                    Eigen::Matrix<EleType, -1, 1>& u, const int& ncols) {
+
+    // iterate through cols of A in forward direction
+    for (int col = 0; i < ncols; ++col) {
+      update(col, A, b, u);
     }
     return;
   }
@@ -125,17 +149,10 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
    */
   void backwardsweep(const Eigen::SparseMatrix<EleType>& A,
                      const Eigen::Matrix<EleType, -1, 1>& b,
-                     Eigen::Matrix<EleType, -1, 1>& u, const int& nrows) {
-    EleType z = 0;
-    EleType rsum;
-    EleType d;
-    // iterate through rows A in the backward direction
-    for (int i = nrows - 1; i >= 0; --i) {
-      rsum = z;
-      d = z;
-      // iterate through nonzeros
-      iternnz(i, rsum, d, z, A, u);
-      u[i] = d == z ? u[i] : (b[i] - rsum) / d;
+                     Eigen::Matrix<EleType, -1, 1>& u, const int& ncols) {
+    // iterate through cols A in the backward direction
+    for (int col = ncols - 1; col >= 0; --col) {
+      update(col, A, b, u);
     }
   }
 
@@ -146,10 +163,10 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   void smooth(const Eigen::SparseMatrix<EleType>& A,
               Eigen::Matrix<EleType, -1, 1>& u,
               const Eigen::Matrix<EleType, -1, 1>& b) {
-    int nrows = A.rows();
+    int ncols = A.cols();
     for (size_t i = 0; i < this->n_iters; ++i) {
-      forwardsweep(A, b, u, nrows);
-      backwardsweep(A, b, u, nrows);
+      forwardsweep(A, b, u, ncols);
+      backwardsweep(A, b, u, ncols);
     }
     return;
   }

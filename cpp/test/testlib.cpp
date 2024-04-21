@@ -98,7 +98,7 @@ TEST_CASE("All Tests", "[main]") {
     std::cout << "END SOR solution\n";
   }
 
-  // Check gauss seidel smoother
+  // Check sparse gauss seidel smoother
   AMG::SparseGaussSeidel<double> spgs(niters);
   Eigen::VectorXd spgs_u(ndofs);
   spgs_u.setZero();
@@ -119,6 +119,8 @@ TEST_CASE("All Tests", "[main]") {
   using bad_interp = AMG::Interpolator<double>;
   CHECK_THROWS_AS(bad_interp(bad_theta_less_than_0), std::invalid_argument);
   CHECK_THROWS_AS(bad_interp(bad_theta_greater_than_2), std::invalid_argument);
+
+  // Interpolator strength
 
   // Valid multigrid instantiation
   size_t n_fine_nodes = 50;

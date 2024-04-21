@@ -125,6 +125,8 @@ will allow you to visualize the callgraph and identify performance bottlenecks.
 
 # Notes
 
+## Sparse Gauss Seidel
+
 To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves. Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
 PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requiresiterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver whichis `O(n)`... (find resource for actually naming convention for these types of solvesr)...and also consider how you could approach differently or how other places do it differently. The difference in convention is known as describing the algorithm in terms of the square array `U[i,j]` or in terms of the column vector `Uhat`.
 
@@ -132,7 +134,26 @@ Since all the time is clearly being spent in the smoother, this needs to be impr
 
 ![slow_smoother_callgraph](image/README/slow_smoother_callgraph.png)
 
-For the restriction and prolongation operation, this seems to be dependent on the selected multigrid method. While tutorial in ref [13] does not explicitly mention the prolongation/restriction technique, [classical.jl from AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/classical.jl) shows that this operation is performed using Ruge-Stuben method.
+In the sparse gauss seidel solver, the use of the ternary operator in the sparse matrix vector product arises from the definition of the Gauss Seidel iteration. The Gauss seidel iterations are defined as
+
+$$
+u_{i}^{(k+1)} = \frac{b_i - \sum_{j < i} a_{ij} u_j^{(k+1)} - \sum_{j > i} a_{ij} u_j^{(k)} }{a_{ii}},\ i = 1...n,
+$$
+
+and this implies that $j \neq i$ in the summations. Therefore the ternary operator for which the row and column match requires that the contribution to the summation be 0. The above might be more easily understood (and removing the $k^{th}$ iteration subscript for ease) as
+
+$$
+u_{i}^{(k+1)} = \frac{b_i - \sum_{j \neq i} a_{ij} u_j }{a_{ii}}.
+$$
+
+However, since we know that $A$ is sparse, for any given column $j$, we only need a small subset of the rows $i$ from $A$. It's worth noting that since our matrix is CSC format, it is faster to iterate through the column vectors (i.e, the rows) of $A$, and this iteration on the surface contradicts the formula given above, since the formula above is iterating through row vectors (i.e., the columns). However, since we assume $A$ is symmetric positive definite, then we know that $A^{T} = A$ and therefore iterating throughing the $j^{th}$ column vector is the same as iterating through the $j^{th}$ row vector. 
+
+## Interpolation
+
+For the restriction and prolongation operation, this seems to be dependent on the selected multigrid method. The [classical.jl from AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/classical.jl) shows that this operation is performed using Ruge-Stuben method.
+
+Though a simpler approach, i.e., linear interpolation is what is proposed in refs [9]
+and [19].
 
 # References
 
@@ -172,3 +193,7 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [16] Multigrid in MATLAB with a recursive algorithm. url: https://nl.mathworks.com/help/parallel-computing/solve-differential-equation-using-multigrid-preconditioner-on-distributed-discretization.html
 
 [17] : Ruge, J. W., & Stüben, K. (1987). Algebraic multigrid (AMG). In S. F. McCormick (Ed.), Multigrid methods (Vol. 3, pp. 73–130). SIAM. https://doi.org/10.1137/1.9781611971057
+
+[18] : Classical Ruge-Stuben Multigrid Python Code. url: https://pyamg.readthedocs.io/en/latest/\_modules/pyamg/classical/classical.html
+
+[19] : Briggs et. al. Chapter 4: Implementation in "A Multigrid Tutorial, 2ed" (2000).
