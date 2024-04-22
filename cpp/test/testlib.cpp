@@ -116,7 +116,7 @@ TEST_CASE("All Tests", "[main]") {
 
   // Inspect linear interpolator
   std::cout << "Linear interpolator:" << std::endl;
-  size_t n_levels = 9;
+  size_t n_levels = 7;
   AMG::LinearInterpolator<double> linear_interpolator(n_levels);
   linear_interpolator.make_operators(7, 3, 0);
 
@@ -128,16 +128,24 @@ TEST_CASE("All Tests", "[main]") {
   std::cout << linear_interpolator.get_P(0) << std::endl;
 
   // Valid multigrid instantiation
-  size_t n_fine_nodes = 35;  // too few fine nodes, presmoother will give soln
+  using bad_amg = AMG::Multigrid<double>;
+  size_t bad_compute_error_every_n_iters = 100;
+  size_t bad_n_iters = 10;
+  CHECK_THROWS_AS(bad_amg(&linear_interpolator, &spgs, 10, n_levels, 1e-9,
+                          bad_compute_error_every_n_iters, bad_n_iters),
+                  std::invalid_argument);
+
+  // Multigrid instantiation for use as solver
+  size_t n_fine_nodes = 35;  // 35*35 --> 1125 dofs
   std::cout << "Multigrid instantiation:" << std::endl;
   AMG::SparseGaussSeidel<double> amg_spgs;
-  std::cout << "AMG SPGS Fields:"
-            << "compute error after: " << amg_spgs.compute_error_every_n_iters
+  std::cout << "AMG SPGS Fields:" << std::endl
+            << "\tcompute error after: " << amg_spgs.compute_error_every_n_iters
             << std::endl
-            << "max iters: " << amg_spgs.n_iters << std::endl
-            << "tolerance: " << amg_spgs.tolerance << std::endl;
+            << "\tmax iters: " << amg_spgs.n_iters << std::endl
+            << "\ttolerance: " << amg_spgs.tolerance << std::endl;
   AMG::Multigrid<double> amg(&linear_interpolator, &amg_spgs, n_fine_nodes,
-                             n_levels, 1e-9, 100, 1000);
+                             n_levels, 1e-9, 5, 100);
 
   // Check coarsening of multigrid linear systems
   std::cout << "Finer dofs --> Coarser dofs" << std::endl;
@@ -164,24 +172,22 @@ TEST_CASE("All Tests", "[main]") {
   AMG::SparseGaussSeidel<double> realistic_spgs(1e-9, 100, 1000);
   auto A_h = AMG::Grid<double>::laplacian(n_fine_nodes);
   auto rhs_h = AMG::Grid<double>::rhs(n_fine_nodes);
-  Eigen::VectorXd u_h(rhs_h.rows());
-  u_h.setZero();
-  realistic_spgs.smooth(A_h, u_h, rhs_h);
+  Eigen::VectorXd spgs_u_h(rhs_h.rows());
+  spgs_u_h.setZero();
+  realistic_spgs.smooth(A_h, spgs_u_h, rhs_h);
+  auto spgs_error = AMG::rss(A_h, spgs_u_h, rhs_h);
+  std::cout << "SPGS error: " << spgs_error << std::endl;
+  CHECK(spgs_error < realistic_spgs.tolerance);
 
-  std::cout << "Calling direct solver against sparse gaussian solver"
-            << std::endl;
-  Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> realistic_direct_solver;
-  Eigen::VectorXd realistic_exact_u(rhs_h.rows());
-  realistic_direct_solver.analyzePattern(A_h);
-  realistic_direct_solver.factorize(A_h);
-  realistic_exact_u = realistic_direct_solver.solve(rhs_h);
-
-  std::cout << "Direct error:" << AMG::rss(A_h, realistic_exact_u, rhs_h)
-            << std::endl;
-  std::cout << "SPGS error: " << AMG::rss(A_h, u_h, rhs_h) << std::endl;
-
-  // multigrid solution matches sparse iterative method
+  // multigrid solver convergence
   auto amg_u = amg.solve();
+  auto amg_error = AMG::rss(A_h, amg_u, rhs_h);
+  std::cout << "AMG error: " << amg_error << std::endl;
+  CHECK(amg_error < amg.get_tolerance());
 
-  std::cout << "AMG error: " << AMG::rss(A_h, amg_u, rhs_h) << std::endl;
+  // Multigrid solver matches sparse iterative method
+  // NOTE: If you do not compute error enough in AMG instantiation,
+  // then the residual will be so small that it's accuracy will be far better
+  // than the Sparse Gauss Seidel Solver and this test will fail because
+  CHECK(amg_u.isApprox(spgs_u_h, 1e-6));
 }

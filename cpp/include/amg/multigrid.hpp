@@ -124,6 +124,8 @@ class Multigrid {
     return H_dofs;
   }
 
+  bool display_error{false};
+
  public:
   ~Multigrid() {}
 
@@ -151,6 +153,14 @@ class Multigrid {
         tolerance(tolerance_),
         compute_error_every_n_iters(compute_error_every_n_iters_),
         n_iters(n_iters_) {
+
+    if (compute_error_every_n_iters > n_iters) {
+      std::string msg =
+          "`compute_error_every_n_iters` must be leq to `n_iters`, got " +
+          std::to_string(compute_error_every_n_iters) + " and " +
+          std::to_string(n_iters);
+      throw(std::invalid_argument(msg));
+    }
 
     // Initialize linear system info
     level_to_coefficient_matrix.resize(n_levels);
@@ -206,9 +216,8 @@ class Multigrid {
       level_to_soln[level] = u_H;
 
       // Make right hand side
-      auto rhs_h = level_to_rhs[level - 1];
       Eigen::Matrix<EleType, -1, 1> rhs_H(n_H_dofs);
-      rhs_H = R_h * rhs_h;
+      rhs_H.setZero();
       level_to_rhs[level] = rhs_H;
 
       // Make residual vector
@@ -223,11 +232,18 @@ class Multigrid {
   }
 
   /**
-   * @brief A single multigrid cycle.
+   * @brief A single multigrid vcycle.
+   * 
+   * Ref [1] was used for the main algorithm (non-recursive) while refs [2-4]
+   * were used to verify that coarse solutions need to be zeroed at each 
+   * vcycle.
    *
    * References:
    * 
    * [1] : [Algebraic Multigrid from amgcl](https://amgcl.readthedocs.io/en/latest/amg_overview.html)
+   * [2] : Kostler2008. "Multigrid HowTo."
+   * [3] : Pawar2019. "CFD Julia."
+   * [4] : [AlgebraicMultigrid.jl solve](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/84e4a6a2fb0e3d43ad64b1945f0d199feac356c4/src/multilevel.jl#L266)
    */
   void vcycle() {
     // At each level of the grid hiearchy, finest-to-coarsest:
@@ -241,7 +257,12 @@ class Multigrid {
       level_to_residual[level] =
           level_to_rhs[level] -
           level_to_coefficient_matrix[level] * level_to_soln[level];
+
       if (level + 1 != n_levels) {
+        // initialize coarse solution to zero here refs [2-4].
+        level_to_soln[level + 1].setZero();
+
+        // f_{i+1} = R_{i} e_{i}
         level_to_rhs[level + 1] =
             interpolator->restriction(level_to_residual[level], level);
       }
@@ -251,7 +272,7 @@ class Multigrid {
     level_to_soln[coarsest_grid_ix] =
         coarse_direct_solver.solve(level_to_rhs[coarsest_grid_ix]);
 
-    // At each level of the grid hiearchy, coarsest-to-finest:
+    // At each level of the grid hierarchy, coarsest-to-finest:
     for (int level = coarsest_grid_ix - 1; level >= 0; --level) {
       //  1. Update the current solution with the interpolated solution from the
       // coarser level: ui=ui+Piui+1
@@ -283,6 +304,10 @@ class Multigrid {
       if ((iter % compute_error_every_n_iters) == 0) {
         auto u = get_soln(finest_grid_ix);
         error = rss(A, u, b);
+
+        if (display_error) {
+          std::cout << "Iter: " << iter << " | Error: " << error << std::endl;
+        }
       }
     }
 
@@ -312,6 +337,16 @@ class Multigrid {
   const size_t get_n_dofs(size_t level) const { return level_to_n_dofs[level]; }
 
   const EleType get_tolerance() const { return tolerance; }
+
+  void display_error_on() {
+    display_error = true;
+    return;
+  }
+
+  void display_error_off() {
+    display_error = true;
+    return;
+  }
 };
 
 }  // end namespace AMG
