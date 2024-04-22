@@ -116,7 +116,7 @@ TEST_CASE("All Tests", "[main]") {
 
   // Inspect linear interpolator
   std::cout << "Linear interpolator:" << std::endl;
-  size_t n_levels = 7;
+  size_t n_levels = 8;
   AMG::LinearInterpolator<double> linear_interpolator(n_levels);
   linear_interpolator.make_operators(7, 3, 0);
 
@@ -148,11 +148,15 @@ TEST_CASE("All Tests", "[main]") {
                              n_levels, 1e-9, 5, 100);
 
   // Check coarsening of multigrid linear systems
-  std::cout << "Finer dofs --> Coarser dofs" << std::endl;
+  std::cout << "------------------" << std::endl;
+  std::cout << "Dofs at Levels in Multigrid:" << std::endl;
+  std::cout << "------------------" << std::endl;
+
+  std::cout << amg.get_coefficient_matrix(0).rows() << std::endl;
   for (size_t level = 1; level < n_levels; ++level) {
     auto finer_A = amg.get_coefficient_matrix(level - 1);
     auto coarser_A = amg.get_coefficient_matrix(level);
-    std::cout << finer_A.rows() << " --> " << coarser_A.rows() << std::endl;
+    std::cout << finer_A.rows() << std::endl;
 
     auto finer_u = amg.get_soln(level - 1);
     auto coarser_u = amg.get_soln(level);
@@ -168,7 +172,10 @@ TEST_CASE("All Tests", "[main]") {
   // Check sparse gaussian solver on larger problem
   // TODO: this should take longer to converge than multigrid but should have
   // approximately the same answers
-  std::cout << "Checking sparse gaussian solver" << std::endl;
+  std::cout << "------------------" << std::endl;
+  std::cout << "Checking sparse gaussian solver:" << std::endl;
+  std::cout << "------------------" << std::endl;
+
   AMG::SparseGaussSeidel<double> realistic_spgs(1e-9, 100, 1000);
   auto A_h = AMG::Grid<double>::laplacian(n_fine_nodes);
   auto rhs_h = AMG::Grid<double>::rhs(n_fine_nodes);
@@ -180,6 +187,10 @@ TEST_CASE("All Tests", "[main]") {
   CHECK(spgs_error < realistic_spgs.tolerance);
 
   // multigrid solver convergence
+  std::cout << "------------------" << std::endl;
+  std::cout << "Checking AMG solver:" << std::endl;
+  std::cout << "------------------" << std::endl;
+
   auto amg_u = amg.solve();
   auto amg_error = AMG::rss(A_h, amg_u, rhs_h);
   std::cout << "AMG error: " << amg_error << std::endl;

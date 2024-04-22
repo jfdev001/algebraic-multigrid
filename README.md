@@ -42,6 +42,8 @@ Run the below to see the outputs of the test, that last line of which shows the 
 ./build/test/testlib
 ```
 
+![1713799865303](image/README/1713799865303.png)
+
 # Debugging in `cpp/`
 
 ```shell
