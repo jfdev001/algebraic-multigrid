@@ -97,10 +97,10 @@ will allow you to visualize the callgraph and identify performance bottlenecks.
 
 ## Sparse Gauss Seidel
 
-To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
-PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requiresiterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver whichis `O(n)`... (find resource for actually naming convention for these types of solvesr)...and also consider how you could approach differently or how other places do it differently. The difference in convention is known as describing the algorithm in terms of the square array `U[i,j]` or in terms of the column vector `Uhat`.
+To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physical grid points in the solvers leads to solvers that are defined only for that particular
+PDE, so for this project I take the more generic approach.
 
-Since all the time is clearly being spent in the smoother, this needs to be improved. See Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl) for better smoother approaches for sparse systems.
+One thing I noticed when working on the smoothers, is that a disproportionate amount of time was being spent here. To make AMG competitive, I needed to improve upon this. The formulations given in numerical linear algebra texts tends to assume dense matrices; however, we know that our input is a sparse matrix. Therefore, I knew I needed to use sparse formulation of the smoothers, and took inspirtation from Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl). 
 
 ![slow_smoother_callgraph](image/README/slow_smoother_callgraph.png)
 
