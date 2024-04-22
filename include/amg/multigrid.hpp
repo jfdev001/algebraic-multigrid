@@ -134,10 +134,6 @@ class Multigrid {
   /**
    * @brief Construct a new Multigrid object
    *
-   * TODO: Provide finest grid n-nodes, n-levels, and maxiters convergence...
-   * this information can be used by Grid objects to construct
-   * the desired linear systems, right? Minimum number of levels also?? Or 
-   *
    * @param smoother_
    * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
    * @param n_levels_ Desired number of levels where level 0 is finest level.
