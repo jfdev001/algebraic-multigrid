@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15...3.27)
 project(
     AlgebraicMultigrid 
     VERSION 0.1
-    DESCRIPTION "C++ algebraic multigrid backend for use with Python interface"
+    DESCRIPTION "C++ algebraic multigrid."
     LANGUAGES CXX)
 
 # FetchContent added in CMake 3.11, downloads during the configure step
