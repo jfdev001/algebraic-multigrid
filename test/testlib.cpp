@@ -156,7 +156,7 @@ TEST_CASE("All Tests", "[main]") {
   for (size_t level = 1; level < n_levels; ++level) {
     auto finer_A = amg.get_coefficient_matrix(level - 1);
     auto coarser_A = amg.get_coefficient_matrix(level);
-    std::cout << finer_A.rows() << std::endl;
+    std::cout << coarser_A.rows() << std::endl;
 
     auto finer_u = amg.get_soln(level - 1);
     auto coarser_u = amg.get_soln(level);

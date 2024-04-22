@@ -42,7 +42,7 @@ Run the below to see the outputs of the test, that last line of which shows the 
 ./build/test/testlib
 ```
 
-![1713799865303](image/README/1713799865303.png)
+![output](image/README/output.png)
 
 # Debugging in `cpp/`
 
@@ -100,7 +100,7 @@ will allow you to visualize the callgraph and identify performance bottlenecks.
 To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physical grid points in the solvers leads to solvers that are defined only for that particular
 PDE, so for this project I take the more generic approach.
 
-One thing I noticed when working on the smoothers, is that a disproportionate amount of time was being spent here. To make AMG competitive, I needed to improve upon this. The formulations given in numerical linear algebra texts tends to assume dense matrices; however, we know that our input is a sparse matrix. Therefore, I knew I needed to use sparse formulation of the smoothers, and took inspirtation from Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl). 
+One thing I noticed when working on the smoothers, is that a disproportionate amount of time was being spent here. To make AMG competitive, I needed to improve upon this. The formulations given in numerical linear algebra texts tends to assume dense matrices; however, we know that our input is a sparse matrix. Therefore, I knew I needed to use sparse formulation of the smoothers, and took inspirtation from Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl).
 
 ![slow_smoother_callgraph](image/README/slow_smoother_callgraph.png)
 
