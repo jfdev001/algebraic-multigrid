@@ -123,7 +123,7 @@ However, since we know that $A$ is sparse, for any given column $j$, we only nee
 For the restriction and prolongation operation, this seems to be dependent on the selected multigrid method. The [classical.jl from AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/classical.jl) shows that this operation is performed using Ruge-Stuben method.
 
 Though a simpler approach, i.e., linear interpolation is what is proposed in refs [9]
-and [19].
+and [19], and it is also the approach that I take for ease of implementation.
 
 # References
 
