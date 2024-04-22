@@ -36,16 +36,28 @@ class InterpolatorBase {
   virtual void make_operators(size_t n_h_dofs, size_t n_H_dofs,
                               size_t level) = 0;
 
-  void prolongation(Eigen::Matrix<EleType, -1, 1>& result,
-                    const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
-    result = get_P(level) * v;
-    return;
+  /**
+   * @brief Prolongation operator on `v` and updating `result` inplace.
+   * 
+   * @param v 
+   * @param level 
+   */
+  Eigen::Matrix<EleType, -1, 1> prolongation(
+      const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
+    Eigen::Matrix<EleType, -1, 1> result = get_P(level) * v;
+    return result;
   }
 
-  void restriction(Eigen::Matrix<EleType, -1, 1>& result,
-                   const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
-    result = get_R(level) * v;
-    return;
+  /**
+   * @brief Restriction operator on `v`.
+   * 
+   * @param v 
+   * @param level 
+   */
+  Eigen::Matrix<EleType, -1, 1> restriction(
+      const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
+    Eigen::Matrix<EleType, -1, 1> result = get_R(level) * v;
+    return result;
   }
 
   const Eigen::SparseMatrix<EleType>& get_P(size_t level) const {
@@ -90,7 +102,7 @@ class LinearInterpolator : public InterpolatorBase<EleType> {
     Eigen::SparseMatrix<EleType> P(n_h_dofs, n_H_dofs);
     P.reserve(nnz);
 
-    // Populate nonzeros in matrix and bounds check the rows 
+    // Populate nonzeros in matrix and bounds check the rows
     // TODO: Do these bound checks disrupt algorithm correctness?
     std::vector<Eigen::Triplet<EleType>> P_coefficients;
     P_coefficients.reserve(nnz);
@@ -99,10 +111,10 @@ class LinearInterpolator : public InterpolatorBase<EleType> {
       if (i < n_h_dofs)
         P_coefficients.push_back(Eigen::Triplet<EleType>(i, j, 0.5));
 
-      if (i+1 < n_h_dofs)
+      if (i + 1 < n_h_dofs)
         P_coefficients.push_back(Eigen::Triplet<EleType>(i + 1, j, 1.0));
 
-      if (i+2 < n_h_dofs)
+      if (i + 2 < n_h_dofs)
         P_coefficients.push_back(Eigen::Triplet<EleType>(i + 2, j, 0.5));
 
       i += n_elements_per_columns - 1;

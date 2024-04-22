@@ -34,6 +34,13 @@ class SmootherBase {
 
   SmootherBase(size_t n_iters_) : n_iters(n_iters_) {}
 
+  /**
+   * @brief Construct a new Smoother Base object with iterative solver member data.
+   * 
+   * @param tolerance_ 
+   * @param compute_error_every_n_iters_ 
+   * @param n_iters_ 
+   */
   SmootherBase(double tolerance_, size_t compute_error_every_n_iters_,
                size_t n_iters_)
       : tolerance(tolerance_),
@@ -158,16 +165,44 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
 
  public:
   using SmootherBase<EleType>::SmootherBase;
-  SparseGaussSeidel() {}
+
+  /**
+   * @brief Construct a new Sparse Gauss Seidel object for pre/post smoother in AMG.
+   * 
+   * TODO: Should use base constructor...
+   * 
+   */
+  SparseGaussSeidel() {
+    this->tolerance = 1e-9;
+    this->compute_error_every_n_iters = 0;
+    this->n_iters = 1;
+  }
 
   void smooth(const Eigen::SparseMatrix<EleType>& A,
               Eigen::Matrix<EleType, -1, 1>& u,
               const Eigen::Matrix<EleType, -1, 1>& b) {
     int ncols = A.cols();
-    for (size_t i = 0; i < this->n_iters; ++i) {
+    size_t iter = 0;
+    EleType error = 100;
+    while (iter < this->n_iters && error > this->tolerance) {
       forwardsweep(A, b, u, ncols);
       backwardsweep(A, b, u, ncols);
+      iter += 1;
+      if (this->compute_error_every_n_iters != 0 &&
+          iter % this->compute_error_every_n_iters == 0) {
+        error = rss(A, u, b);
+      }
     }
+
+    if (this->compute_error_every_n_iters != 0) {
+      if (error <= this->tolerance)
+        std::cout << "SPGS converged after " << iter << " iterations."
+                  << std::endl;
+      else
+        std::cout << "SPGS did not converge after " << iter << " iterations."
+                  << std::endl;
+    }
+
     return;
   }
 };

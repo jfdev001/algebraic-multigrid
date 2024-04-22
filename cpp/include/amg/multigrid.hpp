@@ -143,7 +143,7 @@ class Multigrid {
   Multigrid(AMG::InterpolatorBase<EleType>* interpolator_,
             AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
             size_t n_levels_, EleType tolerance_ = 1e-9,
-            size_t compute_error_every_n_iters_ = 100, size_t n_iters_ = 100)
+            size_t compute_error_every_n_iters_ = 10, size_t n_iters_ = 100)
       : interpolator(interpolator_),
         smoother(smoother_),
         n_fine_nodes(n_fine_nodes_),
@@ -242,8 +242,8 @@ class Multigrid {
           level_to_rhs[level] -
           level_to_coefficient_matrix[level] * level_to_soln[level];
       if (level + 1 != n_levels) {
-        //level_to_rhs[level + 1] = interpolator.restriction(
-        // level_to_residual[level], level);
+        level_to_rhs[level + 1] =
+            interpolator->restriction(level_to_residual[level], level);
       }
     }
 
@@ -255,9 +255,9 @@ class Multigrid {
     for (int level = coarsest_grid_ix - 1; level >= 0; --level) {
       //  1. Update the current solution with the interpolated solution from the
       // coarser level: ui=ui+Piui+1
-      //level_to_soln[level] =
-      //    level_to_soln[level] + interpolator.prolongation(
-      // level_to_soln[level + 1], level)
+      level_to_soln[level] =
+          level_to_soln[level] +
+          interpolator->prolongation(level_to_soln[level + 1], level);
 
       //  2. Apply a couple of smoothing iterations (post-relaxation) to the
       // updated solution: ui=Si(Ai,fi,ui)
@@ -275,13 +275,24 @@ class Multigrid {
   const Eigen::Matrix<EleType, -1, 1>& solve() {
     size_t iter = 0;
     EleType error = 100;
+    auto A = get_coefficient_matrix(finest_grid_ix);
+    auto b = get_rhs(finest_grid_ix);
     while (iter < n_iters && error > tolerance) {
       vcycle();
       iter += 1;
-      if (iter % compute_error_every_n_iters == 0) {
-        //error = residual(A, u, b);
+      if ((iter % compute_error_every_n_iters) == 0) {
+        auto u = get_soln(finest_grid_ix);
+        error = rss(A, u, b);
       }
     }
+
+    if (error <= tolerance)
+      std::cout << "AMG converged after " << iter << " iterations."
+                << std::endl;
+    else
+      std::cout << "AMG did not converge after " << iter << " iterations."
+                << std::endl;
+
     return level_to_soln[finest_grid_ix];
   }
 
