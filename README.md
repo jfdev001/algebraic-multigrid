@@ -2,11 +2,11 @@
 
 Algebraic multigrid implementation using C++ and Eigen.
 
-## Setting up Eigen3
+# Setting up Eigen3
 
 Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page) and download the latest stable release of Eigen 3.4.0. Alternatively click [here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz) to do so. Then extract it into the `/usr/local/include` directory. Perhaps use  `FetchContent` in the future (see [here](https://stackoverflow.com/questions/65860094/how-to-add-eigen-library-to-a-cmake-c-project-via-fetchcontent)).
 
-## Configuration in `cpp/`
+# Configuration
 
 To configure:
 
@@ -34,44 +34,12 @@ To build docs (requires Doxygen, output in `build/docs/html`):
 cmake --build build --target docs
 ```
 
-# Classes
+# Example Output
 
-Planning for classes needed for algebraic multigrid.
+Run the below to see the outputs of the test, that last line of which shows the error and demonstrates how much more quickly AMG converges relative to a sparse iterative solver:
 
-```cpp
-BaseSolver {
-private:
-  niters
-  tolerance
-  (?) Preconditioner
-public:
-  abstract solve(const Matrix& A, Vector& x, const Vector& b) const // inplace vector sys solve
-  abstract solve(const Matrix& A, Matrix& X, const Matrix& B) const // inplace matrix sys solve
-}
-
-BaseGrid {
-private:
-  Matrix pdeSolution
-  Matrix error
-  Matrix residual
-  dx
-  dy
-  nx
-  ny
-public:
-  const& getters const
-}
-
-Multigrid {
-private:
-  BaseGrid[] grids # 0th == level 1 finest --> n-1^th == coarsest 
-  nlevels
-  Int[] iters
-  restrict()
-  prolongate()
-public:
-  solve()
-}
+```
+./build/test/testlib
 ```
 
 # Debugging in `cpp/`
@@ -127,7 +95,7 @@ will allow you to visualize the callgraph and identify performance bottlenecks.
 
 ## Sparse Gauss Seidel
 
-To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves. Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
+To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physicalgrid points in the solvers leads to solvers that are defined only for that particular
 PDE, but it also makes the solver wayyyy faster. If the physical domain is `3 x 3`,that means there 9 degrees of freedom (dofs), and therefore the system `Au = b` requiresiterating through `A \in 9x9`, i.e., `O(ndofs^2)` compared to the specific solver whichis `O(n)`... (find resource for actually naming convention for these types of solvesr)...and also consider how you could approach differently or how other places do it differently. The difference in convention is known as describing the algorithm in terms of the square array `U[i,j]` or in terms of the column vector `Uhat`.
 
 Since all the time is clearly being spent in the smoother, this needs to be improved. See Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl) for better smoother approaches for sparse systems.
@@ -146,7 +114,7 @@ $$
 u_{i}^{(k+1)} = \frac{b_i - \sum_{j \neq i} a_{ij} u_j }{a_{ii}}.
 $$
 
-However, since we know that $A$ is sparse, for any given column $j$, we only need a small subset of the rows $i$ from $A$. It's worth noting that since our matrix is CSC format, it is faster to iterate through the column vectors (i.e, the rows) of $A$, and this iteration on the surface contradicts the formula given above, since the formula above is iterating through row vectors (i.e., the columns). However, since we assume $A$ is symmetric positive definite, then we know that $A^{T} = A$ and therefore iterating throughing the $j^{th}$ column vector is the same as iterating through the $j^{th}$ row vector. 
+However, since we know that $A$ is sparse, for any given column $j$, we only need a small subset of the rows $i$ from $A$. It's worth noting that since our matrix is CSC format, it is faster to iterate through the column vectors (i.e, the rows) of $A$, and this iteration on the surface contradicts the formula given above, since the formula above is iterating through row vectors (i.e., the columns). However, since we assume $A$ is symmetric positive definite, then we know that $A^{T} = A$ and therefore iterating throughing the $j^{th}$ column vector is the same as iterating through the $j^{th}$ row vector.
 
 ## Interpolation
 
