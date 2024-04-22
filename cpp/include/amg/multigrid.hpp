@@ -17,46 +17,33 @@ namespace AMG {
 template <class EleType>
 class Multigrid {
  private:
-  // LINEAR OPERATORS
   /**
-   * @brief 
+   * @brief Interpolator providing restriction and prolongation operations.
    * 
    */
-  std::vector<Eigen::SparseMatrix<EleType>> level_to_restriction;
-
-  /**
-   * @brief 
-   * 
-   */
-  std::vector<Eigen::SparseMatrix<EleType>> level_to_prolongation;
+  InterpolatorBase<EleType>* interpolator;
 
   AMG::SmootherBase<EleType>* smoother;
 
   Eigen::SimplicialLDLT<Eigen::SparseMatrix<EleType>> coarse_direct_solver;
 
   /**
-     * @brief Tolerance below which a smoother is considered to have converged.
-     *
-     */
+   * @brief Tolerance below which a smoother is considered to have converged.
+   *
+   */
   EleType tolerance;
 
   /**
-     * @brief Compute the error every `n` iterations during smoothing.
-     *
-     */
+   * @brief Compute the error every `n` iterations during smoothing.
+   *
+   */
   size_t compute_error_every_n_iters;
 
   /**
-     * @brief Maximum number of iterations before smoothing termination.
-     *
-     */
-  size_t n_iters;
-
-  /**
-   * @brief Grid level from finest to coarsest is h, 2h, 4h, ..., H
-   * 
+   * @brief Maximum number of iterations before smoothing termination.
+   *
    */
-  const size_t grid_spacing_factor = 2;
+  size_t n_iters;
 
   /**
    * @brief 
@@ -83,26 +70,12 @@ class Multigrid {
   size_t coarsest_grid_ix;
 
   /**
-   * @brief Map multigrid level to the number of nodes in x or y direction.
-   * 
-   */
-  std::vector<size_t> level_to_n_nodes;
-
-  /**
    * @brief Map multigrid level to number of degrees of freedom for that level.
    * 
    * Note that `n_dofs==n_nodes*n_nodes`
    * 
    */
   std::vector<size_t> level_to_n_dofs;
-
-  /**
-   * @brief Map multigrid level to grid spacing h.
-   * 
-   * TODO: is this even used???
-   * 
-   */
-  std::vector<EleType> level_to_grid_spacing;
 
   /**
    * @brief Map multigrid level to coefficient matrix A
@@ -128,6 +101,29 @@ class Multigrid {
    */
   std::vector<Eigen::Matrix<EleType, -1, 1>> level_to_residual;
 
+  /**
+   * @brief Return number of next coarsest dofs given finer dofs.
+   * 
+   * The next coarsest dofs formula follows from the following (see ref [1]):
+   * 
+   * ```
+   * nc = n/2 - 1
+   * nf = n - 1
+   * # nc in terms of nf
+   * nc = (nf + 1)/2 - 1
+   * ```
+   * 
+   * References:
+   * 
+   * [1] : Briggs2000. "A Multigrid Tutorial, 2ed". pp. 34.
+   * 
+   * @return size_t 
+   */
+  size_t n_H_dofs_from_n_h_dofs(size_t h_dofs) {
+    size_t H_dofs = (h_dofs + 1) / 2 - 1;
+    return H_dofs;
+  }
+
  public:
   ~Multigrid() {}
 
@@ -144,77 +140,79 @@ class Multigrid {
    * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
    * @param n_levels_ Desired number of levels where level 0 is finest level.
    */
-  Multigrid(AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
+  Multigrid(AMG::InterpolatorBase<EleType>* interpolator_,
+            AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
             size_t n_levels_, EleType tolerance_ = 1e-9,
             size_t compute_error_every_n_iters_ = 100, size_t n_iters_ = 100)
-      : smoother(smoother_),
+      : interpolator(interpolator_),
+        smoother(smoother_),
         n_fine_nodes(n_fine_nodes_),
         n_levels(n_levels_),
         tolerance(tolerance_),
         compute_error_every_n_iters(compute_error_every_n_iters_),
         n_iters(n_iters_) {
 
-    // Initialize grid info
-    level_to_grid_spacing.resize(n_levels);
-    level_to_n_nodes.resize(n_levels);
-    level_to_n_dofs.resize(n_levels);
-
     // Initialize linear system info
     level_to_coefficient_matrix.resize(n_levels);
     level_to_soln.resize(n_levels);
     level_to_rhs.resize(n_levels);
     level_to_residual.resize(n_levels);
+    level_to_n_dofs.resize(n_levels);
 
     // Initialize index for coarsest grid
     coarsest_grid_ix = n_levels - 1;
 
-    // Initialize the finest level grid info in the multigrid
-    level_to_grid_spacing[finest_grid_ix] =
-        AMG::Grid<EleType>::grid_spacing_h(n_fine_nodes);
-    level_to_n_nodes[finest_grid_ix] = n_fine_nodes;
-    level_to_n_dofs[finest_grid_ix] = n_fine_nodes * n_fine_nodes;
+    // Initialize the finest coefficients matrix
+    size_t n_fine_dofs = n_fine_nodes * n_fine_nodes;
+    level_to_n_dofs[finest_grid_ix] = n_fine_dofs;
+    level_to_coefficient_matrix[finest_grid_ix] =
+        AMG::Grid<EleType>::laplacian(n_fine_nodes);
 
-    // fill the remaining coarse grid info
+    // Initialize the finest solutions vector
+    Eigen::Matrix<EleType, -1, 1> u(n_fine_dofs);
+    u.setZero();
+    level_to_soln[finest_grid_ix] = u;
+
+    // Initialize the finest right hand side
+    level_to_rhs[finest_grid_ix] = AMG::Grid<EleType>::rhs(n_fine_nodes);
+
+    // Initialize the finest residual
+    auto b = level_to_rhs[finest_grid_ix];
+    auto A = level_to_coefficient_matrix[finest_grid_ix];
+    level_to_residual[finest_grid_ix] = b - A * u;
+
+    // Use the finest level grid info to construct the linear interpolators
+    // needed to construct the remaining grid stuff
+    // TODO: could do while coarsest is greater than max coarse ndofs
+    size_t n_H_dofs;
+    size_t n_h_dofs;
     for (size_t level = 1; level < n_levels; ++level) {
-      EleType prev_level_grid_spacing = level_to_grid_spacing[level - 1];
+      // Make restriction/prolongation matrices
+      n_h_dofs = level_to_n_dofs[level - 1];
+      n_H_dofs = n_H_dofs_from_n_h_dofs(n_h_dofs);
+      level_to_n_dofs[level] = n_H_dofs;
+      interpolator->make_operators(n_h_dofs, n_H_dofs, level - 1);
 
-      EleType cur_level_grid_spacing =
-          grid_spacing_factor * prev_level_grid_spacing;
+      // Make coefficient matrix using interpolation operators
+      auto R_h = interpolator->get_R(level - 1);
+      auto A_h = level_to_coefficient_matrix[level - 1];  // finer matrix
+      auto P_h = interpolator->get_P(level - 1);
+      auto A_H = R_h * (A_h * P_h);  // coarser matrix
+      level_to_coefficient_matrix[level] = A_H;
 
-      size_t cur_level_n_nodes =
-          AMG::Grid<EleType>::points_n_from_grid_spacing_h(
-              cur_level_grid_spacing);
+      // Make solution vector
+      Eigen::Matrix<EleType, -1, 1> u_H(n_H_dofs);
+      u_H.setZero();
+      level_to_soln[level] = u_H;
 
-      level_to_grid_spacing[level] = cur_level_grid_spacing;
-      level_to_n_nodes[level] = cur_level_n_nodes;
-      level_to_n_dofs[level] = cur_level_n_nodes * cur_level_n_nodes;  // n**2
-    }
+      // Make right hand side
+      auto rhs_h = level_to_rhs[level - 1];
+      Eigen::Matrix<EleType, -1, 1> rhs_H(n_H_dofs);
+      rhs_H = R_h * rhs_h;
+      level_to_rhs[level] = rhs_H;
 
-    // Fill the linear system Au = b lists for different coarseness
-    // TODO: are copy assignments being made?? efficiency here? w.r.t u and b init
-    size_t n_nodes;
-    size_t n_dofs;
-    for (size_t level = 0; level < n_levels; ++level) {
-      n_nodes = level_to_n_nodes[level];
-      n_dofs = level_to_n_dofs[level];
-
-      // Fill the fine through coarse coefficient array
-      level_to_coefficient_matrix[level] =
-          AMG::Grid<EleType>::laplacian(n_nodes);
-
-      // Initialize the fine through coarse solution vector
-      Eigen::Matrix<EleType, -1, 1> u(n_dofs);
-      u.setZero();
-      level_to_soln[level] = u;
-
-      // Fill the fine through coarse right hand side array
-      level_to_rhs[level] = AMG::Grid<EleType>::rhs(n_nodes);
-
-      // Fill the residual
-      // NOTE: Not strictly necessary, could just init undef or zeros
-      auto b = level_to_rhs[level];
-      auto A = level_to_coefficient_matrix[level];
-      level_to_residual[level] = b - A * u;
+      // Make residual vector
+      level_to_residual[level] = rhs_H - A_H * u_H;
     }
 
     // Initialize the coarse solver
@@ -245,7 +243,7 @@ class Multigrid {
           level_to_coefficient_matrix[level] * level_to_soln[level];
       if (level + 1 != n_levels) {
         //level_to_rhs[level + 1] = interpolator.restriction(
-          // level_to_residual[level], level);
+        // level_to_residual[level], level);
       }
     }
 
@@ -259,7 +257,7 @@ class Multigrid {
       // coarser level: ui=ui+Piui+1
       //level_to_soln[level] =
       //    level_to_soln[level] + interpolator.prolongation(
-        // level_to_soln[level + 1], level)
+      // level_to_soln[level + 1], level)
 
       //  2. Apply a couple of smoothing iterations (post-relaxation) to the
       // updated solution: ui=Si(Ai,fi,ui)
@@ -298,14 +296,6 @@ class Multigrid {
 
   const Eigen::Matrix<EleType, -1, 1>& get_rhs(size_t level) const {
     return level_to_rhs[level];
-  }
-
-  const EleType get_grid_spacing(size_t level) const {
-    return level_to_grid_spacing[level];
-  }
-
-  const size_t get_n_nodes(size_t level) const {
-    return level_to_n_nodes[level];
   }
 
   const size_t get_n_dofs(size_t level) const { return level_to_n_dofs[level]; }

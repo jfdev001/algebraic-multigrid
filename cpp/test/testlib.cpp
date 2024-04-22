@@ -8,9 +8,9 @@
 #include <Eigen/SparseCholesky>
 
 #include <amg/grid.hpp>
+#include <amg/interpolator.hpp>
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
-#include <amg/interpolator.hpp>
 
 // TODO: break up tests into smoother tests and multigrid tests
 TEST_CASE("All Tests", "[main]") {
@@ -113,37 +113,26 @@ TEST_CASE("All Tests", "[main]") {
   AMG::SuccessiveOverRelaxation<double> sor_base(
       tolerance, compute_error_every_n_iters, niters);
 
-  // Check interpolator instantiation
-  std::cout << "Interpolation check" << std::endl;
-  std::vector<size_t> level_to_ndofs{21, 10};
-  AMG::LinearInterpolator<double> linear_interpolator(level_to_ndofs);
+  // Inspect linear interpolator
+  std::cout << "Linear interpolator:" << std::endl;
+  size_t n_levels = 4;
+  AMG::LinearInterpolator<double> linear_interpolator(n_levels);
+  linear_interpolator.make_operators(7, 3, 0);
+
+  std::cout << "nh = 7, nH = 3:" << std::endl;
+  std::cout << linear_interpolator.get_P(0) << std::endl;
+
+  std::cout << "nh = 24, nH = 11:" << std::endl;
+  linear_interpolator.make_operators(24, 11, 0);
+  std::cout << linear_interpolator.get_P(0) << std::endl;
 
   // Valid multigrid instantiation
-  size_t n_fine_nodes = 50;
-  size_t n_levels = 4;
+  std::cout << "Multigrid instantiation:" << std::endl;
+  size_t n_fine_nodes = 50;  // too few fine nodes, presmoother will give soln
   size_t smoothing_iterations = 1;
   AMG::SparseGaussSeidel<double> amg_spgs(smoothing_iterations);
-  AMG::Multigrid<double> amg(&amg_spgs, n_fine_nodes, n_levels, 1e-9, 100, 100);
-
-  // Check coarsening of multigrid system info
-  std::cout << "Multigrid System Info:" << std::endl;
-  for (size_t level = 1; level < n_levels; ++level) {
-    size_t finer_n_nodes = amg.get_n_nodes(level - 1);
-    size_t coarser_n_nodes = amg.get_n_nodes(level);
-    std::cout << finer_n_nodes << " " << coarser_n_nodes << std::endl;
-
-    size_t finer_n_dofs = amg.get_n_dofs(level - 1);
-    size_t coarser_n_dofs = amg.get_n_dofs(level);
-    std::cout << finer_n_dofs << " " << coarser_n_dofs << std::endl;
-
-    auto finer_grid_spacing = amg.get_grid_spacing(level - 1);
-    auto coarser_grid_spacing = amg.get_grid_spacing(level);
-    std::cout << finer_grid_spacing << " " << coarser_grid_spacing << std::endl;
-
-    CHECK(finer_n_nodes > coarser_n_nodes);
-    CHECK(finer_n_dofs > coarser_n_dofs);
-    CHECK(finer_grid_spacing < coarser_grid_spacing);
-  }
+  AMG::Multigrid<double> amg(&linear_interpolator, &amg_spgs, n_fine_nodes,
+                             n_levels, 1e-9, 100, 100);
 
   // Check coarsening of multigrid linear systems
   for (size_t level = 1; level < n_levels; ++level) {
@@ -170,8 +159,6 @@ TEST_CASE("All Tests", "[main]") {
   ref_direct_solver.factorize(finest_A);
   ref_exact_u = ref_direct_solver.solve(finest_b);
   auto amg_u = amg.solve();
-  //amg.vcycle();
-  // auto amg_u = amg.get_soln(0);
 
   CHECK(amg_u.isApprox(ref_exact_u, amg.get_tolerance()));
 }

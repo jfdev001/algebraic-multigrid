@@ -12,10 +12,59 @@ class InterpolatorBase {
   std::vector<Eigen::SparseMatrix<EleType>> level_to_R;
 
  public:
-  virtual void prolongation(const Eigen::Matrix<EleType, -1, 1>& v,
-                            size_t level) = 0;
-  virtual void restriction(const Eigen::Matrix<EleType, -1, 1>& v,
-                           size_t level) = 0;
+  InterpolatorBase(size_t n_levels) {
+    // only need operators for levels 0 to n_levels-1
+    level_to_P.resize(n_levels - 1);
+    level_to_R.resize(n_levels - 1);
+  }
+
+  /**
+   * @brief Construct a new Interpolator Base object.
+   * 
+   * No a-priori knowledge about number of levels in multigrid.
+   * 
+   */
+  InterpolatorBase() {}
+
+  /**
+   * @brief Construct P and R matrices based on dofs and level information.
+   * 
+   * @param n_h_dofs Number of dofs in the finer level.
+   * @param n_H_dofs Number of dofs in the coarser level.
+   * @param level Current level.
+   */
+  virtual void make_operators(size_t n_h_dofs, size_t n_H_dofs,
+                              size_t level) = 0;
+
+  void prolongation(Eigen::Matrix<EleType, -1, 1>& result,
+                    const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
+    result = get_P(level) * v;
+    return;
+  }
+
+  void restriction(Eigen::Matrix<EleType, -1, 1>& result,
+                   const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {
+    result = get_R(level) * v;
+    return;
+  }
+
+  const Eigen::SparseMatrix<EleType>& get_P(size_t level) const {
+    return level_to_P[level];
+  }
+
+  const Eigen::SparseMatrix<EleType>& get_R(size_t level) const {
+    return level_to_R[level];
+  }
+
+  void set_level_to_P(size_t level, Eigen::SparseMatrix<EleType>& P) {
+    level_to_P[level] = P;
+    return;
+  }
+
+  void set_level_to_R(size_t level, Eigen::SparseMatrix<EleType>& R) {
+    level_to_R[level] = R;
+    return;
+  }
 };
 
 /**
@@ -23,7 +72,7 @@ class InterpolatorBase {
  * 
  * References:
  * 
- * [1] : 
+ * [1] : Briggs2000. "Introduction to Algebraic Multigrid, 2ed.". Chapter 3.
  * 
  * @tparam EleType 
  */
@@ -33,38 +82,44 @@ class LinearInterpolator : public InterpolatorBase<EleType> {
   const size_t n_elements_per_columns = 3;
 
  public:
-  LinearInterpolator(std::vector<size_t> level_to_ndofs) {
-    size_t n_fine_dofs;
-    size_t n_coarse_dofs;
-    for (size_t level = 0; level < level_to_ndofs.size() - 1; ++level) {
-      n_fine_dofs = level_to_ndofs[level];
-      n_coarse_dofs = level_to_ndofs[level + 1];
+  using InterpolatorBase<EleType>::InterpolatorBase;
 
-      // Create prolongation matrix
-      size_t nnz = n_coarse_dofs * n_elements_per_columns;
-      Eigen::SparseMatrix<EleType> P(n_fine_dofs, n_coarse_dofs);
-      P.reserve(nnz);
+  void make_operators(size_t n_h_dofs, size_t n_H_dofs, size_t level) {
+    // Create prolongation matrix
+    size_t nnz = n_H_dofs * n_elements_per_columns;
+    Eigen::SparseMatrix<EleType> P(n_h_dofs, n_H_dofs);
+    P.reserve(nnz);
 
-      // Populate nonzeros in matrix
-      std::vector<Eigen::Triplet<EleType>> P_coefficients;
-      P_coefficients.reserve(nnz);
-      size_t i = 0;
-      for (size_t j = 0; j < n_coarse_dofs; ++j) {
+    // Populate nonzeros in matrix and bounds check the rows 
+    // TODO: Do these bound checks disrupt algorithm correctness?
+    std::vector<Eigen::Triplet<EleType>> P_coefficients;
+    P_coefficients.reserve(nnz);
+    size_t i = 0;
+    for (size_t j = 0; j < n_H_dofs; ++j) {
+      if (i < n_h_dofs)
         P_coefficients.push_back(Eigen::Triplet<EleType>(i, j, 0.5));
-        P_coefficients.push_back(Eigen::Triplet<EleType>(i + 1, j, 1.0));
-        P_coefficients.push_back(Eigen::Triplet<EleType>(i + 2, j, 0.5));
-        i += n_elements_per_columns - 1;
-      }
-      P.setFromTriplets(P_coefficients.begin(), P_coefficients.end());
 
-      // // Restriction matrix follows from prolongation matrix
-      // Eigen::SparseMatrix<EleType> R(n_coarse_dofs, n_fine_dofs);
-      // R.reserve(P.nonZeros());
-      // R = P.transpose();
+      if (i+1 < n_h_dofs)
+        P_coefficients.push_back(Eigen::Triplet<EleType>(i + 1, j, 1.0));
+
+      if (i+2 < n_h_dofs)
+        P_coefficients.push_back(Eigen::Triplet<EleType>(i + 2, j, 0.5));
+
+      i += n_elements_per_columns - 1;
     }
+    P.setFromTriplets(P_coefficients.begin(), P_coefficients.end());
+
+    // Restriction matrix follows from prolongation matrix
+    Eigen::SparseMatrix<EleType> R(n_H_dofs, n_h_dofs);
+    R.reserve(P.nonZeros());
+    R = P.transpose();
+
+    // Update the maps
+    this->set_level_to_P(level, P);
+    this->set_level_to_R(level, R);
+
+    return;
   }
-  void prolongation(const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {}
-  void restriction(const Eigen::Matrix<EleType, -1, 1>& v, size_t level) {}
 };
 
 /**
