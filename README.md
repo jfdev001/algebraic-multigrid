@@ -2,11 +2,7 @@
 
 [![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml) [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://jfdev001.github.io/algebraic-multigrid/)
 
-Algebraic multigrid implementation using C++ and Eigen. The solution via multigrid vcycling of a finite difference discretized Poisson's equation is used to test correctness.
-
-# Setting up Eigen3
-
-Go to the [Eigen Wiki](https://eigen.tuxfamily.org/index.php?title=Main_Page) and download the latest stable release of Eigen 3.4.0. Alternatively click [here](https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz) to do so. Then extract it into the `/usr/local/include` directory. Perhaps use  `FetchContent` in the future (see [here](https://stackoverflow.com/questions/65860094/how-to-add-eigen-library-to-a-cmake-c-project-via-fetchcontent)).
+Algebraic multigrid implementation using C++ and Eigen3. The solution via multigrid vcycling of a finite difference discretized Poisson's equation is used to test correctness.
 
 # Configuration
 
