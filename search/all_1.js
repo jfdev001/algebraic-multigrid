@@ -2,5 +2,5 @@ var searchData=
 [
   ['common_2ehpp_0',['common.hpp',['../common_8hpp.html',1,'']]],
   ['compat_2ecpp_1',['compat.cpp',['../compat_8cpp.html',1,'']]],
-  ['compute_5ferror_5fevery_5fn_5fiters_2',['compute_error_every_n_iters',['../classAMG_1_1SmootherBase.html#a438243f5ab19024bd7ab8be2af2af5df',1,'AMG::SmootherBase']]]
+  ['compute_5ferror_5fevery_5fn_5fiters_2',['compute_error_every_n_iters',['../class_a_m_g_1_1_smoother_base.html#a438243f5ab19024bd7ab8be2af2af5df',1,'AMG::SmootherBase']]]
 ];

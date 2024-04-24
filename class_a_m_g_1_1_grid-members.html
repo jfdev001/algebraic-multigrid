@@ -72,23 +72,21 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceAMG.html">AMG</a></li><li class="navelem"><a class="el" href="classAMG_1_1SmootherBase.html">SmootherBase</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespace_a_m_g.html">AMG</a></li><li class="navelem"><a class="el" href="class_a_m_g_1_1_grid.html">Grid</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">AMG::SmootherBase&lt; EleType &gt; Member List</div></div>
+  <div class="headertitle"><div class="title">AMG::Grid&lt; EleType &gt; Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#a438243f5ab19024bd7ab8be2af2af5df">compute_error_every_n_iters</a></td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#a3d7c7c305af77719f002cc98a6958c81">n_iters</a></td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">smooth</a>(const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b)=0</td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#a247360fda86039abdead9eb950ac00b7">SmootherBase</a>()</td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#ac0482d2e065e077503c7595dc394173d">SmootherBase</a>(size_t n_iters_)</td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#abdb9f28b0d046e47f55aa9e940f9c2c8">SmootherBase</a>(double tolerance_, size_t compute_error_every_n_iters_, size_t n_iters_)</td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html#a28544796f524830d4c52bd2b6b40a70d">tolerance</a></td><td class="entry"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt; EleType &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html#adb0d4a4026cf0c4f30428b8629e114f6">grid_spacing_h</a>(size_t n)</td><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html#aecbc8db4873c7956891d0ea1bb2c9cf8">laplacian</a>(size_t n)</td><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html#a7e6c7ba873ee1241241f9230ae7bde6e">points_n_from_grid_spacing_h</a>(EleType h=1./50)</td><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html#a7112fe7277335c55db716db291594fa7">rhs</a>(size_t n, std::function&lt; EleType(EleType, EleType)&gt; f=[](EleType x, EleType y) { return 5 *exp(-10 *(x *x+y *y));})</td><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html#a35b30b7b799163d9582e462545177cc9">second_order_central_difference</a>(size_t n)</td><td class="entry"><a class="el" href="class_a_m_g_1_1_grid.html">AMG::Grid&lt; EleType &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
