@@ -49,8 +49,6 @@ endif()
 # for virtual funcs?
 #add_subdirectory(src)
 add_subdirectory(include)
-# possibly needed for ? https://stackoverflow.com/questions/19829281/cmake-os-x-failure-ar-no-archive-members-specific
-include_directories("${PROJECT_SOURCE_DIR}/include")
 
 # https://stackoverflow.com/questions/40325957/how-do-i-add-valgrind-tests-to-my-cmake-test-target
 add_subdirectory(test)
