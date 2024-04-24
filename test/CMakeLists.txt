@@ -10,7 +10,7 @@ FetchContent_MakeAvailable(catch)
 add_executable(testlib testlib.cpp)
 
 # Should be linked to the main library, as well as the Catch2 testing library
-target_link_libraries(testlib PRIVATE amg Catch2::Catch2)
+target_link_libraries(testlib PRIVATE amg Catch2::Catch2 Eigen3::Eigen)
 
 # If you register a test, then ctest and make test will run it.
 # You can also run examples and check the output, as well.
