@@ -179,8 +179,6 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   /**
    * @brief Construct a new Sparse Gauss Seidel object for pre/post smoother in AMG.
    * 
-   * TODO: Should use base constructor...
-   * 
    */
   SparseGaussSeidel() {
     this->tolerance = 1e-9;

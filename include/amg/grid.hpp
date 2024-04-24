@@ -11,7 +11,8 @@
 namespace AMG {
 
 /**
- * @brief Static functions for components of linear system `Au = b`.
+ * @brief Static functions for constructing `A` and `b`, the components of a 
+ * linear system `Au = b`.
  * 
  * @tparam EleType 
  */
