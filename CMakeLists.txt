@@ -47,8 +47,8 @@ endif()
 
 # since the library is a template library... then src dir is not feasible
 # for virtual funcs?
-#add_subdirectory(src)
-add_subdirectory(include)
+add_subdirectory(src)
+# add_subdirectory(include)
 
 # https://stackoverflow.com/questions/40325957/how-do-i-add-valgrind-tests-to-my-cmake-test-target
 add_subdirectory(test)

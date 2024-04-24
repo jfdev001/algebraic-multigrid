@@ -1,5 +1,8 @@
-# Make this cmake scope aware of the header files cmake scope
-add_subdirectory("${AlgebraicMultigrid_SOURCE_DIR}/include/amg/")
+file(
+  GLOB 
+  AMG_HEADER_LIST 
+  CONFIGURE_DEPENDS 
+  "${AlgebraicMultigrid_SOURCE_DIR}/include/amg/*.hpp")
 
 # A library is what should be used to link to a file executable app... 
 # so probably should make an app dir or something??? though maybe not necessary
@@ -11,7 +14,7 @@ add_library(amg ${AMG_HEADER_LIST})
 set_target_properties(amg PROPERTIES LINKER_LANGUAGE CXX)
 
 # Allows for `#include <amg/*.hpp>`
-target_include_directories(amg PUBLIC .)
+target_include_directories(amg PUBLIC ../include)
 
 target_link_libraries(amg PRIVATE Eigen3::Eigen)
 
