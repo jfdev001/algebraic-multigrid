@@ -11,6 +11,8 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  DOCS_DIR: docs
+
 
 jobs:
   build:
@@ -45,7 +47,13 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
-    # TODO: figure out how doxygen build works and how you can do this with gh pages?
-    # - name: Documentation
-    #   run: cmake --build ${{github.workspace}}/build --target docs 
+    - name: Doxygen documentation generation
+      working-directory: ${{github.workspace}}/build
+      run: make docs
+
+    - name: Deploy Documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{github.workspace}}/build/${{env.DOCS_DIR}}/html
 
