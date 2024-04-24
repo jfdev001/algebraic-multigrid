@@ -1,7 +1,0 @@
-cpp/build*
-build/*
-build-debug/*
-*.so
-*.o
-.vscode/
-*.swp
