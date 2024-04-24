@@ -146,215 +146,219 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a97972c7c685d90be62ad8f390260a5cd">  132</a></span>  <a class="code hl_function" href="classAMG_1_1Multigrid.html#a97972c7c685d90be62ad8f390260a5cd">Multigrid</a>() = <span class="keyword">delete</span>;</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="foldopen" id="foldopen00147" data-start="{" data-end="}">
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#abfd6cd131b537da1cadc502a9d738165">  147</a></span>  <a class="code hl_function" href="classAMG_1_1Multigrid.html#abfd6cd131b537da1cadc502a9d738165">Multigrid</a>(<a class="code hl_class" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase&lt;EleType&gt;</a>* interpolator_,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            <a class="code hl_class" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt;EleType&gt;</a>* smoother_, <span class="keywordtype">size_t</span> n_fine_nodes_,</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keywordtype">size_t</span> n_levels_, EleType tolerance_ = 1e-9,</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            <span class="keywordtype">size_t</span> compute_error_every_n_iters_ = 10, <span class="keywordtype">size_t</span> n_iters_ = 100)</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      : interpolator(interpolator_),</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        smoother(smoother_),</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        n_fine_nodes(n_fine_nodes_),</div>
+<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#aff78df8c3d08f81e6ebf43306ddab4b1">  146</a></span>  <a class="code hl_function" href="classAMG_1_1Multigrid.html#aff78df8c3d08f81e6ebf43306ddab4b1">Multigrid</a>(<a class="code hl_class" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase&lt;EleType&gt;</a>* interpolator_,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <a class="code hl_class" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase&lt;EleType&gt;</a>* smoother_,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            <span class="keyword">const</span> Eigen::SparseMatrix&lt;EleType&gt;&amp; A,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; b, <span class="keywordtype">size_t</span> n_levels_,</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            EleType tolerance_ = 1e-9, <span class="keywordtype">size_t</span> compute_error_every_n_iters_ = 10,</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <span class="keywordtype">size_t</span> n_iters_ = 100)</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      : interpolator(interpolator_),</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        smoother(smoother_),</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        n_levels(n_levels_),</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        tolerance(tolerance_),</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        compute_error_every_n_iters(compute_error_every_n_iters_),</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        n_iters(n_iters_) {</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordflow">if</span> (compute_error_every_n_iters &gt; n_iters) {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>      std::string msg =</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>          <span class="stringliteral">&quot;`compute_error_every_n_iters` must be leq to `n_iters`, got &quot;</span> +</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>          std::to_string(compute_error_every_n_iters) + <span class="stringliteral">&quot; and &quot;</span> +</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>          std::to_string(n_iters);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>      <span class="keywordflow">throw</span>(std::invalid_argument(msg));</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    }</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="comment">// Initialize linear system info</span></div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    level_to_coefficient_matrix.resize(n_levels);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    level_to_soln.resize(n_levels);</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    level_to_rhs.resize(n_levels);</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    level_to_residual.resize(n_levels);</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    level_to_n_dofs.resize(n_levels);</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="comment">// Initialize index for coarsest grid</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    coarsest_grid_ix = n_levels - 1;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="comment">// Initialize the finest coefficients matrix</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">size_t</span> n_fine_dofs = n_fine_nodes * n_fine_nodes;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    level_to_n_dofs[finest_grid_ix] = n_fine_dofs;</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    level_to_coefficient_matrix[finest_grid_ix] =</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <a class="code hl_function" href="classAMG_1_1Grid.html#aecbc8db4873c7956891d0ea1bb2c9cf8">AMG::Grid&lt;EleType&gt;::laplacian</a>(n_fine_nodes);</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="comment">// Initialize the finest solutions vector</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    Eigen::Matrix&lt;EleType, -1, 1&gt; u(n_fine_dofs);</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    u.setZero();</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    level_to_soln[finest_grid_ix] = u;</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="comment">// Initialize the finest right hand side</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    level_to_rhs[finest_grid_ix] = <a class="code hl_function" href="classAMG_1_1Grid.html#a7112fe7277335c55db716db291594fa7">AMG::Grid&lt;EleType&gt;::rhs</a>(n_fine_nodes);</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// Initialize the finest residual</span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keyword">auto</span> b = level_to_rhs[finest_grid_ix];</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keyword">auto</span> A = level_to_coefficient_matrix[finest_grid_ix];</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    level_to_residual[finest_grid_ix] = b - A * u;</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="comment">// Use the finest level grid info to construct the linear interpolators</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="comment">// needed to construct the remaining grid stuff</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="comment">// TODO: could do while coarsest is greater than max coarse ndofs</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordtype">size_t</span> n_H_dofs;</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordtype">size_t</span> n_h_dofs;</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> level = 1; level &lt; n_levels; ++level) {</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>      <span class="comment">// Make restriction/prolongation matrices</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      n_h_dofs = level_to_n_dofs[level - 1];</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>      n_H_dofs = n_H_dofs_from_n_h_dofs(n_h_dofs);</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>      level_to_n_dofs[level] = n_H_dofs;</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a1817fd343ff0d32b99987db2034378a1">make_operators</a>(n_h_dofs, n_H_dofs, level - 1);</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      <span class="comment">// Make coefficient matrix using interpolation operators</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      <span class="keyword">auto</span> R_h = interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a7e7f5e6bc6a703ab238411f8be83523e">get_R</a>(level - 1);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      <span class="keyword">auto</span> A_h = level_to_coefficient_matrix[level - 1];  <span class="comment">// finer matrix</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      <span class="keyword">auto</span> P_h = interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#ace8041b783f3ce25da898e9641877e95">get_P</a>(level - 1);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      <span class="keyword">auto</span> A_H = R_h * (A_h * P_h);  <span class="comment">// coarser matrix</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      level_to_coefficient_matrix[level] = A_H;</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      <span class="comment">// Make solution vector</span></div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      Eigen::Matrix&lt;EleType, -1, 1&gt; u_H(n_H_dofs);</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      u_H.setZero();</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      level_to_soln[level] = u_H;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    std::string errormsg;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">if</span> (compute_error_every_n_iters &gt; n_iters) {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>      errormsg =</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>          <span class="stringliteral">&quot;`compute_error_every_n_iters` must be leq to `n_iters`, got &quot;</span> +</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>          std::to_string(compute_error_every_n_iters) + <span class="stringliteral">&quot; and &quot;</span> +</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>          std::to_string(n_iters);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>      <span class="keywordflow">throw</span>(std::invalid_argument(errormsg));</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    }</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordflow">if</span> (A.rows() != b.rows()) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>      errormsg =</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>          <span class="stringliteral">&quot;`A` and `b` must have the same number of degrees of freedom, got &quot;</span> +</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>          std::to_string(A.rows()) + <span class="stringliteral">&quot; and &quot;</span> + std::to_string(b.rows());</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      <span class="keywordflow">throw</span>(std::invalid_argument(errormsg));</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    }</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="comment">// Initialize linear system info</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    level_to_coefficient_matrix.resize(n_levels);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    level_to_soln.resize(n_levels);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    level_to_rhs.resize(n_levels);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    level_to_residual.resize(n_levels);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    level_to_n_dofs.resize(n_levels);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="comment">// Initialize index for coarsest grid</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    coarsest_grid_ix = n_levels - 1;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="comment">// Initialize the finest coefficients matrix</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordtype">size_t</span> n_fine_dofs = A.rows();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    level_to_n_dofs[finest_grid_ix] = n_fine_dofs;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    level_to_coefficient_matrix[finest_grid_ix] = A;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="comment">// Initialize the finest solutions vector</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    Eigen::Matrix&lt;EleType, -1, 1&gt; u(n_fine_dofs);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    u.setZero();</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    level_to_soln[finest_grid_ix] = u;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="comment">// Initialize the finest right hand side</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    level_to_rhs[finest_grid_ix] = b;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="comment">// Initialize the finest residual</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    level_to_residual[finest_grid_ix] = b - A * u;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="comment">// Use the finest level grid info to construct the linear interpolators</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="comment">// needed to construct the remaining grid stuff</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="comment">// TODO: could do while coarsest is greater than max coarse ndofs</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordtype">size_t</span> n_H_dofs;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordtype">size_t</span> n_h_dofs;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> level = 1; level &lt; n_levels; ++level) {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      <span class="comment">// Make restriction/prolongation matrices</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      n_h_dofs = level_to_n_dofs[level - 1];</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      n_H_dofs = n_H_dofs_from_n_h_dofs(n_h_dofs);</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      level_to_n_dofs[level] = n_H_dofs;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a1817fd343ff0d32b99987db2034378a1">make_operators</a>(n_h_dofs, n_H_dofs, level - 1);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      <span class="comment">// Make coefficient matrix using interpolation operators</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      <span class="keyword">auto</span> R_h = interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a7e7f5e6bc6a703ab238411f8be83523e">get_R</a>(level - 1);</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      <span class="keyword">auto</span> A_h = level_to_coefficient_matrix[level - 1];  <span class="comment">// finer matrix</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      <span class="keyword">auto</span> P_h = interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#ace8041b783f3ce25da898e9641877e95">get_P</a>(level - 1);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      <span class="keyword">auto</span> A_H = R_h * (A_h * P_h);  <span class="comment">// coarser matrix</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      level_to_coefficient_matrix[level] = A_H;</div>
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      <span class="comment">// Make right hand side</span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      Eigen::Matrix&lt;EleType, -1, 1&gt; rhs_H(n_H_dofs);</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      rhs_H.setZero();</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      level_to_rhs[level] = rhs_H;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      <span class="comment">// Make solution vector</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      Eigen::Matrix&lt;EleType, -1, 1&gt; u_H(n_H_dofs);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>      u_H.setZero();</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>      level_to_soln[level] = u_H;</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      <span class="comment">// Make residual vector</span></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      level_to_residual[level] = rhs_H - A_H * u_H;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    }</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// Initialize the coarse solver</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    coarse_direct_solver.analyzePattern(</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        level_to_coefficient_matrix[coarsest_grid_ix]);</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    coarse_direct_solver.factorize(</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        level_to_coefficient_matrix[coarsest_grid_ix]);</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  }</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>      <span class="comment">// Make right hand side</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      Eigen::Matrix&lt;EleType, -1, 1&gt; rhs_H(n_H_dofs);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>      rhs_H.setZero();</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>      level_to_rhs[level] = rhs_H;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>      <span class="comment">// Make residual vector</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>      level_to_residual[level] = rhs_H - A_H * u_H;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    }</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="comment">// Initialize the coarse solver</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    coarse_direct_solver.analyzePattern(</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        level_to_coefficient_matrix[coarsest_grid_ix]);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    coarse_direct_solver.factorize(</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        level_to_coefficient_matrix[coarsest_grid_ix]);</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  }</div>
 </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
-<div class="foldopen" id="foldopen00253" data-start="{" data-end="}">
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">  253</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">vcycle</a>() {</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="comment">// At each level of the grid hiearchy, finest-to-coarsest:</span></div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> level = 0; level &lt; n_levels; ++level) {</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>      <span class="comment">//  1. Apply a couple of smoothing iterations (pre-relaxation) to the</span></div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>      <span class="comment">// current solution ui=Si(Ai,fi,ui)</span></div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>      smoother-&gt;<a class="code hl_function" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">smooth</a>(level_to_coefficient_matrix[level], level_to_soln[level],</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>                       level_to_rhs[level]);</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      <span class="comment">//  2. Find residual ei=fi−Aiui and restrict it to the coarser level</span></div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      level_to_residual[level] =</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>          level_to_rhs[level] -</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>          level_to_coefficient_matrix[level] * level_to_soln[level];</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="foldopen" id="foldopen00258" data-start="{" data-end="}">
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">  258</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">vcycle</a>() {</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="comment">// At each level of the grid hiearchy, finest-to-coarsest:</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> level = 0; level &lt; n_levels; ++level) {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      <span class="comment">//  1. Apply a couple of smoothing iterations (pre-relaxation) to the</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>      <span class="comment">// current solution ui=Si(Ai,fi,ui)</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>      smoother-&gt;<a class="code hl_function" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">smooth</a>(level_to_coefficient_matrix[level], level_to_soln[level],</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                       level_to_rhs[level]);</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      <span class="keywordflow">if</span> (level + 1 != n_levels) {</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        <span class="comment">// initialize coarse solution to zero here refs [2-4].</span></div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        level_to_soln[level + 1].setZero();</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <span class="comment">// f_{i+1} = R_{i} e_{i}</span></div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        level_to_rhs[level + 1] =</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a82cd45095dbb025f8ecff8f3b17ba595">restriction</a>(level_to_residual[level], level);</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>      }</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    }</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="comment">// Solve the coarsest system directly: uL=A−1LfL</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    level_to_soln[coarsest_grid_ix] =</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        coarse_direct_solver.solve(level_to_rhs[coarsest_grid_ix]);</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="comment">// At each level of the grid hierarchy, coarsest-to-finest:</span></div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> level = coarsest_grid_ix - 1; level &gt;= 0; --level) {</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      <span class="comment">//  1. Update the current solution with the interpolated solution from the</span></div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      <span class="comment">// coarser level: ui=ui+Piui+1</span></div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      level_to_soln[level] =</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>          level_to_soln[level] +</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>          interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#ae821ab1dd08a89635f10f2cb27a9d8e9">prolongation</a>(level_to_soln[level + 1], level);</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>      <span class="comment">//  2. Apply a couple of smoothing iterations (post-relaxation) to the</span></div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>      <span class="comment">// updated solution: ui=Si(Ai,fi,ui)</span></div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>      smoother-&gt;<a class="code hl_function" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">smooth</a>(level_to_coefficient_matrix[level], level_to_soln[level],</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                       level_to_rhs[level]);</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    }</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      <span class="comment">//  2. Find residual ei=fi−Aiui and restrict it to the coarser level</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>      level_to_residual[level] =</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>          level_to_rhs[level] -</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>          level_to_coefficient_matrix[level] * level_to_soln[level];</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      <span class="keywordflow">if</span> (level + 1 != n_levels) {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        <span class="comment">// initialize coarse solution to zero here refs [2-4].</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        level_to_soln[level + 1].setZero();</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        <span class="comment">// f_{i+1} = R_{i} e_{i}</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        level_to_rhs[level + 1] =</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>            interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#a82cd45095dbb025f8ecff8f3b17ba595">restriction</a>(level_to_residual[level], level);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      }</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="comment">// Solve the coarsest system directly: uL=A−1LfL</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    level_to_soln[coarsest_grid_ix] =</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        coarse_direct_solver.solve(level_to_rhs[coarsest_grid_ix]);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="comment">// At each level of the grid hierarchy, coarsest-to-finest:</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> level = coarsest_grid_ix - 1; level &gt;= 0; --level) {</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>      <span class="comment">//  1. Update the current solution with the interpolated solution from the</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>      <span class="comment">// coarser level: ui=ui+Piui+1</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>      level_to_soln[level] =</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>          level_to_soln[level] +</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>          interpolator-&gt;<a class="code hl_function" href="classAMG_1_1InterpolatorBase.html#ae821ab1dd08a89635f10f2cb27a9d8e9">prolongation</a>(level_to_soln[level + 1], level);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>      <span class="comment">//  2. Apply a couple of smoothing iterations (post-relaxation) to the</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>      <span class="comment">// updated solution: ui=Si(Ai,fi,ui)</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>      smoother-&gt;<a class="code hl_function" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">smooth</a>(level_to_coefficient_matrix[level], level_to_soln[level],</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                       level_to_rhs[level]);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    }</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  }</div>
 </div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
-<div class="foldopen" id="foldopen00301" data-start="{" data-end="}">
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">  301</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">solve</a>() {</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    <span class="keywordtype">size_t</span> iter = 0;</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    EleType error = 100;</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="keyword">auto</span> A = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">get_coefficient_matrix</a>(finest_grid_ix);</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    <span class="keyword">auto</span> b = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">get_rhs</a>(finest_grid_ix);</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <span class="keywordflow">while</span> (iter &lt; n_iters &amp;&amp; error &gt; tolerance) {</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>      <a class="code hl_function" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">vcycle</a>();</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>      iter += 1;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>      <span class="keywordflow">if</span> ((iter % compute_error_every_n_iters) == 0) {</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        <span class="keyword">auto</span> u = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">get_soln</a>(finest_grid_ix);</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>        error = <a class="code hl_function" href="namespaceAMG.html#a65a24cbb426c0673c74accd4b296f37a">rss</a>(A, u, b);</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        <span class="keywordflow">if</span> (display_error) {</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>          std::cout &lt;&lt; <span class="stringliteral">&quot;Iter: &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; | Error: &quot;</span> &lt;&lt; error &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        }</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>      }</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    }</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="keywordflow">if</span> (error &lt;= tolerance)</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>      std::cout &lt;&lt; <span class="stringliteral">&quot;AMG converged after &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; iterations.&quot;</span></div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>      std::cout &lt;&lt; <span class="stringliteral">&quot;AMG did not converge after &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; iterations.&quot;</span></div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keywordflow">return</span> level_to_soln[finest_grid_ix];</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>  }</div>
-</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="foldopen" id="foldopen00329" data-start="{" data-end="}">
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">  329</a></span>  <span class="keyword">const</span> Eigen::SparseMatrix&lt;EleType&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">get_coefficient_matrix</a>(</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      <span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keywordflow">return</span> level_to_coefficient_matrix[level];</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="foldopen" id="foldopen00306" data-start="{" data-end="}">
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">  306</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">solve</a>() {</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>    <span class="keywordtype">size_t</span> iter = 0;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    EleType error = 100;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    <span class="keyword">auto</span> A = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">get_coefficient_matrix</a>(finest_grid_ix);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    <span class="keyword">auto</span> b = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">get_rhs</a>(finest_grid_ix);</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <span class="keywordflow">while</span> (iter &lt; n_iters &amp;&amp; error &gt; tolerance) {</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>      <a class="code hl_function" href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">vcycle</a>();</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>      iter += 1;</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>      <span class="keywordflow">if</span> ((iter % compute_error_every_n_iters) == 0) {</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        <span class="keyword">auto</span> u = <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">get_soln</a>(finest_grid_ix);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        error = <a class="code hl_function" href="namespaceAMG.html#a65a24cbb426c0673c74accd4b296f37a">rss</a>(A, u, b);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        <span class="keywordflow">if</span> (display_error) {</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>          std::cout &lt;&lt; <span class="stringliteral">&quot;Iter: &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; | Error: &quot;</span> &lt;&lt; error &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        }</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>      }</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    }</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keywordflow">if</span> (error &lt;= tolerance)</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>      std::cout &lt;&lt; <span class="stringliteral">&quot;AMG converged after &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; iterations.&quot;</span></div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>                &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>      std::cout &lt;&lt; <span class="stringliteral">&quot;AMG did not converge after &quot;</span> &lt;&lt; iter &lt;&lt; <span class="stringliteral">&quot; iterations.&quot;</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <span class="keywordflow">return</span> level_to_soln[finest_grid_ix];</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  }</div>
 </div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
 <div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">  334</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">get_soln</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keywordflow">return</span> level_to_soln[level];</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>  }</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">  334</a></span>  <span class="keyword">const</span> Eigen::SparseMatrix&lt;EleType&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">get_coefficient_matrix</a>(</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>      <span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <span class="keywordflow">return</span> level_to_coefficient_matrix[level];</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>  }</div>
 </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
-<div class="foldopen" id="foldopen00338" data-start="{" data-end="}">
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">  338</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">get_rhs</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordflow">return</span> level_to_rhs[level];</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>  }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="foldopen" id="foldopen00339" data-start="{" data-end="}">
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">  339</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">get_soln</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordflow">return</span> level_to_soln[level];</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  }</div>
 </div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">  342</a></span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">get_n_dofs</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> level_to_n_dofs[level]; }</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">  344</a></span>  <span class="keyword">const</span> EleType <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">get_tolerance</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> tolerance; }</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
-<div class="foldopen" id="foldopen00346" data-start="{" data-end="}">
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">  346</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">display_error_on</a>() {</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    display_error = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>  }</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="foldopen" id="foldopen00343" data-start="{" data-end="}">
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">  343</a></span>  <span class="keyword">const</span> Eigen::Matrix&lt;EleType, -1, 1&gt;&amp; <a class="code hl_function" href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">get_rhs</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    <span class="keywordflow">return</span> level_to_rhs[level];</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>  }</div>
 </div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">  347</a></span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">get_n_dofs</a>(<span class="keywordtype">size_t</span> level)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> level_to_n_dofs[level]; }</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">  349</a></span>  <span class="keyword">const</span> EleType <a class="code hl_function" href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">get_tolerance</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> tolerance; }</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
 <div class="foldopen" id="foldopen00351" data-start="{" data-end="}">
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">  351</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">display_error_off</a>() {</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">  351</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">display_error_on</a>() {</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    display_error = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>  }</div>
 </div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>};</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span> </div>
+<div class="foldopen" id="foldopen00356" data-start="{" data-end="}">
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">  356</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">display_error_off</a>() {</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    display_error = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>  }</div>
 </div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>}  <span class="comment">// end namespace AMG</span></div>
-<div class="ttc" id="aclassAMG_1_1Grid_html_a7112fe7277335c55db716db291594fa7"><div class="ttname"><a href="classAMG_1_1Grid.html#a7112fe7277335c55db716db291594fa7">AMG::Grid::rhs</a></div><div class="ttdeci">static Eigen::Matrix&lt; EleType, -1, 1 &gt; rhs(size_t n, std::function&lt; EleType(EleType, EleType)&gt; f=[](EleType x, EleType y) { return 5 *exp(-10 *(x *x+y *y));})</div><div class="ttdoc">Return right hand side vector by evaluating f on a mesh grid in [-1, 1]^2.</div><div class="ttdef"><b>Definition</b> grid.hpp:104</div></div>
-<div class="ttc" id="aclassAMG_1_1Grid_html_aecbc8db4873c7956891d0ea1bb2c9cf8"><div class="ttname"><a href="classAMG_1_1Grid.html#aecbc8db4873c7956891d0ea1bb2c9cf8">AMG::Grid::laplacian</a></div><div class="ttdeci">static Eigen::SparseMatrix&lt; EleType &gt; laplacian(size_t n)</div><div class="ttdoc">Return laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs.</div><div class="ttdef"><b>Definition</b> grid.hpp:85</div></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>};</div>
+</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>}  <span class="comment">// end namespace AMG</span></div>
 <div class="ttc" id="aclassAMG_1_1InterpolatorBase_html"><div class="ttname"><a href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a></div><div class="ttdef"><b>Definition</b> interpolator.hpp:9</div></div>
 <div class="ttc" id="aclassAMG_1_1InterpolatorBase_html_a1817fd343ff0d32b99987db2034378a1"><div class="ttname"><a href="classAMG_1_1InterpolatorBase.html#a1817fd343ff0d32b99987db2034378a1">AMG::InterpolatorBase::make_operators</a></div><div class="ttdeci">virtual void make_operators(size_t n_h_dofs, size_t n_H_dofs, size_t level)=0</div><div class="ttdoc">Construct P and R matrices based on dofs and level information.</div></div>
 <div class="ttc" id="aclassAMG_1_1InterpolatorBase_html_a7e7f5e6bc6a703ab238411f8be83523e"><div class="ttname"><a href="classAMG_1_1InterpolatorBase.html#a7e7f5e6bc6a703ab238411f8be83523e">AMG::InterpolatorBase::get_R</a></div><div class="ttdeci">const Eigen::SparseMatrix&lt; EleType &gt; &amp; get_R(size_t level) const</div><div class="ttdef"><b>Definition</b> interpolator.hpp:67</div></div>
@@ -362,18 +366,18 @@ $(function() { codefold.init(0); });
 <div class="ttc" id="aclassAMG_1_1InterpolatorBase_html_ace8041b783f3ce25da898e9641877e95"><div class="ttname"><a href="classAMG_1_1InterpolatorBase.html#ace8041b783f3ce25da898e9641877e95">AMG::InterpolatorBase::get_P</a></div><div class="ttdeci">const Eigen::SparseMatrix&lt; EleType &gt; &amp; get_P(size_t level) const</div><div class="ttdef"><b>Definition</b> interpolator.hpp:63</div></div>
 <div class="ttc" id="aclassAMG_1_1InterpolatorBase_html_ae821ab1dd08a89635f10f2cb27a9d8e9"><div class="ttname"><a href="classAMG_1_1InterpolatorBase.html#ae821ab1dd08a89635f10f2cb27a9d8e9">AMG::InterpolatorBase::prolongation</a></div><div class="ttdeci">Eigen::Matrix&lt; EleType, -1, 1 &gt; prolongation(const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;v, size_t level)</div><div class="ttdoc">Prolongation operator on v and updating result inplace.</div><div class="ttdef"><b>Definition</b> interpolator.hpp:45</div></div>
 <div class="ttc" id="aclassAMG_1_1Multigrid_html"><div class="ttname"><a href="classAMG_1_1Multigrid.html">AMG::Multigrid</a></div><div class="ttdef"><b>Definition</b> multigrid.hpp:18</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a0674ee680ed357a45a1cd9a61ef9f919"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">AMG::Multigrid::get_tolerance</a></div><div class="ttdeci">const EleType get_tolerance() const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:344</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a0e2994b738486cd35145c2d01032d3d4"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">AMG::Multigrid::get_soln</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; get_soln(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:334</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a13cb6ffdb8799b3a98a61c1cf7302a3f"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">AMG::Multigrid::display_error_on</a></div><div class="ttdeci">void display_error_on()</div><div class="ttdef"><b>Definition</b> multigrid.hpp:346</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a1fcd39d637e70e918678e6fb0be38790"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">AMG::Multigrid::vcycle</a></div><div class="ttdeci">void vcycle()</div><div class="ttdoc">A single multigrid vcycle.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:253</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a267cedb5671bd23671d0b033c1aedcec"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">AMG::Multigrid::get_rhs</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; get_rhs(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:338</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a66aafaae3dce9f9baac02758448493db"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">AMG::Multigrid::solve</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; solve()</div><div class="ttdoc">Solve a linear system of equations via vcycle.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:301</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_a89d2257eb3480026557fb0e978a5a07a"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">AMG::Multigrid::get_coefficient_matrix</a></div><div class="ttdeci">const Eigen::SparseMatrix&lt; EleType &gt; &amp; get_coefficient_matrix(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:329</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a0674ee680ed357a45a1cd9a61ef9f919"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a0674ee680ed357a45a1cd9a61ef9f919">AMG::Multigrid::get_tolerance</a></div><div class="ttdeci">const EleType get_tolerance() const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:349</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a0e2994b738486cd35145c2d01032d3d4"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a0e2994b738486cd35145c2d01032d3d4">AMG::Multigrid::get_soln</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; get_soln(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:339</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a13cb6ffdb8799b3a98a61c1cf7302a3f"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f">AMG::Multigrid::display_error_on</a></div><div class="ttdeci">void display_error_on()</div><div class="ttdef"><b>Definition</b> multigrid.hpp:351</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a1fcd39d637e70e918678e6fb0be38790"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790">AMG::Multigrid::vcycle</a></div><div class="ttdeci">void vcycle()</div><div class="ttdoc">A single multigrid vcycle.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:258</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a267cedb5671bd23671d0b033c1aedcec"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a267cedb5671bd23671d0b033c1aedcec">AMG::Multigrid::get_rhs</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; get_rhs(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:343</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a66aafaae3dce9f9baac02758448493db"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a66aafaae3dce9f9baac02758448493db">AMG::Multigrid::solve</a></div><div class="ttdeci">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp; solve()</div><div class="ttdoc">Solve a linear system of equations via vcycle.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:306</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_a89d2257eb3480026557fb0e978a5a07a"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a89d2257eb3480026557fb0e978a5a07a">AMG::Multigrid::get_coefficient_matrix</a></div><div class="ttdeci">const Eigen::SparseMatrix&lt; EleType &gt; &amp; get_coefficient_matrix(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:334</div></div>
 <div class="ttc" id="aclassAMG_1_1Multigrid_html_a8b8d79c83923c64d9b014dc96d8fdd6c"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a8b8d79c83923c64d9b014dc96d8fdd6c">AMG::Multigrid::~Multigrid</a></div><div class="ttdeci">~Multigrid()</div><div class="ttdef"><b>Definition</b> multigrid.hpp:130</div></div>
 <div class="ttc" id="aclassAMG_1_1Multigrid_html_a97972c7c685d90be62ad8f390260a5cd"><div class="ttname"><a href="classAMG_1_1Multigrid.html#a97972c7c685d90be62ad8f390260a5cd">AMG::Multigrid::Multigrid</a></div><div class="ttdeci">Multigrid()=delete</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_abfd6cd131b537da1cadc502a9d738165"><div class="ttname"><a href="classAMG_1_1Multigrid.html#abfd6cd131b537da1cadc502a9d738165">AMG::Multigrid::Multigrid</a></div><div class="ttdeci">Multigrid(AMG::InterpolatorBase&lt; EleType &gt; *interpolator_, AMG::SmootherBase&lt; EleType &gt; *smoother_, size_t n_fine_nodes_, size_t n_levels_, EleType tolerance_=1e-9, size_t compute_error_every_n_iters_=10, size_t n_iters_=100)</div><div class="ttdoc">Construct a new Multigrid object.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:147</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_ad8c70ad277499bd374014fe8ed28de37"><div class="ttname"><a href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">AMG::Multigrid::get_n_dofs</a></div><div class="ttdeci">const size_t get_n_dofs(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:342</div></div>
-<div class="ttc" id="aclassAMG_1_1Multigrid_html_af27ec00203a115f43f09cdebcbad9b16"><div class="ttname"><a href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">AMG::Multigrid::display_error_off</a></div><div class="ttdeci">void display_error_off()</div><div class="ttdef"><b>Definition</b> multigrid.hpp:351</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_ad8c70ad277499bd374014fe8ed28de37"><div class="ttname"><a href="classAMG_1_1Multigrid.html#ad8c70ad277499bd374014fe8ed28de37">AMG::Multigrid::get_n_dofs</a></div><div class="ttdeci">const size_t get_n_dofs(size_t level) const</div><div class="ttdef"><b>Definition</b> multigrid.hpp:347</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_af27ec00203a115f43f09cdebcbad9b16"><div class="ttname"><a href="classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16">AMG::Multigrid::display_error_off</a></div><div class="ttdeci">void display_error_off()</div><div class="ttdef"><b>Definition</b> multigrid.hpp:356</div></div>
+<div class="ttc" id="aclassAMG_1_1Multigrid_html_aff78df8c3d08f81e6ebf43306ddab4b1"><div class="ttname"><a href="classAMG_1_1Multigrid.html#aff78df8c3d08f81e6ebf43306ddab4b1">AMG::Multigrid::Multigrid</a></div><div class="ttdeci">Multigrid(AMG::InterpolatorBase&lt; EleType &gt; *interpolator_, AMG::SmootherBase&lt; EleType &gt; *smoother_, const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, size_t n_levels_, EleType tolerance_=1e-9, size_t compute_error_every_n_iters_=10, size_t n_iters_=100)</div><div class="ttdoc">Construct a new Multigrid object.</div><div class="ttdef"><b>Definition</b> multigrid.hpp:146</div></div>
 <div class="ttc" id="aclassAMG_1_1SmootherBase_html"><div class="ttname"><a href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a></div><div class="ttdef"><b>Definition</b> smoother.hpp:13</div></div>
 <div class="ttc" id="aclassAMG_1_1SmootherBase_html_a3db6726f52ad70d620f9b1d952f7921b"><div class="ttname"><a href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">AMG::SmootherBase::smooth</a></div><div class="ttdeci">virtual void smooth(const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b)=0</div><div class="ttdoc">Must implement function that smooths Au = b.</div></div>
 <div class="ttc" id="acommon_8hpp_html"><div class="ttname"><a href="common_8hpp.html">common.hpp</a></div></div>

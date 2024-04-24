@@ -91,9 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8b8d79c83923c64d9b014dc96d8fdd6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97972c7c685d90be62ad8f390260a5cd" id="r_a97972c7c685d90be62ad8f390260a5cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97972c7c685d90be62ad8f390260a5cd">Multigrid</a> ()=delete</td></tr>
 <tr class="separator:a97972c7c685d90be62ad8f390260a5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfd6cd131b537da1cadc502a9d738165" id="r_abfd6cd131b537da1cadc502a9d738165"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfd6cd131b537da1cadc502a9d738165">Multigrid</a> (<a class="el" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a>&lt; EleType &gt; *interpolator_, <a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a>&lt; EleType &gt; *smoother_, size_t n_fine_nodes_, size_t n_levels_, EleType tolerance_=1e-9, size_t compute_error_every_n_iters_=10, size_t n_iters_=100)</td></tr>
-<tr class="memdesc:abfd6cd131b537da1cadc502a9d738165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAMG_1_1Multigrid.html">Multigrid</a> object.  <br /></td></tr>
-<tr class="separator:abfd6cd131b537da1cadc502a9d738165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff78df8c3d08f81e6ebf43306ddab4b1" id="r_aff78df8c3d08f81e6ebf43306ddab4b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff78df8c3d08f81e6ebf43306ddab4b1">Multigrid</a> (<a class="el" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a>&lt; EleType &gt; *interpolator_, <a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a>&lt; EleType &gt; *smoother_, const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, size_t n_levels_, EleType tolerance_=1e-9, size_t compute_error_every_n_iters_=10, size_t n_iters_=100)</td></tr>
+<tr class="memdesc:aff78df8c3d08f81e6ebf43306ddab4b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAMG_1_1Multigrid.html">Multigrid</a> object.  <br /></td></tr>
+<tr class="separator:aff78df8c3d08f81e6ebf43306ddab4b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fcd39d637e70e918678e6fb0be38790" id="r_a1fcd39d637e70e918678e6fb0be38790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fcd39d637e70e918678e6fb0be38790">vcycle</a> ()</td></tr>
 <tr class="memdesc:a1fcd39d637e70e918678e6fb0be38790"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single multigrid vcycle.  <br /></td></tr>
 <tr class="separator:a1fcd39d637e70e918678e6fb0be38790"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +170,8 @@ template&lt;class EleType &gt; </div>
 
 </div>
 </div>
-<a id="abfd6cd131b537da1cadc502a9d738165" name="abfd6cd131b537da1cadc502a9d738165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd6cd131b537da1cadc502a9d738165">&#9670;&#160;</a></span>Multigrid() <span class="overload">[2/2]</span></h2>
+<a id="aff78df8c3d08f81e6ebf43306ddab4b1" name="aff78df8c3d08f81e6ebf43306ddab4b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff78df8c3d08f81e6ebf43306ddab4b1">&#9670;&#160;</a></span>Multigrid() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,7 +194,12 @@ template&lt;class EleType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>n_fine_nodes_</em>, </span></td>
+          <td class="paramtype">const Eigen::SparseMatrix&lt; EleType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>A</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -225,16 +230,16 @@ template&lt;class EleType &gt; </div>
 </div><div class="memdoc">
 
 <p>Construct a new <a class="el" href="classAMG_1_1Multigrid.html">Multigrid</a> object. </p>
-<p>TODO: Change fine nodes to be A and b as input and get dofs from that.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">interpolator_</td><td></td></tr>
-    <tr><td class="paramname">smoother_</td><td></td></tr>
-    <tr><td class="paramname">n_fine_nodes_</td><td>Used to compute gridspacing h for finest level. </td></tr>
+    <tr><td class="paramname">interpolator_</td><td>Provide prolongation and restriction operators. </td></tr>
+    <tr><td class="paramname">smoother_</td><td>Smooth high frequency errors in post/pre relaxation. </td></tr>
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. </td></tr>
+    <tr><td class="paramname">b</td><td>Right hand side of linear system <code>Au = b</code>. </td></tr>
     <tr><td class="paramname">n_levels_</td><td>Desired number of levels where level 0 is finest level. </td></tr>
-    <tr><td class="paramname">tolerance_</td><td></td></tr>
-    <tr><td class="paramname">compute_error_every_n_iters_</td><td></td></tr>
-    <tr><td class="paramname">n_iters_</td><td></td></tr>
+    <tr><td class="paramname">tolerance_</td><td>Minimum tolerance residual must be leq to converge. </td></tr>
+    <tr><td class="paramname">compute_error_every_n_iters_</td><td>Compute convergence on this interval. </td></tr>
+    <tr><td class="paramname">n_iters_</td><td>Max number of iterations for stopping solution via vcycles. </td></tr>
   </table>
   </dd>
 </dl>
