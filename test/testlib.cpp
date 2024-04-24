@@ -131,12 +131,23 @@ TEST_CASE("All Tests", "[main]") {
   using bad_amg = AMG::Multigrid<double>;
   size_t bad_compute_error_every_n_iters = 100;
   size_t bad_n_iters = 10;
-  CHECK_THROWS_AS(bad_amg(&linear_interpolator, &spgs, 10, n_levels, 1e-9,
+  CHECK_THROWS_AS(bad_amg(&linear_interpolator, &spgs, A, b, n_levels, 1e-9,
                           bad_compute_error_every_n_iters, bad_n_iters),
+                  std::invalid_argument);
+
+  size_t bad_A_ndofs = 10;
+  size_t bad_b_ndofs = 11;
+  Eigen::SparseMatrix<double> bad_A(bad_A_ndofs, bad_A_ndofs);
+  Eigen::VectorXd bad_b(bad_b_ndofs);
+  CHECK_THROWS_AS(bad_amg(&linear_interpolator, &spgs, bad_A, bad_b, n_levels,
+                          1e-9, bad_compute_error_every_n_iters, bad_n_iters),
                   std::invalid_argument);
 
   // Multigrid instantiation for use as solver
   size_t n_fine_nodes = 35;  // 35*35 --> 1125 dofs
+  Eigen::SparseMatrix<double> amg_A =
+      AMG::Grid<double>::laplacian(n_fine_nodes);
+  Eigen::VectorXd amg_b = AMG::Grid<double>::rhs(n_fine_nodes);
   std::cout << "Multigrid instantiation:" << std::endl;
   AMG::SparseGaussSeidel<double> amg_spgs;
   std::cout << "AMG SPGS Fields:" << std::endl
@@ -144,7 +155,7 @@ TEST_CASE("All Tests", "[main]") {
             << std::endl
             << "\tmax iters: " << amg_spgs.n_iters << std::endl
             << "\ttolerance: " << amg_spgs.tolerance << std::endl;
-  AMG::Multigrid<double> amg(&linear_interpolator, &amg_spgs, n_fine_nodes,
+  AMG::Multigrid<double> amg(&linear_interpolator, &amg_spgs, amg_A, amg_b,
                              n_levels, 1e-9, 5, 100);
 
   // Check coarsening of multigrid linear systems
@@ -170,8 +181,6 @@ TEST_CASE("All Tests", "[main]") {
   }
 
   // Check sparse gaussian solver on larger problem
-  // TODO: this should take longer to converge than multigrid but should have
-  // approximately the same answers
   std::cout << "------------------" << std::endl;
   std::cout << "Checking sparse gaussian solver:" << std::endl;
   std::cout << "------------------" << std::endl;

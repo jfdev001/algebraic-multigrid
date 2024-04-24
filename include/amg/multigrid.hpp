@@ -134,34 +134,42 @@ class Multigrid {
   /**
    * @brief Construct a new Multigrid object
    * 
-   * TODO: Change fine nodes to be A and b as input and get dofs from that.
-   * 
-   * @param interpolator_ 
-   * @param smoother_ 
-   * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
+   * @param interpolator_ Provide prolongation and restriction operators.
+   * @param smoother_ Smooth high frequency errors in post/pre relaxation.
+   * @param A Coefficients matrix for discretized governing equations.
+   * @param b Right hand side of linear system `Au = b`.
    * @param n_levels_ Desired number of levels where level 0 is finest level.
-   * @param tolerance_ 
-   * @param compute_error_every_n_iters_ 
-   * @param n_iters_ 
+   * @param tolerance_ Minimum tolerance residual must be leq to converge.
+   * @param compute_error_every_n_iters_ Compute convergence on this interval.
+   * @param n_iters_ Max number of iterations for stopping solution via vcycles.
    */
   Multigrid(AMG::InterpolatorBase<EleType>* interpolator_,
-            AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
-            size_t n_levels_, EleType tolerance_ = 1e-9,
-            size_t compute_error_every_n_iters_ = 10, size_t n_iters_ = 100)
+            AMG::SmootherBase<EleType>* smoother_,
+            const Eigen::SparseMatrix<EleType>& A,
+            const Eigen::Matrix<EleType, -1, 1>& b, size_t n_levels_,
+            EleType tolerance_ = 1e-9, size_t compute_error_every_n_iters_ = 10,
+            size_t n_iters_ = 100)
       : interpolator(interpolator_),
         smoother(smoother_),
-        n_fine_nodes(n_fine_nodes_),
         n_levels(n_levels_),
         tolerance(tolerance_),
         compute_error_every_n_iters(compute_error_every_n_iters_),
         n_iters(n_iters_) {
 
+    std::string errormsg;
     if (compute_error_every_n_iters > n_iters) {
-      std::string msg =
+      errormsg =
           "`compute_error_every_n_iters` must be leq to `n_iters`, got " +
           std::to_string(compute_error_every_n_iters) + " and " +
           std::to_string(n_iters);
-      throw(std::invalid_argument(msg));
+      throw(std::invalid_argument(errormsg));
+    }
+
+    if (A.rows() != b.rows()) {
+      errormsg =
+          "`A` and `b` must have the same number of degrees of freedom, got " +
+          std::to_string(A.rows()) + " and " + std::to_string(b.rows());
+      throw(std::invalid_argument(errormsg));
     }
 
     // Initialize linear system info
@@ -175,10 +183,9 @@ class Multigrid {
     coarsest_grid_ix = n_levels - 1;
 
     // Initialize the finest coefficients matrix
-    size_t n_fine_dofs = n_fine_nodes * n_fine_nodes;
+    size_t n_fine_dofs = A.rows();
     level_to_n_dofs[finest_grid_ix] = n_fine_dofs;
-    level_to_coefficient_matrix[finest_grid_ix] =
-        AMG::Grid<EleType>::laplacian(n_fine_nodes);
+    level_to_coefficient_matrix[finest_grid_ix] = A;
 
     // Initialize the finest solutions vector
     Eigen::Matrix<EleType, -1, 1> u(n_fine_dofs);
@@ -186,11 +193,9 @@ class Multigrid {
     level_to_soln[finest_grid_ix] = u;
 
     // Initialize the finest right hand side
-    level_to_rhs[finest_grid_ix] = AMG::Grid<EleType>::rhs(n_fine_nodes);
+    level_to_rhs[finest_grid_ix] = b;
 
     // Initialize the finest residual
-    auto b = level_to_rhs[finest_grid_ix];
-    auto A = level_to_coefficient_matrix[finest_grid_ix];
     level_to_residual[finest_grid_ix] = b - A * u;
 
     // Use the finest level grid info to construct the linear interpolators
