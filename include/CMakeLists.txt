@@ -10,9 +10,12 @@ file(
 # would use the dll
 add_library(amg ${HEADER_LIST})
 
+add_subdirectory("${AlgebraicMultigrid_SOURCE_DIR}/include/amg/")
+
 # https://stackoverflow.com/questions/11801186/cmake-unable-to-determine-linker-language-with-c
 set_target_properties(amg PROPERTIES LINKER_LANGUAGE CXX)
 
+# Allows for `#include <amg/*.hpp>`
 target_include_directories(amg PUBLIC .)
 
 target_link_libraries(amg PRIVATE Eigen3::Eigen)
