@@ -1,5 +1,7 @@
 # algebraic-multigrid
 
+[![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml)
+
 Algebraic multigrid implementation using C++ and Eigen.
 
 # Setting up Eigen3
