@@ -70,7 +70,9 @@ class SmootherBase {
  * References
  * 
  * [1] : [smoother.jl in AlgebraicMultigrid.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl)
+ * 
  * [2] : [Strang2006 MIT 18.086 Lecture: Iterative Methods](https://math.mit.edu/classes/18.086/2006/am62.pdf)
+ * 
  * [3] : [Julia Lang: Dot product as linear combination](https://discourse.julialang.org/t/what-are-the-pros-and-cons-of-row-column-major-ordering/110045)
  * 
  * @tparam EleType 

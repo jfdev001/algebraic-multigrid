@@ -140,6 +140,7 @@ class LinearInterpolator : public InterpolatorBase<EleType> {
  * References:
  * 
  * [1] : PyAMG. url: https://github.com/pyamg/pyamg/blob/main/pyamg/strength.py
+ * 
  * [2] : AlgebraicMultigrid.jl. url: https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/strength.jl
  *  and url: https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/classical.jl
  */

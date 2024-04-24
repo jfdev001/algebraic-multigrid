@@ -77,8 +77,7 @@ class Grid {
    *
    * References:
    *
-   * [1] : [MIT Intro Linear
-   * PDEs](https://github.com/mitmath/18303/blob/master/supp_material/poissonFD.ipynb)
+   * [1] : [MIT Intro Linear PDEs](https://github.com/mitmath/18303/blob/master/supp_material/poissonFD.ipynb)
    *
    * @param n Number of grid points in the x or y direction.
    * @return Eigen::SparseMatrix<EleType>

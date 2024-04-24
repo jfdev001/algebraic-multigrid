@@ -243,8 +243,11 @@ class Multigrid {
    * References:
    * 
    * [1] : [Algebraic Multigrid from amgcl](https://amgcl.readthedocs.io/en/latest/amg_overview.html)
-   * [2] : Kostler2008. "Multigrid HowTo."
-   * [3] : Pawar2019. "CFD Julia."
+   * 
+   * [2] : Kostler2008. ["Multigrid HowTo: simple Multigrid solver in C++ in less than 200 lines of code"](https://www10.cs.fau.de/publications/reports/TechRep_2008-03.pdf)
+   * 
+   * [3] : Pawar2019. ["CFD Julia: A Learning Module Structuring an Introductory Course on Computational Fluid Dynamics "](https://www.mdpi.com/2311-5521/4/3/159)
+   * 
    * [4] : [AlgebraicMultigrid.jl solve](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/84e4a6a2fb0e3d43ad64b1945f0d199feac356c4/src/multilevel.jl#L266)
    */
   void vcycle() {
