@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml) [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://jfdev001.github.io/algebraic-multigrid/)
 
-Algebraic multigrid implementation using C++ and Eigen.
+Algebraic multigrid implementation using C++ and Eigen. Poisson's equation is used as an example PDE discretized via finite differences.
 
 # Setting up Eigen3
 
