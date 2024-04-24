@@ -35,6 +35,7 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
+        # TODO: include macos?
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
         c_compiler: [gcc, clang, cl]
@@ -66,6 +67,9 @@ jobs:
       uses: kupns-aka-kupa/setup-eigen3@v1
       with:
         version: 3.4.0
+      env:
+        # defaults to Unix Makefiles (could try with others??)
+        CMAKE_GENERATOR: Ninja
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
