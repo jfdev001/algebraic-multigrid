@@ -51,4 +51,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         # Default Doxyfile build documentation to html directory. 
         # Change the directory if changes in Doxyfile
-        publish_dir: ${{github.workspace}}/build/${{env.DOCS_DIR}}/html
+        publish_dir: build/${{env.DOCS_DIR}}/html
