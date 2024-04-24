@@ -34,8 +34,10 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
-
 find_package(Eigen3 3.4 REQUIRED NO_MODULE)
+if(NOT Eigen3_FOUND)
+    message(FATAL_ERROR "Eigen3 not found but is required")
+endif()
 
 # since the library is a template library... then src dir is not feasible
 # for virtual funcs?
