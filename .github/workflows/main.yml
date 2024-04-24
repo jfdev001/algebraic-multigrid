@@ -66,13 +66,13 @@ jobs:
     - uses: ssciwr/doxygen-install@v1
     
     # https://github.com/marketplace/actions/setup-eigen3
-    - name: Install Eigen3
-      uses: kupns-aka-kupa/setup-eigen3@v1
-      with:
-        version: 3.4.0
-      env:
-        # defaults to Unix Makefiles (could try with others??)
-        CMAKE_GENERATOR: ${{ matrix.gen }}
+    # - name: Install Eigen3
+    #   uses: kupns-aka-kupa/setup-eigen3@v1
+    #   with:
+    #     version: 3.4.0
+    #   env:
+    #     # defaults to Unix Makefiles (could try with others??)
+    #     CMAKE_GENERATOR: ${{ matrix.gen }}
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.

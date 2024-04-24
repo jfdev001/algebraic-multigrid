@@ -35,7 +35,7 @@ else()
 endif()
 
 # Check if eigen3 is available and install if needed
-find_package(Eigen3 3.4 REQUIRED NO_MODULE)
+find_package(Eigen3 3.4 NO_MODULE) 
 if(Eigen3_FOUND)
     message(STATUS "Found Eigen3")
 else()
