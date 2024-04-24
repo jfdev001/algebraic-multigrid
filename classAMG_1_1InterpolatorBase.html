@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Base class for interpolators that implement prolongation and restriction as linear operators constructed by the <code>make_operators</code> virtual function.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="interpolator_8hpp_source.html">interpolator.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for AMG::InterpolatorBase&lt; EleType &gt;:</div>
@@ -120,7 +123,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81f00a9cb0e3a3dadb8a91e8debb09d7" id="r_a81f00a9cb0e3a3dadb8a91e8debb09d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81f00a9cb0e3a3dadb8a91e8debb09d7">set_level_to_R</a> (size_t level, Eigen::SparseMatrix&lt; EleType &gt; &amp;R)</td></tr>
 <tr class="separator:a81f00a9cb0e3a3dadb8a91e8debb09d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
+class AMG::InterpolatorBase&lt; EleType &gt;</div><p>Base class for interpolators that implement prolongation and restriction as linear operators constructed by the <code>make_operators</code> virtual function. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">EleType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a16aadf883e90026befb33859594dba8c" name="a16aadf883e90026befb33859594dba8c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a16aadf883e90026befb33859594dba8c">&#9670;&#160;</a></span>InterpolatorBase() <span class="overload">[1/2]</span></h2>
 

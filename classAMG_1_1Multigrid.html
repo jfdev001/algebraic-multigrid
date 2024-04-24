@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Interface for multigrid solver (via <code>solve</code>) that iteratively performs standard <code>vcycle</code>s.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="multigrid_8hpp_source.html">multigrid.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -92,7 +95,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97972c7c685d90be62ad8f390260a5cd" id="r_a97972c7c685d90be62ad8f390260a5cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97972c7c685d90be62ad8f390260a5cd">Multigrid</a> ()=delete</td></tr>
 <tr class="separator:a97972c7c685d90be62ad8f390260a5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff78df8c3d08f81e6ebf43306ddab4b1" id="r_aff78df8c3d08f81e6ebf43306ddab4b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff78df8c3d08f81e6ebf43306ddab4b1">Multigrid</a> (<a class="el" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a>&lt; EleType &gt; *interpolator_, <a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a>&lt; EleType &gt; *smoother_, const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, size_t n_levels_, EleType tolerance_=1e-9, size_t compute_error_every_n_iters_=10, size_t n_iters_=100)</td></tr>
-<tr class="memdesc:aff78df8c3d08f81e6ebf43306ddab4b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAMG_1_1Multigrid.html">Multigrid</a> object.  <br /></td></tr>
+<tr class="memdesc:aff78df8c3d08f81e6ebf43306ddab4b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classAMG_1_1Multigrid.html" title="Interface for multigrid solver (via solve) that iteratively performs standard vcycles.">Multigrid</a> object.  <br /></td></tr>
 <tr class="separator:aff78df8c3d08f81e6ebf43306ddab4b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fcd39d637e70e918678e6fb0be38790" id="r_a1fcd39d637e70e918678e6fb0be38790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fcd39d637e70e918678e6fb0be38790">vcycle</a> ()</td></tr>
 <tr class="memdesc:a1fcd39d637e70e918678e6fb0be38790"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single multigrid vcycle.  <br /></td></tr>
@@ -115,7 +118,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af27ec00203a115f43f09cdebcbad9b16" id="r_af27ec00203a115f43f09cdebcbad9b16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af27ec00203a115f43f09cdebcbad9b16">display_error_off</a> ()</td></tr>
 <tr class="separator:af27ec00203a115f43f09cdebcbad9b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
+class AMG::Multigrid&lt; EleType &gt;</div><p>Interface for multigrid solver (via <code>solve</code>) that iteratively performs standard <code>vcycle</code>s. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">EleType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8b8d79c83923c64d9b014dc96d8fdd6c" name="a8b8d79c83923c64d9b014dc96d8fdd6c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b8d79c83923c64d9b014dc96d8fdd6c">&#9670;&#160;</a></span>~Multigrid()</h2>
 
@@ -229,7 +241,7 @@ template&lt;class EleType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Construct a new <a class="el" href="classAMG_1_1Multigrid.html">Multigrid</a> object. </p>
+<p>Construct a new <a class="el" href="classAMG_1_1Multigrid.html" title="Interface for multigrid solver (via solve) that iteratively performs standard vcycles.">Multigrid</a> object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interpolator_</td><td>Provide prolongation and restriction operators. </td></tr>

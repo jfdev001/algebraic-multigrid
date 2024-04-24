@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Static functions for constructing <code>A</code> and <code>b</code>, the components of a linear system <code>Au = b</code>.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="grid_8hpp_source.html">grid.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -97,13 +100,22 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a35b30b7b799163d9582e462545177cc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return second order central difference as linear operator on 1D function.  <br /></td></tr>
 <tr class="separator:a35b30b7b799163d9582e462545177cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecbc8db4873c7956891d0ea1bb2c9cf8" id="r_aecbc8db4873c7956891d0ea1bb2c9cf8"><td class="memItemLeft" align="right" valign="top">static Eigen::SparseMatrix&lt; EleType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecbc8db4873c7956891d0ea1bb2c9cf8">laplacian</a> (size_t n)</td></tr>
-<tr class="memdesc:aecbc8db4873c7956891d0ea1bb2c9cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs.  <br /></td></tr>
+<tr class="memdesc:aecbc8db4873c7956891d0ea1bb2c9cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return coefficients matrix <code>A</code> for laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs.  <br /></td></tr>
 <tr class="separator:aecbc8db4873c7956891d0ea1bb2c9cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7112fe7277335c55db716db291594fa7" id="r_a7112fe7277335c55db716db291594fa7"><td class="memItemLeft" align="right" valign="top">static Eigen::Matrix&lt; EleType, -1, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7112fe7277335c55db716db291594fa7">rhs</a> (size_t n, std::function&lt; EleType(EleType, EleType)&gt; f=[](EleType x, EleType y) { return 5 *exp(-10 *(x *x+y *y));})</td></tr>
-<tr class="memdesc:a7112fe7277335c55db716db291594fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return right hand side vector by evaluating <code>f</code> on a mesh grid in [-1, 1]^2.  <br /></td></tr>
+<tr class="memdesc:a7112fe7277335c55db716db291594fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return right hand side vector <code>b</code> by evaluating <code>f</code> on a mesh grid in [-1, 1]^2.  <br /></td></tr>
 <tr class="separator:a7112fe7277335c55db716db291594fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
+class AMG::Grid&lt; EleType &gt;</div><p>Static functions for constructing <code>A</code> and <code>b</code>, the components of a linear system <code>Au = b</code>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">EleType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="adb0d4a4026cf0c4f30428b8629e114f6" name="adb0d4a4026cf0c4f30428b8629e114f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb0d4a4026cf0c4f30428b8629e114f6">&#9670;&#160;</a></span>grid_spacing_h()</h2>
 
@@ -165,7 +177,7 @@ template&lt;class EleType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Return laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs. </p>
+<p>Return coefficients matrix <code>A</code> for laplacian as linear operator on u(x,y) assuming homogenous dirichlet BCs. </p>
 <p>References:</p>
 <p>[1] : <a href="https://github.com/mitmath/18303/blob/master/supp_material/poissonFD.ipynb">MIT Intro Linear PDEs</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -243,7 +255,7 @@ template&lt;class EleType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Return right hand side vector by evaluating <code>f</code> on a mesh grid in [-1, 1]^2. </p>
+<p>Return right hand side vector <code>b</code> by evaluating <code>f</code> on a mesh grid in [-1, 1]^2. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>Number of interior grid points in the x or y direction. </td></tr>
