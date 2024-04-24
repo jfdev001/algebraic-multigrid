@@ -35,7 +35,9 @@ else()
 endif()
 
 find_package(Eigen3 3.4 REQUIRED NO_MODULE)
-if(NOT Eigen3_FOUND)
+if(Eigen3_FOUND)
+    message(STATUS "Found Eigen3")
+else()
     message(FATAL_ERROR "Eigen3 not found but is required")
 endif()
 
