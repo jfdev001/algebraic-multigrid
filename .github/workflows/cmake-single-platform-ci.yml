@@ -30,10 +30,10 @@ jobs:
     - uses: ssciwr/doxygen-install@v1
     
     # https://github.com/marketplace/actions/setup-eigen3
-    - name: Install Eigen3
-      uses: kupns-aka-kupa/setup-eigen3@v1
-      with:
-        version: 3.4.0
+    # - name: Install Eigen3
+    #   uses: kupns-aka-kupa/setup-eigen3@v1
+    #   with:
+    #     version: 3.4.0
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -57,10 +57,6 @@ jobs:
     - name: Deploy Documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
-        if: github.ref == 'refs/heads/main'
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ${{github.workspace}}/build/${{env.DOCS_DIR}}/html
 

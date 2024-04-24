@@ -38,7 +38,11 @@ find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 if(Eigen3_FOUND)
     message(STATUS "Found Eigen3")
 else()
-    message(FATAL_ERROR "Eigen3 not found but is required")
+    message(STATUS "Installing Eigen3 via FetchContent")
+    FetchContent_Declare(Eigen3 GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git" GIT_TAG "3.4.0") 
+    FetchContent_MakeAvailable(Eigen3)
+    message(STATUS "Eigen3 installed via FetchContent")
+    #message(FATAL_ERROR "Eigen3 not found but is required")
 endif()
 
 # since the library is a template library... then src dir is not feasible
