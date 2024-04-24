@@ -1,6 +1,6 @@
 # algebraic-multigrid
 
-[![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml)
+[![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/cmake-single-platform-ci.yml) [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://jfdev001.github.io/algebraic-multigrid/)
 
 Algebraic multigrid implementation using C++ and Eigen.
 
@@ -169,3 +169,7 @@ than 200 lines of code. url: https://www10.cs.fau.de/publications/reports/TechRe
 [18] : Classical Ruge-Stuben Multigrid Python Code. url: https://pyamg.readthedocs.io/en/latest/\_modules/pyamg/classical/classical.html
 
 [19] : Briggs et. al. Chapter 4: Implementation in "A Multigrid Tutorial, 2ed" (2000).
+
+[20] : Quetzal C++ Doxygen Workflow Example. url: https://github.com/Quetzal-framework/quetzal-CoaTL/tree/master
+
+[21] : Github Pages Deployment via Github Actions (make sure github pages set to deploy from gh-pages branch). url: https://github.com/peaceiris/actions-gh-pages?tab=readme-ov-file
