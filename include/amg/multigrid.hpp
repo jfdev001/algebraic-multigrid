@@ -133,10 +133,16 @@ class Multigrid {
 
   /**
    * @brief Construct a new Multigrid object
-   *
-   * @param smoother_
+   * 
+   * TODO: Change fine nodes to be A and b as input and get dofs from that.
+   * 
+   * @param interpolator_ 
+   * @param smoother_ 
    * @param n_fine_nodes_ Used to compute gridspacing h for finest level.
    * @param n_levels_ Desired number of levels where level 0 is finest level.
+   * @param tolerance_ 
+   * @param compute_error_every_n_iters_ 
+   * @param n_iters_ 
    */
   Multigrid(AMG::InterpolatorBase<EleType>* interpolator_,
             AMG::SmootherBase<EleType>* smoother_, size_t n_fine_nodes_,
