@@ -69,6 +69,7 @@ jobs:
     - uses: actions/checkout@v3
     # https://github.com/marketplace/actions/doxygen-install
     - uses: ssciwr/doxygen-install@v1
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
