@@ -5,6 +5,13 @@
 
 namespace AMG {
 
+/**
+ * @brief Base class for interpolators that implement prolongation and 
+ * restriction as linear operators constructed by the `make_operators`
+ * virtual function.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class InterpolatorBase {
  private:

@@ -9,6 +9,12 @@
 
 namespace AMG {
 
+/**
+ * @brief Base class for smoothers that must implement a `smooth` function
+ * for the iterative solution of a linear system `Au = b`.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class SmootherBase {
  public:
@@ -111,7 +117,9 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   }
 
   /**
-   * @brief Updates `u` inplace with the appropriate sparse `matvecprod`.
+   * @brief Updates a single entry in `u` inplace using the definition of a Gauss-Seidel.
+   * 
+   * \f$ u_{i} = \frac{b_i - \sum_{j \neq i} a_{ij} u_j }{a_{ii}}. \f$
    * 
    * @param col 
    * @param A 
@@ -209,6 +217,11 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   }
 };
 
+/**
+ * @brief Dense Jacobi iterative method.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class Jacobi : public SmootherBase<EleType> {
  public:
@@ -252,6 +265,11 @@ class Jacobi : public SmootherBase<EleType> {
   }
 };
 
+/**
+ * @brief Dense successive over relaxation iterative method.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class SuccessiveOverRelaxation : public SmootherBase<EleType> {
  private:

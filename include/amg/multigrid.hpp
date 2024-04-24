@@ -14,6 +14,12 @@
 
 namespace AMG {
 
+/**
+ * @brief Interface for multigrid solver (via `solve`) that iteratively performs 
+ * standard `vcycle`s.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class Multigrid {
  private:

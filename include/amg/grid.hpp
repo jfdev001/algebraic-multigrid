@@ -10,12 +10,14 @@
 
 namespace AMG {
 
+/**
+ * @brief Static functions for components of linear system `Au = b`.
+ * 
+ * @tparam EleType 
+ */
 template <class EleType>
 class Grid {
  private:
-  // TODO: add member data that could be initialized using the static functions...
-  // makes ease of access and encapsulation a bit more intuitive
-  // construction could also specify domain range so that rhs could just be pass `n`
   static const size_t n_boundary_points = 2;
 
  public:
@@ -72,8 +74,8 @@ class Grid {
   }
 
   /**
-   * @brief Return laplacian as linear operator on u(x,y) assuming homogenous
-   * dirichlet BCs.
+   * @brief Return coefficients matrix `A` for laplacian as linear operator on 
+   * u(x,y) assuming homogenous dirichlet BCs.
    *
    * References:
    *
@@ -95,7 +97,8 @@ class Grid {
   }
 
   /**
-   * @brief Return right hand side vector by evaluating `f` on a mesh grid in [-1, 1]^2.
+   * @brief Return right hand side vector `b` by evaluating `f` on a mesh grid 
+   * in [-1, 1]^2.
    *    
    * @param n Number of interior grid points in the x or y direction.
    * @param f Function to be evaluated at each mesh grid point.
