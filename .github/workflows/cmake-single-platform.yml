@@ -21,6 +21,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    # https://github.com/marketplace/actions/doxygen-install
+    - uses: ssciwr/doxygen-install@v1
+    
+    # https://github.com/marketplace/actions/setup-eigen3
+    - name: Install Eigen3
+      uses: kupns-aka-kupa/setup-eigen3@v1
+      with:
+        version: 3.4.0
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -36,4 +44,8 @@ jobs:
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
+
+    # TODO: figure out how doxygen build works and how you can do this with gh pages?
+    - name: Documentation
+      run: cmake --build ${{github.workspace}}/build --target docs 
 
