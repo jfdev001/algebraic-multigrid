@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.15...3.27)
+project(AlgebraicMultigridTests)
+include(FetchContent)
+
 # Testing library
 FetchContent_Declare(
   catch
@@ -6,12 +10,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(catch)
 # Adds Catch2::Catch2
 
+find_package(Eigen3 3.4 REQUIRED NO_MODULE) 
+
 # Tests need to be added as executables first
 add_executable(testlib testlib.cpp)
-
-# possibly needed for macos and windows? 
-# https://stackoverflow.com/questions/19829281/cmake-os-x-failure-ar-no-archive-members-specific
-# target_include_directories(testlib PRIVATE "${AlgebraicMultigrid_SOURCE_DIR}/include")
 
 # Should be linked to the main library, as well as the Catch2 testing library
 target_link_libraries(testlib PRIVATE amg Catch2::Catch2 Eigen3::Eigen)

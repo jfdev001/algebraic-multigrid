@@ -1,6 +1,7 @@
 cpp/build*
 build/*
 build-debug/*
+build-test/*
 *.so
 *.o
 .vscode/
