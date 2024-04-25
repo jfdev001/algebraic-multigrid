@@ -1,6 +1,4 @@
-# Multiplatform static code analysis workflow
-# TODO: would be better to use reusable workflow 
-name: SCA
+name: Multiplatform Static Code Analysis
 
 on:
   push:
@@ -77,8 +75,8 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ env.DEVELOPER_BUILD }}
   
-    - name: Static Code Analysis (Valgrind)
-      working-directory: ${{ github.workspace }}/build/${{ env.TEST_DIR }}
+    - name: Multiplatform SCA (Valgrind)
+      working-directory: ${{ steps.strings.outputs.build-test-output-dir}} 
       run: ctest -T memcheck -R ${{ env.TESTLIB }} --output-on-failure
 
 

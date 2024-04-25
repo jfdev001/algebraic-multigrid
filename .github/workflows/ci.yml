@@ -1,5 +1,4 @@
-# Multiplatform continous integration workflow
-name: CI
+name: Multiplatform CI
 
 on:
   push:
