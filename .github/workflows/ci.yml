@@ -97,8 +97,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }} -R ${{ env.TESTLIB }}
 
     - name: Doxygen Documentation Generation
-      # only need to make docs once since they are the same for all builds
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: make docs
 
     - name: Deploy Documentation
