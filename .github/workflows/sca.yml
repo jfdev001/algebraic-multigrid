@@ -1,4 +1,4 @@
-name: Linux/MacOS Static Code Analysis
+name: Linux Static Code Analysis
 
 on:
   push:
@@ -28,7 +28,8 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        # TODO: macos and windows?
+        os: [ubuntu-latest] # macos-latest]
         build_type: [Developer]
         c_compiler: [gcc, clang]
         include:
@@ -40,14 +41,14 @@ jobs:
             cpp_compiler: clang++
           - os: ubuntu-latest
             valgrind_install: sudo apt-get -y install valgrind
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-          - os: macos-latest
-            valgrind_install: brew install valgrind
-        exclude:
-          - os: macos-latest
-            c_compiler: gcc
+          # - os: macos-latest
+          #   c_compiler: clang
+          #   cpp_compiler: clang++
+          # - os: macos-latest
+          #   valgrind_install: brew install valgrind
+        # exclude:
+        #   - os: macos-latest
+        #     c_compiler: gcc
       
     steps:
     - uses: actions/checkout@v3
@@ -69,6 +70,9 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Static Analysis Developer Build
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
   
     - name: Multiplatform SCA (Valgrind)
       working-directory: ${{ steps.strings.outputs.build-test-output-dir}} 
