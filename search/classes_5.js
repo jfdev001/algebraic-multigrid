@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['multigrid_0',['Multigrid',['../classAMG_1_1Multigrid.html',1,'AMG']]]
+  ['multigrid_0',['Multigrid',['../class_a_m_g_1_1_multigrid.html',1,'AMG']]]
 ];
