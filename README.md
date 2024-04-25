@@ -49,20 +49,6 @@ cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug # only do once
 cmake --build build-debug
 ```
 
-# Testing in `cpp/`
-
-From [dolfinx](https://github.com/FEniCS/dolfinx/blob/6189a7e2f42a63cc2bafd10696862efb41f0c3f9/.circleci/config.yml#L32)
-
-```shell
-# TODO: Could go in a github action
-# cmake -S . -B build-test -DCMAKE_BUILD_TYPE=Developer 
-# cmake --build build-test
-cd build-test
-# for dolfinx in the target name is `unittests`
-# ctest --output-on-failure -R testlib
-ctest -T memcheck -R testlib
-```
-
 # Profiling
 
 For profiling the code, I use KCacheGrind and Callgrind, which can be installed as below,
