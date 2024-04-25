@@ -72,7 +72,7 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
     - name: Static Analysis Developer Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build ${{ steps.strings.outputs.build-test-output-dir }} --config ${{ matrix.build_type }}
   
     - name: Multiplatform SCA (Valgrind)
       working-directory: ${{ steps.strings.outputs.build-test-output-dir}} 
