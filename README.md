@@ -1,6 +1,6 @@
 # algebraic-multigrid
 
-[![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/ci.yml) [![Static Analysis](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/sca.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/sca.yml) [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://jfdev001.github.io/algebraic-multigrid/)
+[![CI](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/ci.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/ci.yml) [![Static Analysis](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/sca.yml/badge.svg)](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/sca.yml) [![Docs](https://github.com/jfdev001/algebraic-multigrid/actions/workflows/docs.yml/badge.svg)](https://jfdev001.github.io/algebraic-multigrid/)
 
 Algebraic multigrid implementation using C++ and Eigen3. The solution via multigrid vcycling of a finite difference discretized Poisson's equation is used to test correctness. Build support tested for MacOS, Windows, and Ubuntu.
 
