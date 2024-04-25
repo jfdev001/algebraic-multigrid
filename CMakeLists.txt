@@ -9,10 +9,6 @@ project(
 # FetchContent_MakeAvailable was added in CMake 3.14; simpler usage
 include(FetchContent)
 
-# TODO: How does this work with pybindings???
-# Only do these if this is the main project, and not if it is included through add_subdirectory
-# if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-
 # Let's ensure -std=c++xx instead of -std=g++xx
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -26,13 +22,16 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # (note: this does not run memcheck)
 include(CTest) 
 
-# Docs only available if this is the main app
+# Allow build documentation
 find_package(Doxygen)
-if(Doxygen_FOUND)
-    add_subdirectory(docs)
-else()
-    message(STATUS "Doxygen not found, not building docs")
+if(NOT Doxygen_FOUND)
+    message(STATUS "Installing Doxygen via FetchContent")
+    FetchContent_Declare(Doxygen GIT_REPOSITORY "git@github.com:doxygen/doxygen.git")
+    FetchContent_MakeAvailable(Doxygen)
+    message(STATUS "Doxygen installed via FetchContent")
 endif()
+
+add_subdirectory(docs)
 
 # Check if eigen3 is available and install if needed
 find_package(Eigen3 3.4 NO_MODULE) 
