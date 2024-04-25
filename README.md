@@ -26,7 +26,7 @@ To test (`--target` can be written as `-t` in CMake 3.15+):
 cmake --build build --target test
 ```
 
-To build docs (requires Doxygen, output in `build/docs/html`):
+To build docs (requires [Doxygen](https://github.com/doxygen/doxygen), output in `build/docs/html`):
 
 ```bash
 cmake --build build --target docs

@@ -24,14 +24,12 @@ include(CTest)
 
 # Allow build documentation
 find_package(Doxygen)
-if(NOT Doxygen_FOUND)
-    message(STATUS "Installing Doxygen via FetchContent")
-    FetchContent_Declare(Doxygen GIT_REPOSITORY "https://github.com/doxygen/doxygen.git")
-    FetchContent_MakeAvailable(Doxygen)
-    message(STATUS "Doxygen installed via FetchContent")
+if(Doxygen_FOUND)
+    add_subdirectory(docs)
+else()
+    message(STATUS "Doxygen not found, not building docs")
 endif()
 
-add_subdirectory(docs)
 
 # Check if eigen3 is available and install if needed
 find_package(Eigen3 3.4 NO_MODULE) 

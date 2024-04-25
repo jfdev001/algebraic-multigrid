@@ -67,7 +67,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     # https://github.com/marketplace/actions/doxygen-install
-    # - uses: ssciwr/doxygen-install@v1
+    - uses: ssciwr/doxygen-install@v1
     #- uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Set reusable strings
