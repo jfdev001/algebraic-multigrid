@@ -1,3 +1,4 @@
+// Performs unit and integration tests for multigrid solver using Catch2
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
@@ -13,7 +14,6 @@
 #include <amg/multigrid.hpp>
 #include <amg/smoother.hpp>
 
-// TODO: break up tests into smoother tests and multigrid tests
 TEST_CASE("All Tests", "[main]") {
   // Setup coefficients matrix
   size_t n_interior_points = 2;
