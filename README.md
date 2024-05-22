@@ -81,8 +81,7 @@ will allow you to visualize the callgraph and identify performance bottlenecks.
 
 ## Sparse Gauss Seidel
 
-To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physical grid points in the solvers leads to solvers that are defined only for that particular
-PDE, so for this project I take the more generic approach.
+To keep things generic, one can use either the matrix formulation `Au = b` or one can write solvers that use the physical grid points themselves (see ref [15]). Using the physical grid points in the solvers leads to solvers that are defined only for that particular PDE, so for this project I take the more generic approach in which I develop algorithms explicitly taking the coefficient matrix `A` as input. Defining the iterative methods in terms of the physical grid would make the algorithm a [matrix-free method](https://en.wikipedia.org/wiki/Matrix-free_methods), and while this an efficient approach, it can mean iterative solvers need to be defined explicitly using knowledge of the underyling PDE.
 
 One thing I noticed when working on the smoothers, is that a disproportionate amount of time was being spent here. To make AMG competitive, I needed to improve upon this. The formulations given in numerical linear algebra texts tends to assume dense matrices; however, we know that our input is a sparse matrix. Therefore, I knew I needed to use sparse formulation of the smoothers, and took inspirtation from Julia's [AlgebraicMultigrid/src/smoother.jl](https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/master/src/smoother.jl).
 
