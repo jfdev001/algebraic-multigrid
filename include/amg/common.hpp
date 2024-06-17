@@ -9,9 +9,9 @@ namespace AMG {
  * @brief Return residual sum of squares of `bhat` from `Au` and rhs `b`.
  * 
  * @tparam EleType 
- * @param A 
- * @param u 
- * @param b 
+ * @param A Coefficients matrix for discretized governing equations. 
+ * @param u Solution to linear system of equations. 
+ * @param b Right hand side of linear system `Au = b`. 
  * @return EleType 
  */
 template <class EleType>

@@ -56,9 +56,9 @@ class SmootherBase {
   /**
    * @brief Must implement function that smooths `Au = b`.
    * 
-   * @param A Coeffcients matrix for linear system of equations.
+   * @param A Coefficients matrix for discretized governing equations. Coeffcients matrix for linear system of equations.
    * @param u Solution to linear system of equations.
-   * @param b Right hand side of linear system of equations.
+   * @param b Right hand side of linear system `Au = b`. Right hand side of linear system of equations.
    */
   virtual void smooth(const Eigen::SparseMatrix<EleType>& A,
                       Eigen::Matrix<EleType, -1, 1>& u,
@@ -91,12 +91,12 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   * 
   * The results of this operation update `rsum` and `diag` inplace.
   * 
-  * @param col
-  * @param rsum 
-  * @param diag 
-  * @param z
-  * @param A 
-  * @param u 
+  * @param col Index of the column for which you desire sparse row indices and values.
+  * @param rsum Sum representing the matvec product.
+  * @param diag Value of diagonal for particular column of CSC matrix.
+  * @param z Zero value
+  * @param A Coefficients matrix for discretized governing equations. 
+  * @param u Solution to linear system of equations. 
   */
   void matvecprod(int col, EleType& rsum, EleType& diag, const EleType& z,
                   const Eigen::SparseMatrix<EleType>& A,
@@ -107,7 +107,7 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
          ++it) {
       row = it.row();
       val = it.value();
-      diag = (col == row)
+      diag = (col == row) // if you found a value on the diagonal, update it for other iters
                  ? val
                  : diag;  // column == row therefore val == A_ii on diag
       rsum += (col == row)
@@ -122,9 +122,9 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
    * \f$ u_{i} = \frac{b_i - \sum_{j \neq i} a_{ij} u_j }{a_{ii}}. \f$
    * 
    * @param col 
-   * @param A 
-   * @param b 
-   * @param u 
+   * @param A Coefficients matrix for discretized governing equations. 
+   * @param b Right hand side of linear system `Au = b`. 
+   * @param u Solution to linear system of equations. 
    */
   void update(int col, const Eigen::SparseMatrix<EleType>& A,
               const Eigen::Matrix<EleType, -1, 1>& b,
@@ -140,9 +140,9 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   /**
    * @brief Gauss-Seidel iteration starting from the first row.
    *    
-   * @param A 
-   * @param b 
-   * @param u 
+   * @param A Coefficients matrix for discretized governing equations. 
+   * @param b Right hand side of linear system `Au = b`. 
+   * @param u Solution to linear system of equations. 
    * @param nrows 
    */
   void forwardsweep(const Eigen::SparseMatrix<EleType>& A,
@@ -159,9 +159,9 @@ class SparseGaussSeidel : public SmootherBase<EleType> {
   /**
    * @brief Gauss-Seidel iteration starting from the last row.
    * 
-   * @param A 
-   * @param b 
-   * @param u 
+   * @param A Coefficients matrix for discretized governing equations. 
+   * @param b Right hand side of linear system `Au = b`. 
+   * @param u Solution to linear system of equations. 
    * @param nrows 
    */
   void backwardsweep(const Eigen::SparseMatrix<EleType>& A,
