@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['_7edirectinterpolator_0',['~DirectInterpolator',['../classAMG_1_1DirectInterpolator.html#a24fde02823cf2fc617fa055fbe5e60da',1,'AMG::DirectInterpolator']]],
-  ['_7emultigrid_1',['~Multigrid',['../classAMG_1_1Multigrid.html#a8b8d79c83923c64d9b014dc96d8fdd6c',1,'AMG::Multigrid']]]
+  ['restriction_0',['restriction',['../classAMG_1_1InterpolatorBase.html#a82cd45095dbb025f8ecff8f3b17ba595',1,'AMG::InterpolatorBase']]],
+  ['rhs_1',['rhs',['../classAMG_1_1Grid.html#a7112fe7277335c55db716db291594fa7',1,'AMG::Grid']]],
+  ['rss_2',['rss',['../namespaceAMG.html#a65a24cbb426c0673c74accd4b296f37a',1,'AMG']]]
 ];

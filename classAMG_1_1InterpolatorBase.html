@@ -91,6 +91,7 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classAMG_1_1InterpolatorBase-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AMG::InterpolatorBase&lt; EleType &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
@@ -106,8 +107,7 @@ Inheritance diagram for AMG::InterpolatorBase&lt; EleType &gt;:</div>
  <div class="center">
   <img src="classAMG_1_1InterpolatorBase.png" usemap="#AMG::InterpolatorBase_3C_20EleType_20_3E_map" alt=""/>
   <map id="AMG::InterpolatorBase_3C_20EleType_20_3E_map" name="AMG::InterpolatorBase_3C_20EleType_20_3E_map">
-<area href="classAMG_1_1DirectInterpolator.html" title="Interface for direct interpolation using classical strength." alt="AMG::DirectInterpolator&lt; EleType &gt;" shape="rect" coords="0,56,217,80"/>
-<area href="classAMG_1_1LinearInterpolator.html" title="Interface for linear interpolation." alt="AMG::LinearInterpolator&lt; EleType &gt;" shape="rect" coords="227,56,444,80"/>
+<area href="classAMG_1_1LinearInterpolator.html" title="Interface for linear interpolation." alt="AMG::LinearInterpolator&lt; EleType &gt;" shape="rect" coords="0,56,217,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -135,6 +135,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a01229a024ef125ee0ad457d66b8a9611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81f00a9cb0e3a3dadb8a91e8debb09d7" id="r_a81f00a9cb0e3a3dadb8a91e8debb09d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81f00a9cb0e3a3dadb8a91e8debb09d7">set_level_to_R</a> (size_t level, Eigen::SparseMatrix&lt; EleType &gt; &amp;R)</td></tr>
 <tr class="separator:a81f00a9cb0e3a3dadb8a91e8debb09d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a2019dd921efd4a9bc0e74c20bd81b6b2" id="r_a2019dd921efd4a9bc0e74c20bd81b6b2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::SparseMatrix&lt; EleType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2019dd921efd4a9bc0e74c20bd81b6b2">level_to_P</a></td></tr>
+<tr class="separator:a2019dd921efd4a9bc0e74c20bd81b6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d0c86786eaeb9ceb4272c7fb4cad336" id="r_a6d0c86786eaeb9ceb4272c7fb4cad336"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::SparseMatrix&lt; EleType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d0c86786eaeb9ceb4272c7fb4cad336">level_to_R</a></td></tr>
+<tr class="separator:a6d0c86786eaeb9ceb4272c7fb4cad336"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
@@ -442,6 +449,55 @@ template&lt;class EleType &gt; </div>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2019dd921efd4a9bc0e74c20bd81b6b2" name="a2019dd921efd4a9bc0e74c20bd81b6b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2019dd921efd4a9bc0e74c20bd81b6b2">&#9670;&#160;</a></span>level_to_P</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::SparseMatrix&lt;EleType&gt; &gt; <a class="el" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a>&lt; EleType &gt;::level_to_P</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d0c86786eaeb9ceb4272c7fb4cad336" name="a6d0c86786eaeb9ceb4272c7fb4cad336"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d0c86786eaeb9ceb4272c7fb4cad336">&#9670;&#160;</a></span>level_to_R</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::SparseMatrix&lt;EleType&gt; &gt; <a class="el" href="classAMG_1_1InterpolatorBase.html">AMG::InterpolatorBase</a>&lt; EleType &gt;::level_to_R</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

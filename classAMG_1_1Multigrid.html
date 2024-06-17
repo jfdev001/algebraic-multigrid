@@ -91,6 +91,8 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classAMG_1_1Multigrid-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AMG::Multigrid&lt; EleType &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -130,6 +132,59 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a13cb6ffdb8799b3a98a61c1cf7302a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af27ec00203a115f43f09cdebcbad9b16" id="r_af27ec00203a115f43f09cdebcbad9b16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af27ec00203a115f43f09cdebcbad9b16">display_error_off</a> ()</td></tr>
 <tr class="separator:af27ec00203a115f43f09cdebcbad9b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:ab6ff1fb210544044cb8311831e6ef935" id="r_ab6ff1fb210544044cb8311831e6ef935"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6ff1fb210544044cb8311831e6ef935">n_H_dofs_from_n_h_dofs</a> (size_t h_dofs)</td></tr>
+<tr class="memdesc:ab6ff1fb210544044cb8311831e6ef935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of next coarsest dofs given finer dofs.  <br /></td></tr>
+<tr class="separator:ab6ff1fb210544044cb8311831e6ef935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ab673c47e617e2c670f08f4ee0a5a8560" id="r_ab673c47e617e2c670f08f4ee0a5a8560"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAMG_1_1InterpolatorBase.html">InterpolatorBase</a>&lt; EleType &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab673c47e617e2c670f08f4ee0a5a8560">interpolator</a></td></tr>
+<tr class="memdesc:ab673c47e617e2c670f08f4ee0a5a8560"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolator providing restriction and prolongation operations.  <br /></td></tr>
+<tr class="separator:ab673c47e617e2c670f08f4ee0a5a8560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12d3616a66f848e70005f54b66a21c9b" id="r_a12d3616a66f848e70005f54b66a21c9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a>&lt; EleType &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12d3616a66f848e70005f54b66a21c9b">smoother</a></td></tr>
+<tr class="separator:a12d3616a66f848e70005f54b66a21c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54263272d4c94388e82afc9d59646605" id="r_a54263272d4c94388e82afc9d59646605"><td class="memItemLeft" align="right" valign="top">Eigen::SimplicialLDLT&lt; Eigen::SparseMatrix&lt; EleType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54263272d4c94388e82afc9d59646605">coarse_direct_solver</a></td></tr>
+<tr class="separator:a54263272d4c94388e82afc9d59646605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f64b80c5e8c0b1a63104bec1b7062f" id="r_ac6f64b80c5e8c0b1a63104bec1b7062f"><td class="memItemLeft" align="right" valign="top">EleType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6f64b80c5e8c0b1a63104bec1b7062f">tolerance</a></td></tr>
+<tr class="memdesc:ac6f64b80c5e8c0b1a63104bec1b7062f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tolerance below which a smoother is considered to have converged.  <br /></td></tr>
+<tr class="separator:ac6f64b80c5e8c0b1a63104bec1b7062f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fb2ccb7bf144e357e4d02320136d309" id="r_a1fb2ccb7bf144e357e4d02320136d309"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fb2ccb7bf144e357e4d02320136d309">compute_error_every_n_iters</a></td></tr>
+<tr class="memdesc:a1fb2ccb7bf144e357e4d02320136d309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the error every <code>n</code> iterations during smoothing.  <br /></td></tr>
+<tr class="separator:a1fb2ccb7bf144e357e4d02320136d309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a965b2e9d0cb9bc0ff595572921a829d0" id="r_a965b2e9d0cb9bc0ff595572921a829d0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a965b2e9d0cb9bc0ff595572921a829d0">n_iters</a></td></tr>
+<tr class="memdesc:a965b2e9d0cb9bc0ff595572921a829d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of iterations before smoothing termination.  <br /></td></tr>
+<tr class="separator:a965b2e9d0cb9bc0ff595572921a829d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af3bb1c5729294cf9555a53919975fe" id="r_a8af3bb1c5729294cf9555a53919975fe"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8af3bb1c5729294cf9555a53919975fe">n_fine_nodes</a></td></tr>
+<tr class="separator:a8af3bb1c5729294cf9555a53919975fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16ebe0e29710c555a05156b8bf744174" id="r_a16ebe0e29710c555a05156b8bf744174"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16ebe0e29710c555a05156b8bf744174">n_levels</a></td></tr>
+<tr class="memdesc:a16ebe0e29710c555a05156b8bf744174"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of multigrid levels where level 0 is finest.  <br /></td></tr>
+<tr class="separator:a16ebe0e29710c555a05156b8bf744174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f11c6f987aa6c25d7040f1f8249350c" id="r_a5f11c6f987aa6c25d7040f1f8249350c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f11c6f987aa6c25d7040f1f8249350c">finest_grid_ix</a> = 0</td></tr>
+<tr class="memdesc:a5f11c6f987aa6c25d7040f1f8249350c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of the finest grid.  <br /></td></tr>
+<tr class="separator:a5f11c6f987aa6c25d7040f1f8249350c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad753a6dacd3eb4b0605b6887bc68bba1" id="r_ad753a6dacd3eb4b0605b6887bc68bba1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad753a6dacd3eb4b0605b6887bc68bba1">coarsest_grid_ix</a></td></tr>
+<tr class="memdesc:ad753a6dacd3eb4b0605b6887bc68bba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of the coarsest grid.  <br /></td></tr>
+<tr class="separator:ad753a6dacd3eb4b0605b6887bc68bba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad868bbb7968844ae404f354d573a081f" id="r_ad868bbb7968844ae404f354d573a081f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad868bbb7968844ae404f354d573a081f">level_to_n_dofs</a></td></tr>
+<tr class="memdesc:ad868bbb7968844ae404f354d573a081f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map multigrid level to number of degrees of freedom for that level.  <br /></td></tr>
+<tr class="separator:ad868bbb7968844ae404f354d573a081f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2cdc9c0a57fe6ce87e1fc673944167b" id="r_af2cdc9c0a57fe6ce87e1fc673944167b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::SparseMatrix&lt; EleType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2cdc9c0a57fe6ce87e1fc673944167b">level_to_coefficient_matrix</a></td></tr>
+<tr class="memdesc:af2cdc9c0a57fe6ce87e1fc673944167b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map multigrid level to coefficient matrix A.  <br /></td></tr>
+<tr class="separator:af2cdc9c0a57fe6ce87e1fc673944167b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a608eed31278c7501646b603f3f39bc8d" id="r_a608eed31278c7501646b603f3f39bc8d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Matrix&lt; EleType, -1, 1 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a608eed31278c7501646b603f3f39bc8d">level_to_rhs</a></td></tr>
+<tr class="memdesc:a608eed31278c7501646b603f3f39bc8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map multigrid level to right hand side (forcing) vector.  <br /></td></tr>
+<tr class="separator:a608eed31278c7501646b603f3f39bc8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0879b476e305721d28232bffaab3cbc" id="r_ae0879b476e305721d28232bffaab3cbc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Matrix&lt; EleType, -1, 1 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0879b476e305721d28232bffaab3cbc">level_to_soln</a></td></tr>
+<tr class="memdesc:ae0879b476e305721d28232bffaab3cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map multigrid level to solution (u) vector.  <br /></td></tr>
+<tr class="separator:ae0879b476e305721d28232bffaab3cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53f3e70011d5b08d850cfaaf7850e5a" id="r_ad53f3e70011d5b08d850cfaaf7850e5a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Matrix&lt; EleType, -1, 1 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad53f3e70011d5b08d850cfaaf7850e5a">level_to_residual</a></td></tr>
+<tr class="memdesc:ad53f3e70011d5b08d850cfaaf7850e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map multigrid level to residual (e) vector.  <br /></td></tr>
+<tr class="separator:ad53f3e70011d5b08d850cfaaf7850e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7235b470564a783fe20891c4f51eda77" id="r_a7235b470564a783fe20891c4f51eda77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7235b470564a783fe20891c4f51eda77">display_error</a> {false}</td></tr>
+<tr class="separator:a7235b470564a783fe20891c4f51eda77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
@@ -461,6 +516,43 @@ template&lt;class EleType &gt; </div>
 
 </div>
 </div>
+<a id="ab6ff1fb210544044cb8311831e6ef935" name="ab6ff1fb210544044cb8311831e6ef935"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ff1fb210544044cb8311831e6ef935">&#9670;&#160;</a></span>n_H_dofs_from_n_h_dofs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::n_H_dofs_from_n_h_dofs </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>h_dofs</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return number of next coarsest dofs given finer dofs. </p>
+<p>The next coarsest dofs formula follows from the following (see ref [1]):</p>
+<div class="fragment"><div class="line">nc = n/2 - 1</div>
+<div class="line">nf = n - 1</div>
+<div class="line"><span class="preprocessor"># nc in terms of nf</span></div>
+<div class="line">nc = (nf + 1)/2 - 1</div>
+</div><!-- fragment --><p>References:</p>
+<p>[1] : Briggs2000. "A Multigrid Tutorial, 2ed". pp. 34.</p>
+<dl class="section return"><dt>Returns</dt><dd>size_t </dd></dl>
+
+</div>
+</div>
 <a id="a66aafaae3dce9f9baac02758448493db" name="a66aafaae3dce9f9baac02758448493db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66aafaae3dce9f9baac02758448493db">&#9670;&#160;</a></span>solve()</h2>
 
@@ -522,6 +614,416 @@ template&lt;class EleType &gt; </div>
 <p>[2] : Kostler2008. <a href="https://www10.cs.fau.de/publications/reports/TechRep_2008-03.pdf">"Multigrid HowTo: simple Multigrid solver in C++ in less than 200 lines of code"</a></p>
 <p>[3] : Pawar2019. <a href="https://www.mdpi.com/2311-5521/4/3/159">"CFD Julia: A Learning Module Structuring an Introductory Course on Computational Fluid Dynamics "</a></p>
 <p>[4] : <a href="https://github.com/JuliaLinearAlgebra/AlgebraicMultigrid.jl/blob/84e4a6a2fb0e3d43ad64b1945f0d199feac356c4/src/multilevel.jl#L266">AlgebraicMultigrid.jl solve</a> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a54263272d4c94388e82afc9d59646605" name="a54263272d4c94388e82afc9d59646605"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54263272d4c94388e82afc9d59646605">&#9670;&#160;</a></span>coarse_direct_solver</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::SimplicialLDLT&lt;Eigen::SparseMatrix&lt;EleType&gt; &gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::coarse_direct_solver</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad753a6dacd3eb4b0605b6887bc68bba1" name="ad753a6dacd3eb4b0605b6887bc68bba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad753a6dacd3eb4b0605b6887bc68bba1">&#9670;&#160;</a></span>coarsest_grid_ix</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::coarsest_grid_ix</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Index of the coarsest grid. </p>
+
+</div>
+</div>
+<a id="a1fb2ccb7bf144e357e4d02320136d309" name="a1fb2ccb7bf144e357e4d02320136d309"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fb2ccb7bf144e357e4d02320136d309">&#9670;&#160;</a></span>compute_error_every_n_iters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::compute_error_every_n_iters</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the error every <code>n</code> iterations during smoothing. </p>
+
+</div>
+</div>
+<a id="a7235b470564a783fe20891c4f51eda77" name="a7235b470564a783fe20891c4f51eda77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7235b470564a783fe20891c4f51eda77">&#9670;&#160;</a></span>display_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::display_error {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f11c6f987aa6c25d7040f1f8249350c" name="a5f11c6f987aa6c25d7040f1f8249350c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f11c6f987aa6c25d7040f1f8249350c">&#9670;&#160;</a></span>finest_grid_ix</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::finest_grid_ix = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Index of the finest grid. </p>
+
+</div>
+</div>
+<a id="ab673c47e617e2c670f08f4ee0a5a8560" name="ab673c47e617e2c670f08f4ee0a5a8560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab673c47e617e2c670f08f4ee0a5a8560">&#9670;&#160;</a></span>interpolator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAMG_1_1InterpolatorBase.html">InterpolatorBase</a>&lt;EleType&gt;* <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::interpolator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Interpolator providing restriction and prolongation operations. </p>
+
+</div>
+</div>
+<a id="af2cdc9c0a57fe6ce87e1fc673944167b" name="af2cdc9c0a57fe6ce87e1fc673944167b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2cdc9c0a57fe6ce87e1fc673944167b">&#9670;&#160;</a></span>level_to_coefficient_matrix</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::SparseMatrix&lt;EleType&gt; &gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::level_to_coefficient_matrix</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map multigrid level to coefficient matrix A. </p>
+
+</div>
+</div>
+<a id="ad868bbb7968844ae404f354d573a081f" name="ad868bbb7968844ae404f354d573a081f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad868bbb7968844ae404f354d573a081f">&#9670;&#160;</a></span>level_to_n_dofs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;size_t&gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::level_to_n_dofs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map multigrid level to number of degrees of freedom for that level. </p>
+<p>Note that <code>n_dofs==n_nodes*n_nodes</code> </p>
+
+</div>
+</div>
+<a id="ad53f3e70011d5b08d850cfaaf7850e5a" name="ad53f3e70011d5b08d850cfaaf7850e5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad53f3e70011d5b08d850cfaaf7850e5a">&#9670;&#160;</a></span>level_to_residual</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::Matrix&lt;EleType, -1, 1&gt; &gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::level_to_residual</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map multigrid level to residual (e) vector. </p>
+
+</div>
+</div>
+<a id="a608eed31278c7501646b603f3f39bc8d" name="a608eed31278c7501646b603f3f39bc8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a608eed31278c7501646b603f3f39bc8d">&#9670;&#160;</a></span>level_to_rhs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::Matrix&lt;EleType, -1, 1&gt; &gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::level_to_rhs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map multigrid level to right hand side (forcing) vector. </p>
+
+</div>
+</div>
+<a id="ae0879b476e305721d28232bffaab3cbc" name="ae0879b476e305721d28232bffaab3cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0879b476e305721d28232bffaab3cbc">&#9670;&#160;</a></span>level_to_soln</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::Matrix&lt;EleType, -1, 1&gt; &gt; <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::level_to_soln</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map multigrid level to solution (u) vector. </p>
+
+</div>
+</div>
+<a id="a8af3bb1c5729294cf9555a53919975fe" name="a8af3bb1c5729294cf9555a53919975fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8af3bb1c5729294cf9555a53919975fe">&#9670;&#160;</a></span>n_fine_nodes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::n_fine_nodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a965b2e9d0cb9bc0ff595572921a829d0" name="a965b2e9d0cb9bc0ff595572921a829d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a965b2e9d0cb9bc0ff595572921a829d0">&#9670;&#160;</a></span>n_iters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::n_iters</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Maximum number of iterations before smoothing termination. </p>
+
+</div>
+</div>
+<a id="a16ebe0e29710c555a05156b8bf744174" name="a16ebe0e29710c555a05156b8bf744174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16ebe0e29710c555a05156b8bf744174">&#9670;&#160;</a></span>n_levels</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::n_levels</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of multigrid levels where level 0 is finest. </p>
+
+</div>
+</div>
+<a id="a12d3616a66f848e70005f54b66a21c9b" name="a12d3616a66f848e70005f54b66a21c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12d3616a66f848e70005f54b66a21c9b">&#9670;&#160;</a></span>smoother</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classAMG_1_1SmootherBase.html">AMG::SmootherBase</a>&lt;EleType&gt;* <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::smoother</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6f64b80c5e8c0b1a63104bec1b7062f" name="ac6f64b80c5e8c0b1a63104bec1b7062f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f64b80c5e8c0b1a63104bec1b7062f">&#9670;&#160;</a></span>tolerance</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EleType <a class="el" href="classAMG_1_1Multigrid.html">AMG::Multigrid</a>&lt; EleType &gt;::tolerance</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tolerance below which a smoother is considered to have converged. </p>
 
 </div>
 </div>

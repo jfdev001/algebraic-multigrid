@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linearinterpolator_0',['LinearInterpolator',['../classAMG_1_1LinearInterpolator.html',1,'AMG']]]
+  ['multigrid_0',['Multigrid',['../classAMG_1_1Multigrid.html',1,'AMG']]]
 ];

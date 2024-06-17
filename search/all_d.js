@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['tolerance_0',['tolerance',['../classAMG_1_1SmootherBase.html#a28544796f524830d4c52bd2b6b40a70d',1,'AMG::SmootherBase']]]
+  ['restriction_0',['restriction',['../classAMG_1_1InterpolatorBase.html#a82cd45095dbb025f8ecff8f3b17ba595',1,'AMG::InterpolatorBase']]],
+  ['rhs_1',['rhs',['../classAMG_1_1Grid.html#a7112fe7277335c55db716db291594fa7',1,'AMG::Grid']]],
+  ['rss_2',['rss',['../namespaceAMG.html#a65a24cbb426c0673c74accd4b296f37a',1,'AMG']]]
 ];

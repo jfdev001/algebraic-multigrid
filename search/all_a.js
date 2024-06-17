@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['points_5fn_5ffrom_5fgrid_5fspacing_5fh_0',['points_n_from_grid_spacing_h',['../classAMG_1_1Grid.html#a7e6c7ba873ee1241241f9230ae7bde6e',1,'AMG::Grid']]],
-  ['prolongation_1',['prolongation',['../classAMG_1_1InterpolatorBase.html#ae821ab1dd08a89635f10f2cb27a9d8e9',1,'AMG::InterpolatorBase::prolongation()'],['../classAMG_1_1DirectInterpolator.html#a886ea5b676b41b385ad8192f3048f1de',1,'AMG::DirectInterpolator::prolongation()']]]
+  ['n_5fboundary_5fpoints_0',['n_boundary_points',['../classAMG_1_1Grid.html#adae2a6d09c81d49436fad760e36bd1d1',1,'AMG::Grid']]],
+  ['n_5felements_5fper_5fcolumns_1',['n_elements_per_columns',['../classAMG_1_1LinearInterpolator.html#a5173b7b0a02ea7f1e265bc86e23c227e',1,'AMG::LinearInterpolator']]],
+  ['n_5ffine_5fnodes_2',['n_fine_nodes',['../classAMG_1_1Multigrid.html#a8af3bb1c5729294cf9555a53919975fe',1,'AMG::Multigrid']]],
+  ['n_5fh_5fdofs_5ffrom_5fn_5fh_5fdofs_3',['n_H_dofs_from_n_h_dofs',['../classAMG_1_1Multigrid.html#ab6ff1fb210544044cb8311831e6ef935',1,'AMG::Multigrid']]],
+  ['n_5fiters_4',['n_iters',['../classAMG_1_1Multigrid.html#a965b2e9d0cb9bc0ff595572921a829d0',1,'AMG::Multigrid::n_iters'],['../classAMG_1_1SmootherBase.html#a3d7c7c305af77719f002cc98a6958c81',1,'AMG::SmootherBase::n_iters']]],
+  ['n_5flevels_5',['n_levels',['../classAMG_1_1Multigrid.html#a16ebe0e29710c555a05156b8bf744174',1,'AMG::Multigrid']]]
 ];

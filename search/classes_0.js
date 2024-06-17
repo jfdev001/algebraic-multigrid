@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['directinterpolator_0',['DirectInterpolator',['../classAMG_1_1DirectInterpolator.html',1,'AMG']]]
+  ['grid_0',['Grid',['../classAMG_1_1Grid.html',1,'AMG']]]
 ];

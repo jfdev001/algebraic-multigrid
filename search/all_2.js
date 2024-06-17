@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['directinterpolator_0',['DirectInterpolator',['../classAMG_1_1DirectInterpolator.html',1,'AMG::DirectInterpolator&lt; EleType &gt;'],['../classAMG_1_1DirectInterpolator.html#a16d1a959da4334aa640169f5d74e3dfe',1,'AMG::DirectInterpolator::DirectInterpolator()'],['../classAMG_1_1DirectInterpolator.html#aff79a503f3b747696334bb8d59b7b9e1',1,'AMG::DirectInterpolator::DirectInterpolator(EleType theta_)']]],
-  ['display_5ferror_5foff_1',['display_error_off',['../classAMG_1_1Multigrid.html#af27ec00203a115f43f09cdebcbad9b16',1,'AMG::Multigrid']]],
-  ['display_5ferror_5fon_2',['display_error_on',['../classAMG_1_1Multigrid.html#a13cb6ffdb8799b3a98a61c1cf7302a3f',1,'AMG::Multigrid']]],
-  ['documentation_20for_20algebraicmultigrid_20library_3',['Documentation for AlgebraicMultigrid Library',['../index.html',1,'']]]
+  ['coarse_5fdirect_5fsolver_0',['coarse_direct_solver',['../classAMG_1_1Multigrid.html#a54263272d4c94388e82afc9d59646605',1,'AMG::Multigrid']]],
+  ['coarsest_5fgrid_5fix_1',['coarsest_grid_ix',['../classAMG_1_1Multigrid.html#ad753a6dacd3eb4b0605b6887bc68bba1',1,'AMG::Multigrid']]],
+  ['common_2ehpp_2',['common.hpp',['../common_8hpp.html',1,'']]],
+  ['compute_5ferror_5fevery_5fn_5fiters_3',['compute_error_every_n_iters',['../classAMG_1_1Multigrid.html#a1fb2ccb7bf144e357e4d02320136d309',1,'AMG::Multigrid::compute_error_every_n_iters'],['../classAMG_1_1SmootherBase.html#a438243f5ab19024bd7ab8be2af2af5df',1,'AMG::SmootherBase::compute_error_every_n_iters']]]
 ];

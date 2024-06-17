@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tolerance_0',['tolerance',['../classAMG_1_1SmootherBase.html#a28544796f524830d4c52bd2b6b40a70d',1,'AMG::SmootherBase']]]
+  ['finest_5fgrid_5fix_0',['finest_grid_ix',['../classAMG_1_1Multigrid.html#a5f11c6f987aa6c25d7040f1f8249350c',1,'AMG::Multigrid']]]
 ];

@@ -91,6 +91,7 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classAMG_1_1SparseGaussSeidel-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AMG::SparseGaussSeidel&lt; EleType &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -126,6 +127,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abdb9f28b0d046e47f55aa9e940f9c2c8 inherit pub_methods_classAMG_1_1SmootherBase" id="r_abdb9f28b0d046e47f55aa9e940f9c2c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAMG_1_1SmootherBase.html#abdb9f28b0d046e47f55aa9e940f9c2c8">SmootherBase</a> (double tolerance_, size_t compute_error_every_n_iters_, size_t n_iters_)</td></tr>
 <tr class="memdesc:abdb9f28b0d046e47f55aa9e940f9c2c8 inherit pub_methods_classAMG_1_1SmootherBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Smoother Base object with iterative solver member data.  <br /></td></tr>
 <tr class="separator:abdb9f28b0d046e47f55aa9e940f9c2c8 inherit pub_methods_classAMG_1_1SmootherBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a5f22fad164e310b843f4b2c05205f70a" id="r_a5f22fad164e310b843f4b2c05205f70a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f22fad164e310b843f4b2c05205f70a">matvecprod</a> (int col, EleType &amp;rsum, EleType &amp;diag, const EleType &amp;z, const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u)</td></tr>
+<tr class="memdesc:a5f22fad164e310b843f4b2c05205f70a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modified sparse matvec product of <code>Au</code> for Gauss-Seidel sweeps.  <br /></td></tr>
+<tr class="separator:a5f22fad164e310b843f4b2c05205f70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aace4efef86ced8a9d7fb95a90d6f8a60" id="r_aace4efef86ced8a9d7fb95a90d6f8a60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aace4efef86ced8a9d7fb95a90d6f8a60">update</a> (int col, const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u)</td></tr>
+<tr class="memdesc:aace4efef86ced8a9d7fb95a90d6f8a60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates a single entry in <code>u</code> inplace using the definition of a Gauss-Seidel.  <br /></td></tr>
+<tr class="separator:aace4efef86ced8a9d7fb95a90d6f8a60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab86d039baeaf78b323bd0c7d1573211e" id="r_ab86d039baeaf78b323bd0c7d1573211e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab86d039baeaf78b323bd0c7d1573211e">forwardsweep</a> (const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u, const int &amp;ncols)</td></tr>
+<tr class="memdesc:ab86d039baeaf78b323bd0c7d1573211e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gauss-Seidel iteration starting from the first row.  <br /></td></tr>
+<tr class="separator:ab86d039baeaf78b323bd0c7d1573211e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22ba967ebebc1f279307d21ce74c47a4" id="r_a22ba967ebebc1f279307d21ce74c47a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22ba967ebebc1f279307d21ce74c47a4">backwardsweep</a> (const Eigen::SparseMatrix&lt; EleType &gt; &amp;A, const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;b, Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;u, const int &amp;ncols)</td></tr>
+<tr class="memdesc:a22ba967ebebc1f279307d21ce74c47a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gauss-Seidel iteration starting from the last row.  <br /></td></tr>
+<tr class="separator:a22ba967ebebc1f279307d21ce74c47a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -185,6 +201,175 @@ template&lt;class EleType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a22ba967ebebc1f279307d21ce74c47a4" name="a22ba967ebebc1f279307d21ce74c47a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22ba967ebebc1f279307d21ce74c47a4">&#9670;&#160;</a></span>backwardsweep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAMG_1_1SparseGaussSeidel.html">AMG::SparseGaussSeidel</a>&lt; EleType &gt;::backwardsweep </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::SparseMatrix&lt; EleType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>u</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int &amp;</td>          <td class="paramname"><span class="paramname"><em>ncols</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gauss-Seidel iteration starting from the last row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. </td></tr>
+    <tr><td class="paramname">b</td><td>Right hand side of linear system <code>Au = b</code>. </td></tr>
+    <tr><td class="paramname">u</td><td>Solution to linear system of equations. </td></tr>
+    <tr><td class="paramname">nrows</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab86d039baeaf78b323bd0c7d1573211e" name="ab86d039baeaf78b323bd0c7d1573211e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86d039baeaf78b323bd0c7d1573211e">&#9670;&#160;</a></span>forwardsweep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAMG_1_1SparseGaussSeidel.html">AMG::SparseGaussSeidel</a>&lt; EleType &gt;::forwardsweep </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::SparseMatrix&lt; EleType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>u</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int &amp;</td>          <td class="paramname"><span class="paramname"><em>ncols</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gauss-Seidel iteration starting from the first row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. </td></tr>
+    <tr><td class="paramname">b</td><td>Right hand side of linear system <code>Au = b</code>. </td></tr>
+    <tr><td class="paramname">u</td><td>Solution to linear system of equations. </td></tr>
+    <tr><td class="paramname">nrows</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5f22fad164e310b843f4b2c05205f70a" name="a5f22fad164e310b843f4b2c05205f70a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f22fad164e310b843f4b2c05205f70a">&#9670;&#160;</a></span>matvecprod()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAMG_1_1SparseGaussSeidel.html">AMG::SparseGaussSeidel</a>&lt; EleType &gt;::matvecprod </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>col</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EleType &amp;</td>          <td class="paramname"><span class="paramname"><em>rsum</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EleType &amp;</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const EleType &amp;</td>          <td class="paramname"><span class="paramname"><em>z</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::SparseMatrix&lt; EleType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>u</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Modified sparse matvec product of <code>Au</code> for Gauss-Seidel sweeps. </p>
+<p>The results of this operation update <code>rsum</code> and <code>diag</code> inplace.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>Index of the column for which you desire sparse row indices and values. </td></tr>
+    <tr><td class="paramname">rsum</td><td>Sum representing the matvec product. </td></tr>
+    <tr><td class="paramname">diag</td><td>Value of diagonal for particular column of CSC matrix. </td></tr>
+    <tr><td class="paramname">z</td><td>Zero value </td></tr>
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. </td></tr>
+    <tr><td class="paramname">u</td><td>Solution to linear system of equations. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8bf774370128440645ca01c255f95195" name="a8bf774370128440645ca01c255f95195"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8bf774370128440645ca01c255f95195">&#9670;&#160;</a></span>smooth()</h2>
 
@@ -222,14 +407,67 @@ template&lt;class EleType &gt; </div>
 <p>Must implement function that smooths <code>Au = b</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">A</td><td>Coeffcients matrix for linear system of equations. </td></tr>
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. Coeffcients matrix for linear system of equations. </td></tr>
     <tr><td class="paramname">u</td><td>Solution to linear system of equations. </td></tr>
-    <tr><td class="paramname">b</td><td>Right hand side of linear system of equations. </td></tr>
+    <tr><td class="paramname">b</td><td>Right hand side of linear system <code>Au = b</code>. Right hand side of linear system of equations. </td></tr>
   </table>
   </dd>
 </dl>
 
 <p>Implements <a class="el" href="classAMG_1_1SmootherBase.html#a3db6726f52ad70d620f9b1d952f7921b">AMG::SmootherBase&lt; EleType &gt;</a>.</p>
+
+</div>
+</div>
+<a id="aace4efef86ced8a9d7fb95a90d6f8a60" name="aace4efef86ced8a9d7fb95a90d6f8a60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aace4efef86ced8a9d7fb95a90d6f8a60">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classAMG_1_1SparseGaussSeidel.html">AMG::SparseGaussSeidel</a>&lt; EleType &gt;::update </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>col</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::SparseMatrix&lt; EleType &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>A</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix&lt; EleType, -1, 1 &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>u</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Updates a single entry in <code>u</code> inplace using the definition of a Gauss-Seidel. </p>
+<p><picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$ u_{i} = \frac{b_i - \sum_{j \neq i} a_{ij} u_j }{a_{ii}}. $" src="form_0.png"/></picture></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td></td></tr>
+    <tr><td class="paramname">A</td><td>Coefficients matrix for discretized governing equations. </td></tr>
+    <tr><td class="paramname">b</td><td>Right hand side of linear system <code>Au = b</code>. </td></tr>
+    <tr><td class="paramname">u</td><td>Solution to linear system of equations. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

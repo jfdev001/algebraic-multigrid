@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['laplacian_0',['laplacian',['../classAMG_1_1Grid.html#aecbc8db4873c7956891d0ea1bb2c9cf8',1,'AMG::Grid']]]
+  ['interpolatorbase_0',['InterpolatorBase',['../classAMG_1_1InterpolatorBase.html#a16aadf883e90026befb33859594dba8c',1,'AMG::InterpolatorBase::InterpolatorBase(size_t n_levels)'],['../classAMG_1_1InterpolatorBase.html#aea611a38b881d22808d233d6c3b48c9d',1,'AMG::InterpolatorBase::InterpolatorBase()']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jacobi_0',['Jacobi',['../classAMG_1_1Jacobi.html',1,'AMG']]]
+  ['linearinterpolator_0',['LinearInterpolator',['../classAMG_1_1LinearInterpolator.html',1,'AMG']]]
 ];

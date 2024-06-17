@@ -91,6 +91,7 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classAMG_1_1Grid-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AMG::Grid&lt; EleType &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -118,6 +119,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7112fe7277335c55db716db291594fa7" id="r_a7112fe7277335c55db716db291594fa7"><td class="memItemLeft" align="right" valign="top">static Eigen::Matrix&lt; EleType, -1, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7112fe7277335c55db716db291594fa7">rhs</a> (size_t n, std::function&lt; EleType(EleType, EleType)&gt; f=[](EleType x, EleType y) { return 5 *exp(-10 *(x *x+y *y));})</td></tr>
 <tr class="memdesc:a7112fe7277335c55db716db291594fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return right hand side vector <code>b</code> by evaluating <code>f</code> on a mesh grid in [-1, 1]^2.  <br /></td></tr>
 <tr class="separator:a7112fe7277335c55db716db291594fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:adae2a6d09c81d49436fad760e36bd1d1" id="r_adae2a6d09c81d49436fad760e36bd1d1"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adae2a6d09c81d49436fad760e36bd1d1">n_boundary_points</a> = 2</td></tr>
+<tr class="separator:adae2a6d09c81d49436fad760e36bd1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class EleType&gt;<br />
@@ -313,6 +319,31 @@ template&lt;class EleType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Eigen::SparseMatrix&lt;EleType&gt; </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="adae2a6d09c81d49436fad760e36bd1d1" name="adae2a6d09c81d49436fad760e36bd1d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adae2a6d09c81d49436fad760e36bd1d1">&#9670;&#160;</a></span>n_boundary_points</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class EleType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t <a class="el" href="classAMG_1_1Grid.html">AMG::Grid</a>&lt; EleType &gt;::n_boundary_points = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

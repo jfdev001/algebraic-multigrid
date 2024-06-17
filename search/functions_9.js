@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['vcycle_0',['vcycle',['../classAMG_1_1Multigrid.html#a1fcd39d637e70e918678e6fb0be38790',1,'AMG::Multigrid']]]
+  ['points_5fn_5ffrom_5fgrid_5fspacing_5fh_0',['points_n_from_grid_spacing_h',['../classAMG_1_1Grid.html#a7e6c7ba873ee1241241f9230ae7bde6e',1,'AMG::Grid']]],
+  ['prolongation_1',['prolongation',['../classAMG_1_1InterpolatorBase.html#ae821ab1dd08a89635f10f2cb27a9d8e9',1,'AMG::InterpolatorBase']]]
 ];
